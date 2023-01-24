@@ -1,0 +1,46 @@
+/* || Declare variables */
+:root {
+	--background-main-color: #d58fdb;
+	/* --text-hover-color: #fbb44c; */
+}
+
+/* || Reset default properties */
+body {
+	background-color: var(--background-main-color);
+}
+
+/* || Animations */
+@keyframes slide-from-right {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+@keyframes slide-from-left {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+/* || Reusables */
+.welcome-section-25vh {
+	height: 25vh;
+}
+
+.welcome-section-50vh {
+	height: 50vh;
+}
+
+.main {
+	animation: slide-from-right 350ms;
+}
+
+.section-50vh {
+	min-height: 50vh;
+}
