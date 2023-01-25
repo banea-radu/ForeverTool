@@ -38,7 +38,7 @@ export class ClientsComponent {
   }
 
   getClients() {
-    this.clients$ = this.databaseService.getData('clients');
+    this.clients$ = this.databaseService.getData('test'); // 'clients'
   }
 
   scrollToTop() {

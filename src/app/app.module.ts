@@ -5,7 +5,6 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './component/home/home.component';
 import { HeaderComponent } from './component/header/header.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ClientsComponent } from './component/clients/clients.component';
@@ -13,7 +12,6 @@ import { ClientsComponent } from './component/clients/clients.component';
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
     HeaderComponent,
     ClientsComponent
   ],

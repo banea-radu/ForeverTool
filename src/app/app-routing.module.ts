@@ -1,11 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './component/home/home.component';
 import { ClientsComponent } from './component/clients/clients.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent} ,
-  { path: 'home', component: HomeComponent },
+  { path: '', component: ClientsComponent} ,
   { path: 'clients', component: ClientsComponent },
   // { path: '**', component: PageNotFoundComponent },  // Page not found route for a 404 page
 ];
