@@ -12,7 +12,7 @@ export class DatabaseService {
   ) {}
 
   createCompleteUrl(endpoint: string, id?: string){
-    const urlBase: string = "https://sa-project-11a2c-default-rtdb.europe-west1.firebasedatabase.app/";
+    const urlBase: string = "https://forevertool-1fb0a-default-rtdb.europe-west1.firebasedatabase.app/";
     let completeUrl: string = '';
     /* check if id was passed to this function, if yes, it is needed for a patch/delete request and we 
     need to add it to the full path */

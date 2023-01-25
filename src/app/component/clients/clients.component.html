@@ -1,0 +1,55 @@
+<div class="container text-center mb-3" *ngIf="!(menuService.menuOpened$ | async)">
+  <div class="card p-2">
+    <div class="card-title d-flex justify-content-center align-items-center">
+      <h5> Clienti </h5>
+    </div>
+    <div>
+      <div class="card-table">
+        <div class="cart-product table-responsive">
+          <table class="table table-striped table-hover table-bordered align-middle table-sm">
+            <thead>
+              <tr>
+                <th> Nr. </th>
+                <th> Nume </th>
+                <th> Detalii </th>
+                <th> Follow Up </th>
+                <th> Invite </th>
+                <th> Cunosc </th>
+                <th> Locatie </th>
+                <th> Abordare </th>
+                <th> Next Step </th>
+                <th> Kids </th>
+                <th> Edit </th>
+              </tr>
+            </thead>
+            <tbody class="table-group-divider">
+              <tr class="text-start" *ngFor="let client of clients$ | async; let i=index"> 
+                <td class="text-center"> {{ i+1 }} </td>
+                <td> {{ client.Nume }} </td>
+                <td> {{ client.Detalii }} </td>
+                <td class="text-center"> {{ client.FollowUp }} </td>
+                <td> {{ client.Invite }} </td>
+                <td> {{ client.Cunosc }} </td>
+                <td> {{ client.Locatie }} </td>
+                <td> {{ client.Abordare }} </td>
+                <td> {{ client.NextStep }} </td>
+                <td> {{ client.Kids }} </td>
+                <td>
+                  <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal" (click)="saveClientToChangeAfterConfirmation(client)">
+                    <i class="fa-solid fa-pencil"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <a class="btn text-black link-warning fs-6" data-bs-toggle="modal" data-bs-target="#newClientModal">
+          <i class="fa-solid fa-plus"></i> Add
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+<button class="sticky-bottom rounded" (click)="scrollToTop()" title="Go to top">
+  <i class="fa-sharp fa-solid fa-circle-arrow-up"></i>
+</button>

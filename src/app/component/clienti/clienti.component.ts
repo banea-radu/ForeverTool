@@ -7,12 +7,12 @@ import { Observable } from "rxjs";
 
 
 @Component({
-  selector: 'app-prospecti',
-  templateUrl: './prospecti.component.html',
-  styleUrls: ['./prospecti.component.css']
+  selector: 'app-clienti',
+  templateUrl: './clienti.component.html',
+  styleUrls: ['./clienti.component.css']
 })
-export class ProspectiComponent {
-  prospects$: Observable<any[]>;
+export class ClientiComponent {
+  clients$: Observable<any[]>;
   idToDeleteAfterConfirmation: string = '';
   newProgramForm = this.formbuilder.group({
     Day: ['Monday'],
@@ -36,7 +36,7 @@ export class ProspectiComponent {
   }
 
   getPrograms() {
-    this.prospects$ = this.databaseService.getData('programs');
+    this.clients$ = this.databaseService.getData('clients');
   }
 
   saveIdToDeleteAfterConfirmation(id: string) {

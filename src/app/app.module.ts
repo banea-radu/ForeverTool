@@ -8,14 +8,14 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './component/home/home.component';
 import { HeaderComponent } from './component/header/header.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ProspectiComponent } from './component/prospecti/prospecti.component';
+import { ClientsComponent } from './component/clients/clients.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     HeaderComponent,
-    ProspectiComponent
+    ClientsComponent
   ],
   imports: [
     BrowserModule,
