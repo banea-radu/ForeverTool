@@ -1,55 +1,112 @@
-<div class="container text-center mb-3" *ngIf="!(menuService.menuOpened$ | async)">
-  <div class="card p-2">
+<div class="container text-center px-0" *ngIf="!(menuService.menuOpened$ | async)">
+  <div class="card">
     <div class="card-title d-flex justify-content-center align-items-center">
-      <h5> Clienti </h5>
+      <h5 class="pt-2"> Clienti </h5>
     </div>
     <div>
       <div class="card-table">
         <div class="cart-product table-responsive">
           <table class="table table-striped table-hover table-bordered align-middle table-sm">
-            <thead>
-              <tr>
-                <th> Nr. </th>
-                <th> Nume </th>
-                <th> Detalii </th>
-                <th> Follow Up </th>
-                <th> Invite </th>
-                <th> Cunosc </th>
-                <th> Locatie </th>
-                <th> Abordare </th>
-                <th> Next Step </th>
-                <th> Kids </th>
-                <th> Edit </th>
+            <tr *ngFor="let client of clients$ | async; let i=index">
+              <table class="table table-striped table-hover table-bordered align-middle table-sm">
+                <tbody class="table-group-divider">
+                  <tr>
+                    <th class="text-end width-80px"> Nr. </th>
+                    <td>
+                      {{ i+1 }}
+                      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal" (click)="saveClientToChangeAfterConfirmation(client)">
+                        <i class="fa-solid fa-pencil"></i>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th class="text-end width-80px"> Nume </th>
+                    <td> {{ client.Nume }} </td>
+                  <tr>
+                    <tr>
+                      <th class="text-end width-80px"> Detalii </th>
+                      <td> {{ client.Detalii }} </td>
+                    </tr>
+                    <tr>
+                      <th class="text-end width-80px"> Follow Up </th>
+                      <td> {{ client.FollowUp }} </td>
+                    </tr>
+                    <tr>
+                      <th class="text-end width-80px"> Invite </th>
+                      <td> {{ client.Invite }} </td>
+                    </tr>
+                    <tr>
+                      <th class="text-end width-80px"> Cunosc </th>
+                      <td> {{ client.Cunosc }} </td>
+                    </tr>
+                    <tr>
+                      <th class="text-end width-80px"> Locatie </th>
+                      <td> {{ client.Locatie }} </td>
+                    </tr>
+                    <tr>
+                      <th class="text-end width-80px"> Abordare </th>
+                      <td> {{ client.Abordare }} </td>
+                    </tr>
+                    <tr>
+                      <th class="text-end width-80px"> Next Step </th>
+                      <td> {{ client.NextStep }} </td>
+                    </tr>
+                    <tr>
+                      <th class="text-end width-80px"> Kids </th>
+                      <td> {{ client.Kids }} </td>
+                    </tr>
+                  </tbody>
+                </table>
               </tr>
-            </thead>
-            <tbody class="table-group-divider">
-              <tr class="text-start" *ngFor="let client of clients$ | async; let i=index"> 
-                <td class="text-center"> {{ i+1 }} </td>
-                <td> {{ client.Nume }} </td>
-                <td> {{ client.Detalii }} </td>
-                <td class="text-center"> {{ client.FollowUp }} </td>
-                <td> {{ client.Invite }} </td>
-                <td> {{ client.Cunosc }} </td>
-                <td> {{ client.Locatie }} </td>
-                <td> {{ client.Abordare }} </td>
-                <td> {{ client.NextStep }} </td>
-                <td> {{ client.Kids }} </td>
-                <td>
-                  <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal" (click)="saveClientToChangeAfterConfirmation(client)">
-                    <i class="fa-solid fa-pencil"></i>
-                  </button>
-                </td>
-              </tr>
-            </tbody>
           </table>
-        </div>
-        <a class="btn text-black link-warning fs-6" data-bs-toggle="modal" data-bs-target="#newClientModal">
-          <i class="fa-solid fa-plus"></i> Add
-        </a>
+    </div>
+    <button class="btn bottom-right" (click)="scrollToTop()" title="Go to top">
+      <i class="fa-2x fa-regular fa-circle-up"></i>
+    </button>
+  </div>
+</div>
+<!-- Modal and Form for editing -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5"> </h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- <form 
+          (ngSubmit)="submitEditForm()"
+          [formGroup]="editForm"
+          class="d-flex flex-column align-items-center justify-content-center">
+          <h2 class="fs-5" formControlName="date"> </h2>
+          <div class="d-flex flex-column">
+            <label class="text-start" for="day"> 
+              <strong> Day: </strong>
+              {{ itemToChangeAfterConfirmation.date | date: 'EEEE'}}
+            </label>
+            <label for="publicHoliday">
+              <strong> Public Holiday: </strong>
+              Yes/No
+            </label>
+            <label for="hoursExpected">
+              <strong> Expected work hours: </strong>
+              {{ itemToChangeAfterConfirmation.hoursExpected }}
+            </label>
+            <label for="hoursWorked">
+              <strong> Worked hours: </strong>
+              {{ itemToChangeAfterConfirmation.hoursWorked }}
+            </label>
+            <label for="location">
+              <strong> Location: </strong>
+              {{ itemToChangeAfterConfirmation.location }}
+            </label>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal"> Save </button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> Cancel </button>
+          </div>
+        </form> -->
       </div>
     </div>
   </div>
 </div>
-<button class="sticky-bottom rounded" (click)="scrollToTop()" title="Go to top">
-  <i class="fa-sharp fa-solid fa-circle-arrow-up"></i>
-</button>

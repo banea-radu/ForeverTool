@@ -47,28 +47,7 @@ export class ClientsComponent {
 
   saveClientToChangeAfterConfirmation(client: any) {
     this.clientToChangeAfterConfirmation = client;
-  }
-
-  deleteClient() {
-    // this.databaseService.deleteData('programs', this.idToDeleteAfterConfirmation)
-    //   .subscribe(() => {
-    //     console.log('program deleted');
-    //     this.getPrograms();
-    //   })
-  }
-  
-  addNewClient(form: {Day: string, StartHour: string, StartMinute: string, EndHour: string, EndMinute: string, Category: string}) {
-    // let time:string = form.StartHour + ":" + form.StartMinute + " - " + form.EndHour + ":" + form.EndMinute;
-    // let body = {
-    //   Day: form.Day,
-    //   Time: time,
-    //   Category: form.Category
-    // }
-    // this.databaseService.postData('programs', body)
-    //   .subscribe(() => {
-    //     console.log('new program added');
-    //     this.getPrograms();
-    //   })
+    console.log(client);
   }
 
 }
