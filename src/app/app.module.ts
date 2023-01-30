@@ -7,7 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 // Firestore
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { environment } from '../environments/environment';
+import { environment } from 'src/environments/environment'
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './component/header/header.component';
