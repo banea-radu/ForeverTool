@@ -1,15 +1,12 @@
 # ForeverTool
 
 ## ToDo's:
-  - Edit Form
   - Search functionality
   - Filter functionality
 
 ## Implementing Search Functionality
+  https://www.youtube.com/watch?v=eQuVbyBGhHA
   https://www.youtube.com/watch?v=vraUdaw5oes
-
-## Data Filtering in Angular Component
-  https://www.youtube.com/watch?v=lTOQ7Fjhcvk
 
 ## Pagination
   https://stackoverflow.com/questions/54074135/how-to-paginate-to-previous-page-using-angularfire-firestore-and-firebase

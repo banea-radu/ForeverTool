@@ -1,7 +1,13 @@
 <div class="container text-center px-0"> <!-- *ngIf="!(menuService.menuOpened$ | async)" -->
   <div class="card">
-    <div class="card-title d-flex justify-content-center align-items-center">
+    <div class="card-title d-flex flex-column justify-content-center align-items-center">
       <h5 class="pt-2"> Clienti </h5>
+      <div class="input-box d-flex w-75 max-width-300px">
+        <input class="form-control" type="text" #searchString placeholder="search">
+        <button class="btn btn-primary" (click)="searchClients(searchString.value)">
+          <i class="fa fa-search"></i>
+        </button>
+      </div>    
     </div>
     <div>
       <div class="card-table">
@@ -21,52 +27,54 @@
                   </tr>
                   <tr>
                     <th class="text-end width-80px"> Nume </th>
-                    <td> {{ client.Nume }} </td>
+                    <td class="text-start"> {{ client.Nume }} </td>
+                  </tr>
                   <tr>
-                    <tr>
-                      <th class="text-end width-80px"> Detalii </th>
-                      <td> {{ client.Detalii }} </td>
-                    </tr>
-                    <tr>
-                      <th class="text-end width-80px"> Follow Up </th>
-                      <td> {{ client.FollowUp }} </td>
-                    </tr>
-                    <tr>
-                      <th class="text-end width-80px"> Invite </th>
-                      <td> {{ client.Invite }} </td>
-                    </tr>
-                    <tr>
-                      <th class="text-end width-80px"> Cunosc </th>
-                      <td> {{ client.Cunosc }} </td>
-                    </tr>
-                    <tr>
-                      <th class="text-end width-80px"> Locatie </th>
-                      <td> {{ client.Locatie }} </td>
-                    </tr>
-                    <tr>
-                      <th class="text-end width-80px"> Abordare </th>
-                      <td> {{ client.Abordare }} </td>
-                    </tr>
-                    <tr>
-                      <th class="text-end width-80px"> Next Step </th>
-                      <td> {{ client.NextStep }} </td>
-                    </tr>
-                    <tr>
-                      <th class="text-end width-80px"> Kids </th>
-                      <td> {{ client.Kids }} </td>
-                    </tr>
-                    <tr>
-                      <th class="text-end width-80px"> Connected </th>
-                      <td> {{ client.Id | slice : 0 : 4 }} </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </tr>
+                    <th class="text-end width-80px"> Detalii </th>
+                    <td class="text-start"> {{ client.Detalii }} </td>
+                  </tr>
+                  <tr>
+                    <th class="text-end width-80px"> Follow Up </th>
+                    <td class="text-start"> {{ client.FollowUp }} </td>
+                  </tr>
+                  <tr>
+                    <th class="text-end width-80px"> Invite </th>
+                    <td class="text-start"> {{ client.Invite }} </td>
+                  </tr>
+                  <tr>
+                    <th class="text-end width-80px"> Cunosc </th>
+                    <td class="text-start"> {{ client.Cunosc }} </td>
+                  </tr>
+                  <tr>
+                    <th class="text-end width-80px"> Locatie </th>
+                    <td class="text-start"> {{ client.Locatie }} </td>
+                  </tr>
+                  <tr>
+                    <th class="text-end width-80px"> Abordare </th>
+                    <td class="text-start"> {{ client.Abordare }} </td>
+                  </tr>
+                  <tr>
+                    <th class="text-end width-80px"> Next Step </th>
+                    <td class="text-start"> {{ client.NextStep }} </td>
+                  </tr>
+                  <tr>
+                    <th class="text-end width-80px"> Kids </th>
+                    <td class="text-start"> {{ client.Kids }} </td>
+                  </tr>
+                  <tr>
+                    <th class="text-end width-80px"> Connected </th>
+                    <td class="text-start"> {{ client.Id | slice : 0 : 4 }} </td>
+                  </tr>
+                </tbody>
+              </table>
+            </tr>
           </table>
+        </div>
+        <button class="btn bottom-right" (click)="scrollToTop()" title="Go to top">
+          <i class="fa-2x fa-regular fa-circle-up"></i>
+        </button>
+      </div>
     </div>
-    <button class="btn bottom-right" (click)="scrollToTop()" title="Go to top">
-      <i class="fa-2x fa-regular fa-circle-up"></i>
-    </button>
   </div>
 </div>
 <!-- Modal and Form for editing -->
@@ -80,51 +88,68 @@
       <div class="modal-body">
         <form 
           (ngSubmit)="submitEditForm()"
-          [formGroup]="editForm"
-          class="d-flex flex-column align-items-center justify-content-center">
-          <h2 class="fs-5"> {{ itemToChangeAfterConfirmation.Nume }} </h2>
-
-          <div class="d-flex flex-column">
-            <div>
-              <label for="Detalii">
-                Detalii: 
-              </label>
-              <textarea
-                formControlName="Detalii"
-                class="p-2 border border-success rounded mb-2"
-                >
-              </textarea>
-            </div>
-            <label class="fs-5" for="FollowUp">
-              <strong> Follow Up </strong>
-            </label>
-            <textarea
-              formControlName="FollowUp"
-              class="p-2 border border-success rounded mb-2"
-              >
-            </textarea>
-            <!-- <label class="text-start" for="day"> 
-              <strong> Day: </strong>
-              {{ itemToChangeAfterConfirmation.date | date: 'EEEE'}}
-            </label>
-            <label for="publicHoliday">
-              <strong> Public Holiday: </strong>
-              Yes/No
-            </label>
-            <label for="hoursExpected">
-              <strong> Expected work hours: </strong>
-              {{ itemToChangeAfterConfirmation.hoursExpected }}
-            </label>
-            <label for="hoursWorked">
-              <strong> Worked hours: </strong>
-              {{ itemToChangeAfterConfirmation.hoursWorked }}
-            </label>
-            <label for="location">
-              <strong> Location: </strong>
-              {{ itemToChangeAfterConfirmation.location }}
-            </label> -->
-          </div>
-          <div class="modal-footer">
+          [formGroup]="editForm">
+          <table class="table table-striped table-hover align-middle table-sm">
+            <tbody>
+              <tr>
+                <th class="text-end width-80px"> Nume </th>
+                <td> {{ itemToChangeAfterConfirmation.Nume }} </td>
+              </tr>
+              <tr>
+                <th class="text-end width-80px"> Detalii </th>
+                <td>
+                  <textarea class="form-control" formControlName="Detalii"></textarea>
+                </td>
+              </tr>
+              <tr>
+                <th class="text-end width-80px"> Follow Up </th>
+                <td>
+                  <textarea class="form-control" formControlName="FollowUp"></textarea>
+                </td>
+              </tr>
+              <tr>
+                <th class="text-end width-80px"> Invite </th>
+                <td>
+                  <textarea class="form-control" formControlName="Invite"></textarea>
+                </td>
+              </tr>
+              <tr>
+                <th class="text-end width-80px"> Cunosc </th>
+                <td>
+                  <textarea class="form-control" formControlName="Cunosc"></textarea>
+                </td>
+              </tr>
+              <tr>
+                <th class="text-end width-80px"> Locatie </th>
+                <td>
+                  <textarea class="form-control" formControlName="Locatie"></textarea>
+                </td>
+              </tr>
+              <tr>
+                <th class="text-end width-80px"> Abordare </th>
+                <td>
+                  <textarea class="form-control" formControlName="Abordare"></textarea>
+                </td>
+              </tr>
+              <tr>
+                <th class="text-end width-80px"> Next Step </th>
+                <td>
+                  <textarea class="form-control" formControlName="NextStep"></textarea>
+                </td>
+              </tr>
+              <tr>
+                <th class="text-end width-80px"> Kids </th>
+                <td>
+                  <textarea class="form-control" formControlName="Kids"></textarea>
+                </td>
+              </tr>
+              <tr>
+                <th class="text-end width-80px"> Connected </th>
+                <td> {{ itemToChangeAfterConfirmation.Id | slice : 0 : 4 }} </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="modal-footer border-top-0">
             <button type="submit" class="btn btn-primary" data-bs-dismiss="modal"> Save </button>
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> Cancel </button>
           </div>

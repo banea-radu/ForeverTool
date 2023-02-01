@@ -50,14 +50,14 @@ export class DatabaseService {
     return this.http.patch(completeUrl, bodyData);
   }
 
-  postData(endpoint: string, bodyData: any){
-    const completeUrl = this.createCompleteUrl(endpoint);
-    return this.http.post(completeUrl, bodyData);
-  }
+  // postData(endpoint: string, bodyData: any){
+  //   const completeUrl = this.createCompleteUrl(endpoint);
+  //   return this.http.post(completeUrl, bodyData);
+  // }
 
-  deleteData(endpoint: string, id: string){
-    const completeUrl = this.createCompleteUrl(endpoint, id);
-    return this.http.delete(completeUrl);
-  }
+  // deleteData(endpoint: string, id: string){
+  //   const completeUrl = this.createCompleteUrl(endpoint, id);
+  //   return this.http.delete(completeUrl);
+  // }
  
 }

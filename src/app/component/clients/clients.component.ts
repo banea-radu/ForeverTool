@@ -26,6 +26,7 @@ export class ClientsComponent {
     Locatie: [''],
     NextStep: [''],
     Nume: [''],
+    id: ['']
   })
 
   constructor(
@@ -39,12 +40,22 @@ export class ClientsComponent {
     this.getClients();
   }
 
-  getClients() {
-    this.clients$ = this.databaseService.getData('test'); // 'clients'
-  }
-
   scrollToTop() {
     this.viewportScroller.scrollToPosition([0, 0]);
+  }
+
+  getClients() {
+    this.clients$ = this.databaseService.getData('clients'); // 'test' or 'clients'
+  }
+
+  searchClients(searchString: String) {
+    if (searchString == '' || searchString == null) {
+      // then get all clients
+      this.getClients();
+    } else {
+      console.log(searchString);
+    }
+    // this.clients$ = this.databaseService.getData('test'); // 'test' or 'clients'
   }
 
   saveIdToChangeAfterConfirmation(item: any) {
@@ -60,12 +71,25 @@ export class ClientsComponent {
       Locatie: [item.Locatie],
       NextStep: [item.NextStep],
       Nume: [item.Nume],
+      id: [item.id]
     })
-    console.log(item.id);
   }
 
   submitEditForm() {
-    console.log(this.itemToChangeAfterConfirmation);
+    this.databaseService.patchData('clients', this.editForm.value, this.itemToChangeAfterConfirmation.id)
+    .subscribe(() => {
+      console.log('item changed in db');
+      // change the item also in the html template
+      this.itemToChangeAfterConfirmation.Nume = this.editForm.value.Nume;
+      this.itemToChangeAfterConfirmation.Detalii = this.editForm.value.Detalii;
+      this.itemToChangeAfterConfirmation.FollowUp = this.editForm.value.FollowUp;
+      this.itemToChangeAfterConfirmation.Invite = this.editForm.value.Invite;
+      this.itemToChangeAfterConfirmation.Cunosc = this.editForm.value.Cunosc;
+      this.itemToChangeAfterConfirmation.Locatie = this.editForm.value.Locatie;
+      this.itemToChangeAfterConfirmation.Abordare = this.editForm.value.Abordare;
+      this.itemToChangeAfterConfirmation.NextStep = this.editForm.value.NextStep;
+      this.itemToChangeAfterConfirmation.Kids = this.editForm.value.Kids;
+    })
   }
 
 }
