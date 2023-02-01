@@ -1,4 +1,4 @@
-<div class="container text-center px-0" *ngIf="!(menuService.menuOpened$ | async)">
+<div class="container text-center px-0"> <!-- *ngIf="!(menuService.menuOpened$ | async)" -->
   <div class="card">
     <div class="card-title d-flex justify-content-center align-items-center">
       <h5 class="pt-2"> Clienti </h5>
@@ -14,7 +14,7 @@
                     <th class="text-end width-80px"> Nr. </th>
                     <td>
                       {{ i+1 }}
-                      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal" (click)="saveClientToChangeAfterConfirmation(client)">
+                      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal" (click)="saveIdToChangeAfterConfirmation(client)">
                         <i class="fa-solid fa-pencil"></i>
                       </button>
                     </td>
@@ -55,6 +55,10 @@
                       <th class="text-end width-80px"> Kids </th>
                       <td> {{ client.Kids }} </td>
                     </tr>
+                    <tr>
+                      <th class="text-end width-80px"> Connected </th>
+                      <td> {{ client.Id | slice : 0 : 4 }} </td>
+                    </tr>
                   </tbody>
                 </table>
               </tr>
@@ -74,12 +78,12 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <!-- <form 
+        <form 
           (ngSubmit)="submitEditForm()"
           [formGroup]="editForm"
           class="d-flex flex-column align-items-center justify-content-center">
-          <h2 class="fs-5" formControlName="date"> </h2>
-          <div class="d-flex flex-column">
+          <h2 class="fs-5"> {{ itemToChangeAfterConfirmation.Nume }} </h2>
+          <!-- <div class="d-flex flex-column">
             <label class="text-start" for="day"> 
               <strong> Day: </strong>
               {{ itemToChangeAfterConfirmation.date | date: 'EEEE'}}
@@ -100,12 +104,12 @@
               <strong> Location: </strong>
               {{ itemToChangeAfterConfirmation.location }}
             </label>
-          </div>
+          </div> -->
           <div class="modal-footer">
             <button type="submit" class="btn btn-primary" data-bs-dismiss="modal"> Save </button>
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> Cancel </button>
           </div>
-        </form> -->
+        </form>
       </div>
     </div>
   </div>

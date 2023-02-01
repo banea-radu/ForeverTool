@@ -14,17 +14,19 @@ import { ViewportScroller } from '@angular/common';
 })
 export class ClientsComponent {
   clients$: Observable<any[]>;
-  clientToChangeAfterConfirmation: any = {};
-  newClientForm = this.formbuilder.group({
-    Day: ['Monday'],
-    StartHour: ['07'],
-    StartMinute: ['00'],
-    EndHour: ['07'],
-    EndMinute: ['00'],
-    Category: ['Intermediate']
+  itemToChangeAfterConfirmation: any = {}; // replace any with model
+  editForm = this.formbuilder.group({
+    Abordare: [''],
+    Cunosc: [''],
+    Detalii: [''],
+    FollowUp: [''],
+    Id: [''],
+    Invite: [''],
+    Kids: [''],
+    Locatie: [''],
+    NextStep: [''],
+    Nume: [''],
   })
-  timeHours = ['07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23'];
-  timeMinutes = ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'];
 
   constructor(
     public databaseService: DatabaseService,
@@ -45,9 +47,13 @@ export class ClientsComponent {
     this.viewportScroller.scrollToPosition([0, 0]);
   }
 
-  saveClientToChangeAfterConfirmation(client: any) {
-    this.clientToChangeAfterConfirmation = client;
-    console.log(client);
+  saveIdToChangeAfterConfirmation(item: any) {
+    this.itemToChangeAfterConfirmation = item;
+    console.log(item.id);
+  }
+
+  submitEditForm() {
+    console.log(this.itemToChangeAfterConfirmation);
   }
 
 }

@@ -1,5 +1,10 @@
 # ForeverTool
 
+## ToDo's:
+  - Edit Form
+  - Search functionality
+  - Filter functionality
+
 ## Implementing Search Functionality
   https://www.youtube.com/watch?v=vraUdaw5oes
 
