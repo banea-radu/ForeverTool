@@ -49,6 +49,18 @@ export class ClientsComponent {
 
   saveIdToChangeAfterConfirmation(item: any) {
     this.itemToChangeAfterConfirmation = item;
+    this.editForm = this.formbuilder.group({
+      Abordare: [item.Abordare],
+      Cunosc: [item.Cunosc],
+      Detalii: [item.Detalii],
+      FollowUp: [item.FollowUp],
+      Id: [item.Id],
+      Invite: [item.Invite],
+      Kids: [item.Kids],
+      Locatie: [item.Locatie],
+      NextStep: [item.NextStep],
+      Nume: [item.Nume],
+    })
     console.log(item.id);
   }
 

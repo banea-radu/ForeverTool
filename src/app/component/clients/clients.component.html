@@ -83,8 +83,27 @@
           [formGroup]="editForm"
           class="d-flex flex-column align-items-center justify-content-center">
           <h2 class="fs-5"> {{ itemToChangeAfterConfirmation.Nume }} </h2>
-          <!-- <div class="d-flex flex-column">
-            <label class="text-start" for="day"> 
+
+          <div class="d-flex flex-column">
+            <div>
+              <label for="Detalii">
+                Detalii: 
+              </label>
+              <textarea
+                formControlName="Detalii"
+                class="p-2 border border-success rounded mb-2"
+                >
+              </textarea>
+            </div>
+            <label class="fs-5" for="FollowUp">
+              <strong> Follow Up </strong>
+            </label>
+            <textarea
+              formControlName="FollowUp"
+              class="p-2 border border-success rounded mb-2"
+              >
+            </textarea>
+            <!-- <label class="text-start" for="day"> 
               <strong> Day: </strong>
               {{ itemToChangeAfterConfirmation.date | date: 'EEEE'}}
             </label>
@@ -103,8 +122,8 @@
             <label for="location">
               <strong> Location: </strong>
               {{ itemToChangeAfterConfirmation.location }}
-            </label>
-          </div> -->
+            </label> -->
+          </div>
           <div class="modal-footer">
             <button type="submit" class="btn btn-primary" data-bs-dismiss="modal"> Save </button>
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> Cancel </button>
