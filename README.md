@@ -1,4 +1,4 @@
-# Learn by doing Project 2 - ForeverTool (version 2)
+# Learn by doing Project - ForeverTool (version 2)
 
 ## Technologies used:
 <div>
