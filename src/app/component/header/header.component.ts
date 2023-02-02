@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ViewportScroller } from '@angular/common';
 import { MenuService } from 'src/app/service/menu.service';
+import { DatabaseService } from 'src/app/service/database.service';
 
 @Component({
   selector: 'app-header',
@@ -12,7 +13,8 @@ export class HeaderComponent {
 
   constructor(
     private menuService: MenuService,
-    private viewportScroller: ViewportScroller
+    private viewportScroller: ViewportScroller,
+    public databaseService: DatabaseService,
   ) {}
     
   ngOnInit() {

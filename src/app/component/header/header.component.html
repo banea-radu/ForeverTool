@@ -19,6 +19,12 @@
         <li>
           <a routerLink="/clients" (click)="closeMenuIfOpened()" class="d-block p-3 text-decoration-none text-black fw-semibold text-white link-warning"> Clienti </a>
         </li>
+        <!-- Call SignOut() Api from AuthService -->
+        <li>
+          <a class="btn text-white link-warning" (click)="databaseService.SignOut(); closeMenuIfOpened()">
+            <i class="fas fa-sign-out-alt"></i> Log-Out
+          </a>
+        </li>
       </ul>
     </nav>
 

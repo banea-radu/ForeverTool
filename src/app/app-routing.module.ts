@@ -5,7 +5,7 @@ import { LoginComponent } from './component/login/login.component';
 import { ClientsGuardService } from './service/clients-guard.service';
 
 const routes: Routes = [
-  { path: '', component: ClientsComponent},
+  { path: '', redirectTo: '/clients', pathMatch: 'full' },
   { path: 'clients', component: ClientsComponent, canActivate: [ClientsGuardService] },
   { path: 'login', component: LoginComponent }
   // { path: '**', component: PageNotFoundComponent },  // Page not found route for a 404 page
