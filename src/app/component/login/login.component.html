@@ -1,0 +1,56 @@
+<div class="main">
+  
+  <section class="welcome-section-25vh d-flex justify-content-center align-items-center">
+    <div class="text-white">
+      <h1> Login </h1>
+    </div>
+  </section>
+
+  <section class="section-50vh bg-white p-4 d-flex justify-content-center align-items-center">
+
+    <div class="d-flex flex-column align-items-center justify-content-center">
+
+      <p class="text-center"> <strong> To access your account you need to login: </strong></p>
+     
+      <form 
+        #form='ngForm'
+        [formGroup]="loginForm"
+        (ngSubmit)="formSubmit(form.value)"
+        class="d-flex flex-column m-2 w-100"
+      >
+
+        <label for="email"> E-mail address: </label>
+        <input type="email"
+          formControlName="email"
+          name="email"
+          class="p-2 border border-success rounded mb-2"
+          [ngClass]="form.submitted ? 'ng-touched' : ''">
+        <small
+          *ngIf="(loginForm.controls.email.invalid && loginForm.controls.email.dirty)
+            || (loginForm.controls.email.invalid && form.submitted)"
+          class="alert alert-danger">
+          Please enter a valid email.
+        </small>
+
+        <label for="password"> Password </label>
+        <input type="password"
+          formControlName="password"
+          name="password"
+          class="p-2 border border-success rounded mb-2"
+          [ngClass]="form.submitted ? 'ng-touched' : ''">
+        <small
+          *ngIf="(loginForm.controls.password.invalid && loginForm.controls.password.dirty)
+            || (loginForm.controls.password.invalid && form.submitted)"
+          class="alert alert-danger">
+          The password must contain at least 5 characters.
+        </small>
+        
+        <button type="submit" class="btn bg-success text-white link-warning">
+          Login
+        </button>
+      </form>
+
+    </div>
+  </section>
+
+</div>

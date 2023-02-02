@@ -4,7 +4,6 @@ import { MenuService } from 'src/app/service/menu.service';
 import { DatabaseService } from 'src/app/service/database.service';
 import { Observable } from "rxjs";
 import { ViewportScroller } from '@angular/common';
-// import { DbProgram } from 'src/app/model/db-program';
 
 
 @Component({
@@ -45,7 +44,7 @@ export class ClientsComponent {
   }
 
   getClients() {
-    this.clients$ = this.databaseService.getData('clients'); // 'test' or 'clients'
+    this.clients$ = this.databaseService.getData('test'); // 'test' or 'clients'
   }
 
   searchClients(searchString: String) {
@@ -76,7 +75,7 @@ export class ClientsComponent {
   }
 
   submitEditForm() {
-    this.databaseService.patchData('clients', this.editForm.value, this.itemToChangeAfterConfirmation.id)
+    this.databaseService.patchData('test', this.editForm.value, this.itemToChangeAfterConfirmation.id)
     .subscribe(() => {
       console.log('item changed in db');
       // change the item also in the html template

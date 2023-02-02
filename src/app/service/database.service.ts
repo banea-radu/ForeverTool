@@ -1,15 +1,99 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
+import { Router } from '@angular/router';
+import { DbAuthUser } from '../model/db-auth-user';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DatabaseService {
+  userData: any;
 
   constructor(
-    private http: HttpClient
-  ) {}
+    private http: HttpClient,
+    public router: Router,
+    public angularFireAuth: AngularFireAuth,
+    public angularFireStore: AngularFirestore,
+  ) {
+    // Save user data in localstorage when logged in, set null when logged out
+    this.angularFireAuth.authState.subscribe((user) => {
+      if (user) {
+        this.userData = user;
+        localStorage.setItem('user', JSON.stringify(this.userData));
+        JSON.parse(localStorage.getItem('user')!);
+      } else {
+        localStorage.setItem('user', 'null');
+        JSON.parse(localStorage.getItem('user')!);
+      }
+    });
+  }
+
+  // Sign in with email/password
+  SignIn(email: string, password: string) {
+    return this.angularFireAuth
+      .signInWithEmailAndPassword(email, password)
+      .then((result) => {
+        this.SetUserData(result.user);
+        this.angularFireAuth.authState.subscribe((user) => {
+          if (user) {
+            console.log("go to clients");
+            this.router.navigate(['clients']);
+          }
+        });
+      })
+      .catch((error) => {
+            alert(error);
+      });
+  }
+
+  // Returns true when user is looged in and email is verified
+  get isLoggedIn(): boolean {
+    const user = JSON.parse(localStorage.getItem('user')!);
+    return user !== null && user.emailVerified !== false ? true : false;
+  }
+
+  // Auth logic to run auth providers
+  AuthLogin(provider: any) {
+    return this.angularFireAuth
+      .signInWithPopup(provider)
+      .then((result) => {
+        this.router.navigate(['clients']);
+        this.SetUserData(result.user);
+      })
+      .catch((error) => {
+        window.alert(error);
+      });
+  }
+  
+  /* Setting up user data when sign in with username/password, 
+  sign up with username/password and sign in with social auth  
+  provider in Firestore database using AngularFirestore + AngularFirestoreDocument service */
+  SetUserData(user: any) {
+    const userRef: AngularFirestoreDocument<any> = this.angularFireStore.doc(
+      `users/${user.uid}`
+    );
+    const userData: DbAuthUser = {
+      uid: user.uid,
+      email: user.email,
+      displayName: user.displayName,
+      photoURL: user.photoURL,
+      emailVerified: user.emailVerified,
+    };
+    return userRef.set(userData, {
+      merge: true,
+    });
+  }
+
+  // Sign out
+  SignOut() {
+    return this.angularFireAuth.signOut().then(() => {
+      localStorage.removeItem('user');
+      this.router.navigate(['login']);
+    });
+  }
 
   createCompleteUrl(endpoint: string, id?: string){
     const urlBase: string = "https://forevertool-1fb0a-default-rtdb.europe-west1.firebasedatabase.app/";
