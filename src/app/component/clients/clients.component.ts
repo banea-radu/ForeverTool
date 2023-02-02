@@ -50,9 +50,11 @@ export class ClientsComponent {
   searchClients(searchString: String) {
     if (searchString == '' || searchString == null) {
       // then get all clients
+      alert("merge sa aduca toti clientii, dar deocamdata sunt doar 84 pentru test :(")
       this.getClients();
     } else {
-      console.log(searchString);
+      // console.log(searchString);
+      alert("inca nu merge cautarea, mai am de lucru aici :(")
     }
     // this.clients$ = this.databaseService.getData('test'); // 'test' or 'clients'
   }
@@ -78,7 +80,7 @@ export class ClientsComponent {
     this.databaseService.patchData('test', this.editForm.value, this.itemToChangeAfterConfirmation.id)
     .subscribe(() => {
       console.log('item changed in db');
-      // change the item also in the html template
+      // change the item also in the html template without refreshing the component
       this.itemToChangeAfterConfirmation.Nume = this.editForm.value.Nume;
       this.itemToChangeAfterConfirmation.Detalii = this.editForm.value.Detalii;
       this.itemToChangeAfterConfirmation.FollowUp = this.editForm.value.FollowUp;
