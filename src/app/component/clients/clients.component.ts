@@ -4,6 +4,8 @@ import { MenuService } from 'src/app/service/menu.service';
 import { DatabaseService } from 'src/app/service/database.service';
 import { Observable } from "rxjs";
 import { ViewportScroller } from '@angular/common';
+import { AngularFireDatabase } from '@angular/fire/compat/database';
+import { BehaviorSubject } from 'rxjs';
 
 
 @Component({
@@ -13,6 +15,7 @@ import { ViewportScroller } from '@angular/common';
 })
 export class ClientsComponent {
   clients$: Observable<any[]>;
+  
   itemToChangeAfterConfirmation: any = {}; // replace any with model
   editForm = this.formbuilder.group({
     Abordare: [''],
@@ -32,7 +35,8 @@ export class ClientsComponent {
     public databaseService: DatabaseService,
     private formbuilder: FormBuilder,
     public menuService: MenuService,
-    private viewportScroller: ViewportScroller
+    private viewportScroller: ViewportScroller,
+    private database: AngularFireDatabase
   ) {}
 
   ngOnInit() {
