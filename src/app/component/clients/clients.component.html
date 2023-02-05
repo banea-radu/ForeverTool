@@ -1,9 +1,12 @@
 <div class="container text-center px-0"> <!-- *ngIf="!(menuService.menuOpened$ | async)" -->
   <div class="card">
     <div class="card-title d-flex flex-column justify-content-center align-items-center">
-      <h5 class="pt-2"> Clienti </h5>
+      <h5 class="pt-2">
+        Clienti
+        <span *ngIf="clients$"> ({{(clients$ | async)?.length}} rezultate) </span>
+      </h5>
       <div class="input-box d-flex w-75 max-width-300px">
-        <input class="form-control" type="text" #searchString placeholder="search">
+        <input class="form-control" type="text" #searchString placeholder="search" (keyup)="searchInput($event, searchString.value)">
         <button class="btn btn-primary" (click)="searchClients(searchString.value)">
           <i class="fa fa-search"></i>
         </button>
@@ -18,7 +21,7 @@
                 <tbody class="table-group-divider">
                   <tr>
                     <th class="text-end width-80px"> Nr. </th>
-                    <td>
+                    <td class="text-start">
                       {{ i+1 }}
                       <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal" (click)="saveIdToChangeAfterConfirmation(client)">
                         <i class="fa-solid fa-pencil"></i>

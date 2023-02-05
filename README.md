@@ -12,6 +12,11 @@
 </div>
 
 ## ToDo's:
-  - Search functionality
-    - https://stackblitz.com/edit/angularfire-db-api-s8ip7m?file=app%2Fapp.component.ts
-  - Filter functionality
+  - desktop view, fix Log-out button text position
+  - filter button: "nu e avatar", my team .. ?
+  - update current database
+  - import downloaded facebook html file
+  - convert to pwa
+
+  ## ToDone:
+  - search when pressing enter

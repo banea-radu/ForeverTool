@@ -4,8 +4,7 @@ import { MenuService } from 'src/app/service/menu.service';
 import { DatabaseService } from 'src/app/service/database.service';
 import { Observable } from "rxjs";
 import { ViewportScroller } from '@angular/common';
-import { AngularFireDatabase } from '@angular/fire/compat/database';
-import { BehaviorSubject } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 
 @Component({
@@ -35,12 +34,11 @@ export class ClientsComponent {
     public databaseService: DatabaseService,
     private formbuilder: FormBuilder,
     public menuService: MenuService,
-    private viewportScroller: ViewportScroller,
-    private database: AngularFireDatabase
+    private viewportScroller: ViewportScroller
   ) {}
 
   ngOnInit() {
-    this.getClients();
+    // this.getClients();
   }
 
   scrollToTop() {
@@ -48,19 +46,39 @@ export class ClientsComponent {
   }
 
   getClients() {
-    this.clients$ = this.databaseService.getData('test'); // 'test' or 'clients'
+    this.clients$ = this.databaseService.getData('clients'); // 'test' or 'clients'
   }
 
-  searchClients(searchString: String) {
+  searchInput(event, searchString: string) {
+  if (event.key === "Enter") {
+    this.searchClients(searchString);
+  }
+  }
+
+  searchClients(searchString: string) {
     if (searchString == '' || searchString == null) {
       // then get all clients
-      alert("merge sa aduca toti clientii, dar deocamdata sunt doar 84 pentru test :(")
       this.getClients();
     } else {
-      // console.log(searchString);
-      alert("inca nu merge cautarea, mai am de lucru aici :(")
+      this.clients$ = this.databaseService.getData('clients') // 'test' or 'clients'
+      .pipe (
+        map(response => 
+          response.filter(item => 
+            (item.Abordare + " "
+              + item.Cunosc + " "
+              + item.Detalii + " "
+              + item.FollowUp + " "
+              + item.Id + " "
+              + item.Invite + " "
+              + item.Kids + " "
+              + item.Locatie + " "
+              + item.NextStep + " "
+              + item.Nume).toUpperCase()
+                .indexOf(searchString.toUpperCase()) > -1
+          )
+        )
+      )
     }
-    // this.clients$ = this.databaseService.getData('test'); // 'test' or 'clients'
   }
 
   saveIdToChangeAfterConfirmation(item: any) {
@@ -81,7 +99,7 @@ export class ClientsComponent {
   }
 
   submitEditForm() {
-    this.databaseService.patchData('test', this.editForm.value, this.itemToChangeAfterConfirmation.id)
+    this.databaseService.patchData('clients', this.editForm.value, this.itemToChangeAfterConfirmation.id)
     .subscribe(() => {
       console.log('item changed in db');
       // change the item also in the html template without refreshing the component

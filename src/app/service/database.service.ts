@@ -5,6 +5,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
 import { DbAuthUser } from '../model/db-auth-user';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -96,7 +97,7 @@ export class DatabaseService {
   }
 
   createCompleteUrl(endpoint: string, id?: string){
-    const urlBase: string = "https://forevertool-1fb0a-default-rtdb.europe-west1.firebasedatabase.app/";
+    const urlBase: string = environment.firebase.databaseURL + "/";
     let completeUrl: string = '';
     /* check if id was passed to this function, if yes, it is needed for a patch/delete request and we 
     need to add it to the full path */
