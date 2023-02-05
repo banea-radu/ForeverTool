@@ -54,32 +54,7 @@
 		flex-direction: column!important;
 	}
 	
-		.links-menu-list.menu-open li {
+		.links-menu-list.menu-open li, .links-menu-list.menu-open li a{
 			width: 100vw;
 			text-align: center;
 		}
-
-		#dropdown {
-			display: inline-block;
-			vertical-align: middle;
-			padding:7px 0;
-		}
-
-			#dropdown-wrapper {
-				display: inline-block;
-				vertical-align:middle;
-			}
-
-			#dropdown-list {
-				max-width: 160px;
-			}
-
-			.dropdown-item {
-				max-width: 160px;
-			}
-
-			.flag-img {
-				height: 18px;
-				width: 24px;
-				border-radius: 3px;
-			}

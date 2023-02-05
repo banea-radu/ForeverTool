@@ -12,11 +12,14 @@
 </div>
 
 ## ToDo's:
-  - desktop view, fix Log-out button text position
-  - filter button: "nu e avatar", my team .. ?
+  - filter button:
+    - filter on letters A, B, C...
+    - special filters: nu e avatar, unfriended
+  - pagination
   - update current database
   - import downloaded facebook html file
   - convert to pwa
 
   ## ToDone:
-  - search when pressing enter
+  - search when pressing enter in search input
+  - desktop view, fix Log-out button text position

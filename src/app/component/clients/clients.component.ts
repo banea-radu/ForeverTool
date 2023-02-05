@@ -14,8 +14,9 @@ import { map } from 'rxjs/operators';
 })
 export class ClientsComponent {
   clients$: Observable<any[]>;
-  
   itemToChangeAfterConfirmation: any = {}; // replace any with model
+  windowScrolled = false;
+
   editForm = this.formbuilder.group({
     Abordare: [''],
     Cunosc: [''],
@@ -30,6 +31,14 @@ export class ClientsComponent {
     id: ['']
   })
 
+  lettersArray: string[] = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+  filterForm = this.formbuilder.group({
+    letterA: [null], letterB: [null], letterC: [null], letterD: [null], letterE: [null], letterF: [null],
+    letterG: [null], letterH: [null],
+    hideValue1: ['nu e avatar'],
+    hideValue2: ['unfriended'],
+  })
+
   constructor(
     public databaseService: DatabaseService,
     private formbuilder: FormBuilder,
@@ -39,6 +48,9 @@ export class ClientsComponent {
 
   ngOnInit() {
     // this.getClients();
+    window.addEventListener('scroll', () => {
+      this.windowScrolled = window.pageYOffset !== 0;
+    });
   }
 
   scrollToTop() {
@@ -113,6 +125,10 @@ export class ClientsComponent {
       this.itemToChangeAfterConfirmation.NextStep = this.editForm.value.NextStep;
       this.itemToChangeAfterConfirmation.Kids = this.editForm.value.Kids;
     })
+  }
+
+  submitFilterForm() {
+    alert("Inca nu merge, lucrez la el");
   }
 
 }
