@@ -167,7 +167,7 @@
   </div>
 </div>
 <!-- Modal and Form for filters -->
-<div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" (click)="getFilters()">
+<div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"> <!-- (click)="getFilters()" -->
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
@@ -180,11 +180,38 @@
           (ngSubmit)="submitFilterForm()"
           [formGroup]="filterForm">
           <!-- List with all letters for filtering -->
-          <p class="fs-5 text-center"> Doar clientii care incep cu litera: </p>
+          <!-- <p class="fs-5 text-center"> Doar clientii care incep cu litera: </p>
           <div class="row row-cols-6">
             <div *ngFor="let letter of lettersArray; let i=index" class="form-check form-check-inline col">
               <input class="form-check-input" type="checkbox" id="inlineCheckbox{{i+1}}" formControlName="letter{{letter == '#' ? 'Rest' : letter }}" value="option{{i+1}}">
               <label class="form-check-label" for="inlineCheckbox{{i+1}}"> {{letter}} </label>
+            </div>
+          </div> -->
+          <!-- Select month for filtering -->
+          <h2 class="fs-5 text-center"> Select month </h2>
+          <div class="d-flex justify-content-center">
+            <button class="btn" (click)="year.innerHTML = (+year.innerHTML - 1).toString()">
+              <i class="fa-sharp fa-solid fa-circle-left"></i>
+            </button>
+            <button #year [innerHTML]="selectedDate | date: 'y'" class="btn btn-success"></button>
+            <button class="btn" (click)="year.innerHTML = (+year.innerHTML + 1).toString()">
+              <i class="fa-sharp fa-solid fa-circle-right"></i>
+            </button>
+          </div>
+          <div class="container text-center">
+            <div class="row row-cols-3">
+              <button class="btn btn-success" data-bs-dismiss="modal">January</button>
+              <button class="btn btn-light" data-bs-dismiss="modal">February</button>
+              <button class="btn btn-light" data-bs-dismiss="modal">March</button>
+              <button class="btn btn-light" data-bs-dismiss="modal">April</button>
+              <button class="btn btn-light" data-bs-dismiss="modal">May</button>
+              <button class="btn btn-light" data-bs-dismiss="modal">June</button>
+              <button class="btn btn-light" data-bs-dismiss="modal">July</button>
+              <button class="btn btn-light" data-bs-dismiss="modal">August</button>
+              <button class="btn btn-light" data-bs-dismiss="modal">September</button>
+              <button class="btn btn-light" data-bs-dismiss="modal">October</button>
+              <button class="btn btn-light" data-bs-dismiss="modal">November</button>
+              <button class="btn btn-light" data-bs-dismiss="modal">December</button>
             </div>
           </div>
           <!-- List with special filters -->

@@ -32,13 +32,14 @@ export class ClientsComponent {
     id: ['']
   })
 
-  lettersArray: string[] = ["#", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+  // lettersArray: string[] = ["#", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+  selectedDate = new Date();
   filterForm = this.formbuilder.group({
-    letterRest: [null], letterA: [null], letterB: [null], letterC: [null], letterD: [null], letterE: [null],
-    letterF: [null], letterG: [null], letterH: [null], letterI: [null], letterJ: [null], letterK: [null],
-    letterL: [null], letterM: [null], letterN: [null], letterO: [null], letterP: [null], letterQ: [null],
-    letterR: [null], letterS: [null], letterT: [null], letterU: [null], letterV: [null], letterW: [null],
-    letterX: [null], letterY: [null], letterZ: [null],
+    // letterRest: [null], letterA: [null], letterB: [null], letterC: [null], letterD: [null], letterE: [null],
+    // letterF: [null], letterG: [null], letterH: [null], letterI: [null], letterJ: [null], letterK: [null],
+    // letterL: [null], letterM: [null], letterN: [null], letterO: [null], letterP: [null], letterQ: [null],
+    // letterR: [null], letterS: [null], letterT: [null], letterU: [null], letterV: [null], letterW: [null],
+    // letterX: [null], letterY: [null], letterZ: [null],
     hideOption1Text: ['nu e avatar'], hideOption1Value: [null],
     hideOption2Text: ['unfriended'], hideOption2Value: [null],
   })
@@ -52,6 +53,7 @@ export class ClientsComponent {
 
   ngOnInit() {
     // this.getClients();
+    this.getFilters();
     window.addEventListener('scroll', () => {
       this.windowScrolled = window.pageYOffset !== 0;
     });
