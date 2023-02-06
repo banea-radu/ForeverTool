@@ -167,7 +167,7 @@
   </div>
 </div>
 <!-- Modal and Form for filters -->
-<div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" (click)="getFilters()">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
@@ -183,24 +183,23 @@
           <p class="fs-5 text-center"> Doar clientii care incep cu litera: </p>
           <div class="row row-cols-6">
             <div *ngFor="let letter of lettersArray; let i=index" class="form-check form-check-inline col">
-              <input class="form-check-input" type="checkbox" id="inlineCheckbox{{i+1}}" value="option{{i+1}}">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox{{i+1}}" formControlName="letter{{letter == '#' ? 'Rest' : letter }}" value="option{{i+1}}">
               <label class="form-check-label" for="inlineCheckbox{{i+1}}"> {{letter}} </label>
             </div>
           </div>
-
           <!-- List with special filters -->
           <p class="fs-5 pt-1 text-center"> Filtre speciale, ascunde clientii care contin textul: </p>
           <div>
             <div class="form-check form-switch">
-              <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault1">
+              <input class="form-check-input" formControlName="hideOption1Value" type="checkbox" role="switch" id="flexSwitchCheckDefault1">
               <label class="form-check-label" for="flexSwitchCheckDefault1">
-                <span> nu e avatar </span>
+                <span [innerHTML]="filterForm.controls.hideOption1Text.value"> </span>
               </label>
             </div>
             <div class="form-check form-switch">
-              <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault2">
+              <input class="form-check-input" formControlName="hideOption2Value" type="checkbox" role="switch" id="flexSwitchCheckDefault2">
               <label class="form-check-label" for="flexSwitchCheckDefault2">
-                <span> unfriended </span>
+                <span [innerHTML]="filterForm.controls.hideOption2Text.value"> </span>
               </label>
             </div>
           </div>

@@ -135,6 +135,11 @@ export class DatabaseService {
     return this.http.patch(completeUrl, bodyData);
   }
 
+  patchFiltersData(endpoint: string, bodyData: any){
+    const completeUrl = this.createCompleteUrl(endpoint);
+    return this.http.patch(completeUrl, bodyData);
+  }
+
   // postData(endpoint: string, bodyData: any){
   //   const completeUrl = this.createCompleteUrl(endpoint);
   //   return this.http.post(completeUrl, bodyData);

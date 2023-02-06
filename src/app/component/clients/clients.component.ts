@@ -14,6 +14,7 @@ import { map } from 'rxjs/operators';
 })
 export class ClientsComponent {
   clients$: Observable<any[]>;
+  filters$: any;
   itemToChangeAfterConfirmation: any = {}; // replace any with model
   windowScrolled = false;
 
@@ -31,12 +32,15 @@ export class ClientsComponent {
     id: ['']
   })
 
-  lettersArray: string[] = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+  lettersArray: string[] = ["#", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
   filterForm = this.formbuilder.group({
-    letterA: [null], letterB: [null], letterC: [null], letterD: [null], letterE: [null], letterF: [null],
-    letterG: [null], letterH: [null],
-    hideValue1: ['nu e avatar'],
-    hideValue2: ['unfriended'],
+    letterRest: [null], letterA: [null], letterB: [null], letterC: [null], letterD: [null], letterE: [null],
+    letterF: [null], letterG: [null], letterH: [null], letterI: [null], letterJ: [null], letterK: [null],
+    letterL: [null], letterM: [null], letterN: [null], letterO: [null], letterP: [null], letterQ: [null],
+    letterR: [null], letterS: [null], letterT: [null], letterU: [null], letterV: [null], letterW: [null],
+    letterX: [null], letterY: [null], letterZ: [null],
+    hideOption1Text: ['nu e avatar'], hideOption1Value: [null],
+    hideOption2Text: ['unfriended'], hideOption2Value: [null],
   })
 
   constructor(
@@ -127,8 +131,19 @@ export class ClientsComponent {
     })
   }
 
+  getFilters() {
+    this.databaseService.getData('filters').subscribe((response => {
+      console.log(response);
+    }));
+  }
+
   submitFilterForm() {
     alert("Inca nu merge, lucrez la el");
+    // console.log(this.filterForm.value);
+    this.databaseService.patchFiltersData('filters', this.filterForm.value)
+    .subscribe(() => {
+      console.log('filters saved in db');
+    })
   }
 
 }
