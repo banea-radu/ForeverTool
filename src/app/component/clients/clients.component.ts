@@ -34,16 +34,14 @@ export class ClientsComponent {
 
   // lettersArray: string[] = ["#", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
   filterDate = new Date();
+  filterHideOption1Text: string = 'nu e avatar';
+  filterHideOption2Text: string = 'unfriended';
   filterForm = this.formbuilder.group({
-    // letterRest: [null], letterA: [null], letterB: [null], letterC: [null], letterD: [null], letterE: [null],
-    // letterF: [null], letterG: [null], letterH: [null], letterI: [null], letterJ: [null], letterK: [null],
-    // letterL: [null], letterM: [null], letterN: [null], letterO: [null], letterP: [null], letterQ: [null],
-    // letterR: [null], letterS: [null], letterT: [null], letterU: [null], letterV: [null], letterW: [null],
-    // letterX: [null], letterY: [null], letterZ: [null],
     filterDateYear: [this.filterDate.getFullYear()],
-    hideOption1Text: ['nu e avatar'], hideOption1Value: [null],
-    hideOption2Text: ['unfriended'], hideOption2Value: [null],
-  })
+    filterDateMonth: [this.filterDate.getMonth()],
+    hideOption1Value: [false],
+    hideOption2Value: [false],
+  });
 
   constructor(
     public databaseService: DatabaseService,
@@ -137,6 +135,12 @@ export class ClientsComponent {
   getFilters() {
     this.databaseService.getData('filters').subscribe((response => {
       console.log(response);
+      // this.filterForm = this.formbuilder.group({
+      //   filterDateYear: [this.filterDate.getFullYear()],
+      //   filterDateMonth: [this.filterDate.getMonth()],
+      //   hideOption1Value: [false],
+      //   hideOption2Value: [false],
+      // })
     }));
   }
 
@@ -144,9 +148,19 @@ export class ClientsComponent {
     // this.filterForm.controls.filterDateYear.setValue = 2022;
   }
 
+  changeFilterMonth(monthNumber: number) {
+    this.filterForm = this.formbuilder.group({
+      filterDateYear: [this.filterForm.controls.filterDateYear.value],
+      filterDateMonth: [monthNumber],
+      hideOption1Value: [this.filterForm.controls.hideOption1Value.value],
+      hideOption2Value: [this.filterForm.controls.hideOption2Value.value],
+    })
+    console.log(this.filterForm.value);
+  }
+
   submitFilterForm() {
     alert("Inca nu merge, lucrez la el");
-    // console.log(this.filterForm.value);
+    console.log(this.filterForm.value);
     // this.databaseService.patchFiltersData('filters', this.filterForm.value)
     // .subscribe(() => {
     //   console.log('filters saved in db');
