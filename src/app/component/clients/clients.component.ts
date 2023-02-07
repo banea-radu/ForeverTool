@@ -33,13 +33,14 @@ export class ClientsComponent {
   })
 
   // lettersArray: string[] = ["#", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
-  selectedDate = new Date();
+  filterDate = new Date();
   filterForm = this.formbuilder.group({
     // letterRest: [null], letterA: [null], letterB: [null], letterC: [null], letterD: [null], letterE: [null],
     // letterF: [null], letterG: [null], letterH: [null], letterI: [null], letterJ: [null], letterK: [null],
     // letterL: [null], letterM: [null], letterN: [null], letterO: [null], letterP: [null], letterQ: [null],
     // letterR: [null], letterS: [null], letterT: [null], letterU: [null], letterV: [null], letterW: [null],
     // letterX: [null], letterY: [null], letterZ: [null],
+    filterDateYear: [this.filterDate.getFullYear()],
     hideOption1Text: ['nu e avatar'], hideOption1Value: [null],
     hideOption2Text: ['unfriended'], hideOption2Value: [null],
   })
@@ -68,9 +69,9 @@ export class ClientsComponent {
   }
 
   searchInput(event, searchString: string) {
-  if (event.key === "Enter") {
-    this.searchClients(searchString);
-  }
+    if (event.key === "Enter") {
+      this.searchClients(searchString);
+    }
   }
 
   searchClients(searchString: string) {
@@ -139,13 +140,17 @@ export class ClientsComponent {
     }));
   }
 
+  changeFilterYear(addOrSubstract: number) {
+    // this.filterForm.controls.filterDateYear.setValue = 2022;
+  }
+
   submitFilterForm() {
     alert("Inca nu merge, lucrez la el");
     // console.log(this.filterForm.value);
-    this.databaseService.patchFiltersData('filters', this.filterForm.value)
-    .subscribe(() => {
-      console.log('filters saved in db');
-    })
+    // this.databaseService.patchFiltersData('filters', this.filterForm.value)
+    // .subscribe(() => {
+    //   console.log('filters saved in db');
+    // })
   }
 
 }
