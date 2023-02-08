@@ -12,7 +12,7 @@
           </button>
         </div>
         <div>
-          <button class="btn" data-bs-toggle="modal" data-bs-target="#filterModal">
+          <button class="btn" data-bs-toggle="modal" data-bs-target="#filterModal" (click)="getFilterData()">
             <i class="fa-solid fa-filter"></i>
             <span> Fara Filtre </span>
           </button>
@@ -182,41 +182,33 @@
         <form 
           (ngSubmit)="submitFilterForm()"
           [formGroup]="filterForm">
-          <!-- List with all letters for filtering -->
-          <!-- <p class="fs-5 text-center"> Doar clientii care incep cu litera: </p>
-          <div class="row row-cols-6">
-            <div *ngFor="let letter of lettersArray; let i=index" class="form-check form-check-inline col">
-              <input class="form-check-input" type="checkbox" id="inlineCheckbox{{i+1}}" formControlName="letter{{letter == '#' ? 'Rest' : letter }}" value="option{{i+1}}">
-              <label class="form-check-label" for="inlineCheckbox{{i+1}}"> {{letter}} </label>
-            </div>
-          </div> -->
           <!-- Select month for filtering -->
           <div class="d-flex justify-content-center p-2">
             <!-- <button type="button" class="btn" (click)="year.innerHTML = (+year.innerHTML - 1).toString()"> -->
-            <button type="button" class="btn" (click)="changeFilterYear(-1)">
+            <!-- <button type="button" class="btn" (click)="changeFilterYear(-1)">
               <i class="fa-sharp fa-solid fa-circle-left"></i>
-            </button>
+            </button> -->
             <!-- <button #year [innerHTML]="filterDate | date: 'y'" class="btn btn-success"></button> -->
-            <input class="btn active" formControlName="filterDateYear" type="text">
+            <input class="btn active max-width-100px" formControlName="filterDateYear" type="number">
             <!-- <button type="button" class="btn" (click)="year.innerHTML = (+year.innerHTML + 1).toString()"> -->
-            <button type="button" class="btn">
+            <!-- <button type="button" class="btn">
               <i class="fa-sharp fa-solid fa-circle-right"></i>
-            </button>
+            </button> -->
           </div>
           <div class="container text-center">
             <div class="row row-cols-3">
-              <button type="button" class="btn btn-light" (click)="changeFilterMonth(1)"> Ianuarie </button>
-              <button type="button" class="btn btn-light active"  (click)="changeFilterMonth(2)"> Februarie </button>
-              <button type="button" class="btn btn-light" (click)="changeFilterMonth(3)"> Martie </button>
-              <button type="button" class="btn btn-light" (click)="changeFilterMonth(4)"> Aprilie </button>
-              <button type="button" class="btn btn-light" (click)="changeFilterMonth(5)"> Mai </button>
-              <button type="button" class="btn btn-light" (click)="changeFilterMonth(6)"> Iunie </button>
-              <button type="button" class="btn btn-light" (click)="changeFilterMonth(7)"> Iulie </button>
-              <button type="button" class="btn btn-light" (click)="changeFilterMonth(8)"> August </button>
-              <button type="button" class="btn btn-light" (click)="changeFilterMonth(9)"> Septembrie </button>
-              <button type="button" class="btn btn-light" (click)="changeFilterMonth(10)"> Octombrie </button>
-              <button type="button" class="btn btn-light" (click)="changeFilterMonth(11)"> Noiembrie </button>
-              <button type="button" class="btn btn-light" (click)="changeFilterMonth(12)"> Decembrie </button>
+              <button type="button" class="btn btn-light" [ngClass]="{ 'active': filterForm.controls.filterDateMonth.value == 1 }" (click)="changeFilterMonth(1)"> Ianuarie </button>
+              <button type="button" class="btn btn-light" [ngClass]="{ 'active': filterForm.controls.filterDateMonth.value == 2 }" (click)="changeFilterMonth(2)"> Februarie </button>
+              <button type="button" class="btn btn-light" [ngClass]="{ 'active': filterForm.controls.filterDateMonth.value == 3 }" (click)="changeFilterMonth(3)"> Martie </button>
+              <button type="button" class="btn btn-light" [ngClass]="{ 'active': filterForm.controls.filterDateMonth.value == 4 }" (click)="changeFilterMonth(4)"> Aprilie </button>
+              <button type="button" class="btn btn-light" [ngClass]="{ 'active': filterForm.controls.filterDateMonth.value == 5 }" (click)="changeFilterMonth(5)"> Mai </button>
+              <button type="button" class="btn btn-light" [ngClass]="{ 'active': filterForm.controls.filterDateMonth.value == 6 }" (click)="changeFilterMonth(6)"> Iunie </button>
+              <button type="button" class="btn btn-light" [ngClass]="{ 'active': filterForm.controls.filterDateMonth.value == 7 }" (click)="changeFilterMonth(7)"> Iulie </button>
+              <button type="button" class="btn btn-light" [ngClass]="{ 'active': filterForm.controls.filterDateMonth.value == 8 }" (click)="changeFilterMonth(8)"> August </button>
+              <button type="button" class="btn btn-light" [ngClass]="{ 'active': filterForm.controls.filterDateMonth.value == 9 }" (click)="changeFilterMonth(9)"> Septembrie </button>
+              <button type="button" class="btn btn-light" [ngClass]="{ 'active': filterForm.controls.filterDateMonth.value == 10 }" (click)="changeFilterMonth(10)"> Octombrie </button>
+              <button type="button" class="btn btn-light" [ngClass]="{ 'active': filterForm.controls.filterDateMonth.value == 11 }" (click)="changeFilterMonth(11)"> Noiembrie </button>
+              <button type="button" class="btn btn-light" [ngClass]="{ 'active': filterForm.controls.filterDateMonth.value == 12 }" (click)="changeFilterMonth(12)"> Decembrie </button>
             </div>
           </div>
           <!-- List with special filters -->

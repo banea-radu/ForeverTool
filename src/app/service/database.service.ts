@@ -130,7 +130,7 @@ export class DatabaseService {
       }));
   }
 
-  patchData(endpoint: string, bodyData: any, id: string){
+  patchClientsData(endpoint: string, bodyData: any, id: string){
     const completeUrl = this.createCompleteUrl(endpoint, id);
     return this.http.patch(completeUrl, bodyData);
   }

@@ -32,8 +32,19 @@ export class ClientsComponent {
     id: ['']
   })
 
-  // lettersArray: string[] = ["#", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
   filterDate = new Date();
+  // januarySelected: boolean = false;
+  // februarySelected: boolean = false;
+  // marchSelected: boolean = false;
+  // aprilSelected: boolean = false;
+  // maySelected: boolean = false;
+  // juneSelected: boolean = false;
+  // januarySelected: boolean = false;
+  // januarySelected: boolean = false;
+  // januarySelected: boolean = false;
+  // januarySelected: boolean = false;
+  // januarySelected: boolean = false;
+  // januarySelected: boolean = false;
   filterHideOption1Text: string = 'nu e avatar';
   filterHideOption2Text: string = 'unfriended';
   filterForm = this.formbuilder.group({
@@ -52,7 +63,7 @@ export class ClientsComponent {
 
   ngOnInit() {
     // this.getClients();
-    this.getFilters();
+    this.getFilterData();
     window.addEventListener('scroll', () => {
       this.windowScrolled = window.pageYOffset !== 0;
     });
@@ -78,7 +89,7 @@ export class ClientsComponent {
       this.getClients();
     } else {
       this.clients$ = this.databaseService.getData('clients') // 'test' or 'clients'
-      .pipe (
+      .pipe(
         map(response => 
           response.filter(item => 
             (item.Abordare + " "
@@ -116,7 +127,7 @@ export class ClientsComponent {
   }
 
   submitEditForm() {
-    this.databaseService.patchData('clients', this.editForm.value, this.itemToChangeAfterConfirmation.id)
+    this.databaseService.patchClientsData('clients', this.editForm.value, this.itemToChangeAfterConfirmation.id)
     .subscribe(() => {
       console.log('item changed in db');
       // change the item also in the html template without refreshing the component
@@ -132,7 +143,7 @@ export class ClientsComponent {
     })
   }
 
-  getFilters() {
+  getFilterData() {
     this.databaseService.getData('filters').subscribe((response => {
       console.log(response);
       // this.filterForm = this.formbuilder.group({
@@ -155,16 +166,15 @@ export class ClientsComponent {
       hideOption1Value: [this.filterForm.controls.hideOption1Value.value],
       hideOption2Value: [this.filterForm.controls.hideOption2Value.value],
     })
-    console.log(this.filterForm.value);
   }
 
   submitFilterForm() {
-    alert("Inca nu merge, lucrez la el");
-    console.log(this.filterForm.value);
-    // this.databaseService.patchFiltersData('filters', this.filterForm.value)
-    // .subscribe(() => {
-    //   console.log('filters saved in db');
-    // })
+    // alert("Inca nu merge, lucrez la el");
+    // console.log(this.filterForm.value);
+    this.databaseService.patchFiltersData('filters', this.filterForm.value)
+    .subscribe(() => {
+      console.log('filters saved in db');
+    })
   }
 
 }

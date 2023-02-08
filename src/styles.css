@@ -44,3 +44,19 @@ body {
 .section-50vh {
 	min-height: 50vh;
 }
+
+.width-80px {
+  width: 80px;
+}
+
+  .max-width-100px {
+    max-width: 100px;
+  }
+
+  .max-width-300px {
+    max-width: 300px;
+  }
+
+.height-80px {
+  height: 80px;
+}
