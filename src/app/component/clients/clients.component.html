@@ -6,13 +6,13 @@
       </h5>
       <div class="d-flex flex-column w-100 justify-content-center align-items-center">
         <div class="input-box d-flex w-75 max-width-300px">
-          <input class="form-control" type="text" #searchString placeholder="cauta.." (keyup)="searchInput($event, searchString.value)">
+          <input class="form-control" type="text" #searchString placeholder="cauta.." (keyup)="searchInputEventListener($event, searchString.value)">
           <button class="btn" (click)="searchClients(searchString.value)">
             <i class="fa fa-search"></i>
           </button>
         </div>
         <div>
-          <button class="btn" data-bs-toggle="modal" data-bs-target="#filterModal" (click)="getFilterData()">
+          <button class="btn" data-bs-toggle="modal" data-bs-target="#filtersModal" (click)="getFiltersData()">
             <i class="fa-solid fa-filter"></i>
             <span> Fara Filtre </span>
           </button>
@@ -31,7 +31,7 @@
                     <th class="text-end width-80px"> Nr. </th>
                     <td class="text-start">
                       {{ i+1 }}
-                      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal" (click)="saveIdToChangeAfterConfirmation(client)">
+                      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal" (click)="saveItemToChangeAfterConfirmation(client)">
                         <i class="fa-solid fa-pencil"></i>
                       </button>
                     </td>
@@ -170,7 +170,7 @@
   </div>
 </div>
 <!-- Modal and Form for filters -->
-<div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"> <!-- (click)="getFilters()" -->
+<div class="modal fade" id="filtersModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
@@ -180,8 +180,8 @@
       <div class="modal-body">
         <h3 class="text-center"> Filtreaza rezultatele </h3>
         <form 
-          (ngSubmit)="submitFilterForm()"
-          [formGroup]="filterForm">
+          (ngSubmit)="submitFiltersForm()"
+          [formGroup]="filtersForm">
           <!-- Select month for filtering -->
           <div class="d-flex justify-content-center p-2">
             <!-- <button type="button" class="btn" (click)="year.innerHTML = (+year.innerHTML - 1).toString()"> -->
@@ -189,7 +189,7 @@
               <i class="fa-sharp fa-solid fa-circle-left"></i>
             </button> -->
             <!-- <button #year [innerHTML]="filterDate | date: 'y'" class="btn btn-success"></button> -->
-            <input class="btn active max-width-100px" formControlName="filterDateYear" type="number">
+            <input class="btn active max-width-100px" formControlName="year" type="number">
             <!-- <button type="button" class="btn" (click)="year.innerHTML = (+year.innerHTML + 1).toString()"> -->
             <!-- <button type="button" class="btn">
               <i class="fa-sharp fa-solid fa-circle-right"></i>
@@ -197,40 +197,39 @@
           </div>
           <div class="container text-center">
             <div class="row row-cols-3">
-              <button type="button" class="btn btn-light" [ngClass]="{ 'active': filterForm.controls.filterDateMonth.value == 1 }" (click)="changeFilterMonth(1)"> Ianuarie </button>
-              <button type="button" class="btn btn-light" [ngClass]="{ 'active': filterForm.controls.filterDateMonth.value == 2 }" (click)="changeFilterMonth(2)"> Februarie </button>
-              <button type="button" class="btn btn-light" [ngClass]="{ 'active': filterForm.controls.filterDateMonth.value == 3 }" (click)="changeFilterMonth(3)"> Martie </button>
-              <button type="button" class="btn btn-light" [ngClass]="{ 'active': filterForm.controls.filterDateMonth.value == 4 }" (click)="changeFilterMonth(4)"> Aprilie </button>
-              <button type="button" class="btn btn-light" [ngClass]="{ 'active': filterForm.controls.filterDateMonth.value == 5 }" (click)="changeFilterMonth(5)"> Mai </button>
-              <button type="button" class="btn btn-light" [ngClass]="{ 'active': filterForm.controls.filterDateMonth.value == 6 }" (click)="changeFilterMonth(6)"> Iunie </button>
-              <button type="button" class="btn btn-light" [ngClass]="{ 'active': filterForm.controls.filterDateMonth.value == 7 }" (click)="changeFilterMonth(7)"> Iulie </button>
-              <button type="button" class="btn btn-light" [ngClass]="{ 'active': filterForm.controls.filterDateMonth.value == 8 }" (click)="changeFilterMonth(8)"> August </button>
-              <button type="button" class="btn btn-light" [ngClass]="{ 'active': filterForm.controls.filterDateMonth.value == 9 }" (click)="changeFilterMonth(9)"> Septembrie </button>
-              <button type="button" class="btn btn-light" [ngClass]="{ 'active': filterForm.controls.filterDateMonth.value == 10 }" (click)="changeFilterMonth(10)"> Octombrie </button>
-              <button type="button" class="btn btn-light" [ngClass]="{ 'active': filterForm.controls.filterDateMonth.value == 11 }" (click)="changeFilterMonth(11)"> Noiembrie </button>
-              <button type="button" class="btn btn-light" [ngClass]="{ 'active': filterForm.controls.filterDateMonth.value == 12 }" (click)="changeFilterMonth(12)"> Decembrie </button>
+              <button type="button" class="btn btn-light" [ngClass]="{ 'active': filtersForm.controls.month.value == 1 }" (click)="changeFiltersMonth(1)"> Ianuarie </button>
+              <button type="button" class="btn btn-light" [ngClass]="{ 'active': filtersForm.controls.month.value == 2 }" (click)="changeFiltersMonth(2)"> Februarie </button>
+              <button type="button" class="btn btn-light" [ngClass]="{ 'active': filtersForm.controls.month.value == 3 }" (click)="changeFiltersMonth(3)"> Martie </button>
+              <button type="button" class="btn btn-light" [ngClass]="{ 'active': filtersForm.controls.month.value == 4 }" (click)="changeFiltersMonth(4)"> Aprilie </button>
+              <button type="button" class="btn btn-light" [ngClass]="{ 'active': filtersForm.controls.month.value == 5 }" (click)="changeFiltersMonth(5)"> Mai </button>
+              <button type="button" class="btn btn-light" [ngClass]="{ 'active': filtersForm.controls.month.value == 6 }" (click)="changeFiltersMonth(6)"> Iunie </button>
+              <button type="button" class="btn btn-light" [ngClass]="{ 'active': filtersForm.controls.month.value == 7 }" (click)="changeFiltersMonth(7)"> Iulie </button>
+              <button type="button" class="btn btn-light" [ngClass]="{ 'active': filtersForm.controls.month.value == 8 }" (click)="changeFiltersMonth(8)"> August </button>
+              <button type="button" class="btn btn-light" [ngClass]="{ 'active': filtersForm.controls.month.value == 9 }" (click)="changeFiltersMonth(9)"> Septembrie </button>
+              <button type="button" class="btn btn-light" [ngClass]="{ 'active': filtersForm.controls.month.value == 10 }" (click)="changeFiltersMonth(10)"> Octombrie </button>
+              <button type="button" class="btn btn-light" [ngClass]="{ 'active': filtersForm.controls.month.value == 11 }" (click)="changeFiltersMonth(11)"> Noiembrie </button>
+              <button type="button" class="btn btn-light" [ngClass]="{ 'active': filtersForm.controls.month.value == 12 }" (click)="changeFiltersMonth(12)"> Decembrie </button>
             </div>
           </div>
           <!-- List with special filters -->
-          <p class="fs-5 pt-2 text-center"> Filtre speciale, ascunde clientii care contin textul: </p>
-          <div>
-            <div class="form-check form-switch">
-              <input class="form-check-input" formControlName="hideOption1Value" type="checkbox" role="switch" id="flexSwitchCheckDefault1">
-              <label class="form-check-label" for="flexSwitchCheckDefault1">
-                <span> {{ filterHideOption1Text }} </span>
-              </label>
-            </div>
-            <div class="form-check form-switch">
-              <input class="form-check-input" formControlName="hideOption2Value" type="checkbox" role="switch" id="flexSwitchCheckDefault2">
-              <label class="form-check-label" for="flexSwitchCheckDefault2">
-                <span> {{ filterHideOption2Text }} </span>
-              </label>
-            </div>
+          <p class="fs-6 fw-semibold pt-3 text-center"> Filtre speciale, ascunde clientii care contin textul: </p>
+          <div class="form-check form-switch">
+            <input class="form-check-input" formControlName="hideOption1Value" type="checkbox" role="switch" id="flexSwitchCheckDefault1">
+            <label class="form-check-label" for="flexSwitchCheckDefault1">
+              <span> {{ filtersHideOption1Text }} </span>
+            </label>
+          </div>
+          <div class="form-check form-switch">
+            <input class="form-check-input" formControlName="hideOption2Value" type="checkbox" role="switch" id="flexSwitchCheckDefault2">
+            <label class="form-check-label" for="flexSwitchCheckDefault2">
+              <span> {{ filtersHideOption2Text }} </span>
+            </label>
           </div>
           <!-- Modal footer -->
-          <div class="modal-footer border-top-0">
-            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal"> Save </button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> Cancel </button>
+          <div class="modal-footer border-top-0 d-flex mb-3">
+            <button type="button" class="btn btn-outline-dark me-auto p-2 active"> Fara Filtre </button>
+            <button type="submit" class="btn btn-primary p-2" data-bs-dismiss="modal"> Save </button>
+            <button type="button" class="btn btn-secondary p-2" data-bs-dismiss="modal"> Cancel </button>
           </div>
         </form>
       </div>

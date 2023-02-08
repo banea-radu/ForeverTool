@@ -13,11 +13,11 @@
 
 ## ToDo's:
   - filter button:
-    - filter on letters A, B, C...
+    - filter by month and year
     - special filters: nu e avatar, unfriended
   - pagination
   - update current database
-  - import downloaded facebook html file
+  - import downloaded html file
   - convert to pwa
 
   ## ToDone:

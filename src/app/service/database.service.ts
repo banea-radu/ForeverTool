@@ -117,8 +117,8 @@ export class DatabaseService {
     return completeUrl;
   }
 
-  getData(endpoint: string){
-    const completeUrl = this.createCompleteUrl(endpoint);
+  getClients(){
+    const completeUrl = this.createCompleteUrl('clients');
     return this.http.get(completeUrl)
       // create new objects with key as id property
       .pipe(map((response: any) => {
@@ -130,24 +130,19 @@ export class DatabaseService {
       }));
   }
 
-  patchClientsData(endpoint: string, bodyData: any, id: string){
-    const completeUrl = this.createCompleteUrl(endpoint, id);
+  patchClient(bodyData: any, id: string){
+    const completeUrl = this.createCompleteUrl('clients', id);
     return this.http.patch(completeUrl, bodyData);
   }
 
-  patchFiltersData(endpoint: string, bodyData: any){
-    const completeUrl = this.createCompleteUrl(endpoint);
-    return this.http.patch(completeUrl, bodyData);
+  getFilters(){
+    const completeUrl = this.createCompleteUrl('filters');
+    return this.http.get(completeUrl);
   }
 
-  // postData(endpoint: string, bodyData: any){
-  //   const completeUrl = this.createCompleteUrl(endpoint);
-  //   return this.http.post(completeUrl, bodyData);
-  // }
-
-  // deleteData(endpoint: string, id: string){
-  //   const completeUrl = this.createCompleteUrl(endpoint, id);
-  //   return this.http.delete(completeUrl);
-  // }
+  patchFilters(bodyData: any){
+    const completeUrl = this.createCompleteUrl('filters');
+    return this.http.patch(completeUrl, bodyData);
+  }
  
 }

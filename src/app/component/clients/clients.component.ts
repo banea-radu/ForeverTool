@@ -32,24 +32,12 @@ export class ClientsComponent {
     id: ['']
   })
 
-  filterDate = new Date();
-  // januarySelected: boolean = false;
-  // februarySelected: boolean = false;
-  // marchSelected: boolean = false;
-  // aprilSelected: boolean = false;
-  // maySelected: boolean = false;
-  // juneSelected: boolean = false;
-  // januarySelected: boolean = false;
-  // januarySelected: boolean = false;
-  // januarySelected: boolean = false;
-  // januarySelected: boolean = false;
-  // januarySelected: boolean = false;
-  // januarySelected: boolean = false;
-  filterHideOption1Text: string = 'nu e avatar';
-  filterHideOption2Text: string = 'unfriended';
-  filterForm = this.formbuilder.group({
-    filterDateYear: [this.filterDate.getFullYear()],
-    filterDateMonth: [this.filterDate.getMonth()],
+  currentDate = new Date();
+  filtersHideOption1Text: string = 'nu e avatar';
+  filtersHideOption2Text: string = 'unfriended';
+  filtersForm = this.formbuilder.group({
+    year: [this.currentDate.getFullYear()],
+    month: [this.currentDate.getMonth()],
     hideOption1Value: [false],
     hideOption2Value: [false],
   });
@@ -63,7 +51,8 @@ export class ClientsComponent {
 
   ngOnInit() {
     // this.getClients();
-    this.getFilterData();
+    this.getFiltersData();
+    // add event listener for showing/hiding the up arrow button
     window.addEventListener('scroll', () => {
       this.windowScrolled = window.pageYOffset !== 0;
     });
@@ -74,10 +63,10 @@ export class ClientsComponent {
   }
 
   getClients() {
-    this.clients$ = this.databaseService.getData('clients'); // 'test' or 'clients'
+    this.clients$ = this.databaseService.getClients();
   }
 
-  searchInput(event, searchString: string) {
+  searchInputEventListener(event, searchString: string) {
     if (event.key === "Enter") {
       this.searchClients(searchString);
     }
@@ -88,7 +77,7 @@ export class ClientsComponent {
       // then get all clients
       this.getClients();
     } else {
-      this.clients$ = this.databaseService.getData('clients') // 'test' or 'clients'
+      this.clients$ = this.databaseService.getClients()
       .pipe(
         map(response => 
           response.filter(item => 
@@ -109,7 +98,7 @@ export class ClientsComponent {
     }
   }
 
-  saveIdToChangeAfterConfirmation(item: any) {
+  saveItemToChangeAfterConfirmation(item: any) {
     this.itemToChangeAfterConfirmation = item;
     this.editForm = this.formbuilder.group({
       Abordare: [item.Abordare],
@@ -127,7 +116,7 @@ export class ClientsComponent {
   }
 
   submitEditForm() {
-    this.databaseService.patchClientsData('clients', this.editForm.value, this.itemToChangeAfterConfirmation.id)
+    this.databaseService.patchClient(this.editForm.value, this.itemToChangeAfterConfirmation.id)
     .subscribe(() => {
       console.log('item changed in db');
       // change the item also in the html template without refreshing the component
@@ -143,35 +132,34 @@ export class ClientsComponent {
     })
   }
 
-  getFilterData() {
-    this.databaseService.getData('filters').subscribe((response => {
-      console.log(response);
-      // this.filterForm = this.formbuilder.group({
-      //   filterDateYear: [this.filterDate.getFullYear()],
-      //   filterDateMonth: [this.filterDate.getMonth()],
-      //   hideOption1Value: [false],
-      //   hideOption2Value: [false],
-      // })
-    }));
+  getFiltersData() {
+    this.databaseService.getFilters().subscribe((response: any) => {
+      this.filtersForm = this.formbuilder.group({
+        year: [response.year],
+        month: [response.month],
+        hideOption1Value: [response.hideOption1Value],
+        hideOption2Value: [response.hideOption2Value],
+      })
+    });
   }
 
-  changeFilterYear(addOrSubstract: number) {
-    // this.filterForm.controls.filterDateYear.setValue = 2022;
-  }
+  // changeFiltersYear(addOrSubstract: number) {
+  //   // this.filterForm.controls.filterDateYear.setValue = 2022;
+  // }
 
-  changeFilterMonth(monthNumber: number) {
-    this.filterForm = this.formbuilder.group({
-      filterDateYear: [this.filterForm.controls.filterDateYear.value],
-      filterDateMonth: [monthNumber],
-      hideOption1Value: [this.filterForm.controls.hideOption1Value.value],
-      hideOption2Value: [this.filterForm.controls.hideOption2Value.value],
+  changeFiltersMonth(monthNumber: number) {
+    this.filtersForm = this.formbuilder.group({
+      year: [this.filtersForm.controls.year.value],
+      month: [monthNumber],
+      hideOption1Value: [this.filtersForm.controls.hideOption1Value.value],
+      hideOption2Value: [this.filtersForm.controls.hideOption2Value.value],
     })
   }
 
-  submitFilterForm() {
+  submitFiltersForm() {
     // alert("Inca nu merge, lucrez la el");
     // console.log(this.filterForm.value);
-    this.databaseService.patchFiltersData('filters', this.filterForm.value)
+    this.databaseService.patchFilters(this.filtersForm.value)
     .subscribe(() => {
       console.log('filters saved in db');
     })
