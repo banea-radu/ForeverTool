@@ -143,9 +143,21 @@ export class ClientsComponent {
     });
   }
 
-  // changeFiltersYear(addOrSubstract: number) {
-  //   // this.filterForm.controls.filterDateYear.setValue = 2022;
-  // }
+  changeFiltersYear(addOrSubstract: number) {
+    // check if input is number
+    let year = this.filtersForm.controls.year.value;
+    if (+year) { // unary plus operator returns NaN if year is not a number
+      year += addOrSubstract;
+    } else {
+      year = this.currentDate.getFullYear() ;
+    }
+    this.filtersForm = this.formbuilder.group({
+      year: [this.filtersForm.controls.year.value + addOrSubstract],
+      month: [this.filtersForm.controls.month.value],
+      hideOption1Value: [this.filtersForm.controls.hideOption1Value.value],
+      hideOption2Value: [this.filtersForm.controls.hideOption2Value.value],
+    })
+  }
 
   changeFiltersMonth(monthNumber: number) {
     this.filtersForm = this.formbuilder.group({
@@ -153,6 +165,15 @@ export class ClientsComponent {
       month: [monthNumber],
       hideOption1Value: [this.filtersForm.controls.hideOption1Value.value],
       hideOption2Value: [this.filtersForm.controls.hideOption2Value.value],
+    })
+  }
+
+  changeFiltersNoFilters() {
+    this.filtersForm = this.formbuilder.group({
+      year: [],
+      month: [],
+      hideOption1Value: [],
+      hideOption2Value: [],
     })
   }
 
