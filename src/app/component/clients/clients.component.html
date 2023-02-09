@@ -184,11 +184,11 @@
           [formGroup]="filtersForm">
           <!-- Select month for filtering -->
           <div class="d-flex justify-content-center p-2">
-            <button type="button" class="btn" (click)="changeFiltersYear(-1)">
+            <button type="button" class="btn" (click)="changeFiltersYearMinus()">
               <i class="fa-solid fa-minus"></i>
             </button>
             <input class="btn active width-80px" formControlName="year" type="number">
-            <button type="button" class="btn" (click)="changeFiltersYear(+1)">
+            <button type="button" class="btn" (click)="changeFiltersYearPlus()">
               <i class="fa-solid fa-plus"></i>
             </button>
           </div>

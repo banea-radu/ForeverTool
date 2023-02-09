@@ -143,16 +143,51 @@ export class ClientsComponent {
     });
   }
 
-  changeFiltersYear(addOrSubstract: number) {
+  changeFiltersYearMinus() {
+    let inputYear = this.filtersForm.controls.year.value;
+    let startingYear = 2010;
+    let currentYear = this.currentDate.getFullYear();
     // check if input is number
-    let year = this.filtersForm.controls.year.value;
-    if (+year) { // unary plus operator returns NaN if year is not a number
-      year += addOrSubstract;
+    if (Number.isInteger(inputYear)) {
+      if (inputYear > startingYear) {
+        if (inputYear <= currentYear) {
+          inputYear -= 1;
+        } else {
+          inputYear = currentYear;
+        }
+      } else {
+        inputYear = startingYear;
+      }
     } else {
-      year = this.currentDate.getFullYear() ;
+      inputYear = startingYear;
     }
+    this.changeFiltersYear(inputYear);
+  }
+
+  changeFiltersYearPlus() {
+    let inputYear = this.filtersForm.controls.year.value;
+    let startingYear = 2010;
+    let currentYear = this.currentDate.getFullYear();
+    // check if input is number
+    if (Number.isInteger(inputYear)) {
+      if (inputYear >= startingYear) {
+        if (inputYear < currentYear) {
+          inputYear += 1;
+        } else {
+          inputYear = currentYear;
+        }
+      } else {
+        inputYear = startingYear;
+      }
+    } else {
+      inputYear = currentYear;
+    }
+    this.changeFiltersYear(inputYear);
+  }
+
+  changeFiltersYear(inputYear: number) {
     this.filtersForm = this.formbuilder.group({
-      year: [this.filtersForm.controls.year.value + addOrSubstract],
+      year: [inputYear],
       month: [this.filtersForm.controls.month.value],
       hideOption1Value: [this.filtersForm.controls.hideOption1Value.value],
       hideOption2Value: [this.filtersForm.controls.hideOption2Value.value],
@@ -170,10 +205,10 @@ export class ClientsComponent {
 
   changeFiltersNoFilters() {
     this.filtersForm = this.formbuilder.group({
-      year: [],
-      month: [],
-      hideOption1Value: [],
-      hideOption2Value: [],
+      year: [0],
+      month: [0],
+      hideOption1Value: [false],
+      hideOption2Value: [false],
     })
   }
 
