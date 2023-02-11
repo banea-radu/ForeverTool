@@ -53,11 +53,10 @@ export class ClientsComponent {
   ) {}
 
   ngOnInit() {
-    // this.getClients();
     this.getFiltersData();
     // add event listener for showing/hiding the up arrow button
     window.addEventListener('scroll', () => {
-      this.windowScrolled = window.pageYOffset >= 30;
+      this.windowScrolled = window.pageYOffset >= 300;
     });
   }
 
@@ -81,10 +80,30 @@ export class ClientsComponent {
       this.getClients();
     } else {
       this.clients$ = this.databaseService.getClients()
-      .pipe(
-        map(response => 
-          response.filter(item => 
-            (item.Abordare + " "
+        .pipe(
+          map(response => 
+            response.filter((item) => 
+              // let itemFullText = (item.Abordare + " "
+              // + item.Cunosc + " "
+              // + item.Detalii + " "
+              // + item.FollowUp + " "
+              // + item.Id + " "
+              // + item.Invite + " "
+              // + item.Kids + " "
+              // + item.Locatie + " "
+              // + item.NextStep + " "
+              // + item.Nume).toUpperCase();
+              // if filter for 'hideOption1Value' is true, then hide item if it contains the string from 'filtersHideOption1Text'
+              // let searchStringhideOption1Value: string = 
+              //   (this.filtersForm.controls.hideOption1Value.value ? this.filtersHideOption1Text : '');
+              // if (this.filtersForm.controls.hideOption1Value.value) {searchStringhideOption1Value = this.filtersHideOption1Text};
+              // if filter for 'hideOption2Value' is true, then hide item if it contains the string from 'filtersHideOption2Text'
+              // let searchStringhideOption2Value: string = 
+              //   (this.filtersForm.controls.hideOption2Value.value ? this.filtersHideOption2Text : '');
+              // if (this.filtersForm.controls.hideOption2Value.value) {searchStringhideOption2Value = this.filtersHideOption2Text};
+
+              // return only the items that contain the search string from the input
+              (item.Abordare + " "
               + item.Cunosc + " "
               + item.Detalii + " "
               + item.FollowUp + " "
@@ -93,11 +112,13 @@ export class ClientsComponent {
               + item.Kids + " "
               + item.Locatie + " "
               + item.NextStep + " "
-              + item.Nume).toUpperCase()
-                .indexOf(searchString.toUpperCase()) > -1
+              + item.Nume).toUpperCase().indexOf(searchString.toUpperCase()) > -1
+              // &&
+              // return only the items that don't contain the search string from the first checkbox option in the Filters Modal Form
+              // (itemFullText.indexOf(searchStringhideOption2Value.toUpperCase()) == -1)
+            )
           )
         )
-      )
     }
   }
 
@@ -144,9 +165,9 @@ export class ClientsComponent {
         hideOption2Value: [response.hideOption2Value],
       })
       this.changeActiveFiltersText();
+      // get the filter text from the one created in the Filters Modal Form
+      this.activeFiltersTextFromDb = this.activeFiltersText;
     });
-    // get the filter text from the one created in the Filters Modal Form
-    this.activeFiltersTextFromDb = this.activeFiltersText;
   }
 
   changeFiltersYearMinus() {
@@ -311,9 +332,11 @@ export class ClientsComponent {
     // alert("Inca nu merge, lucrez la el");
     // console.log(this.filterForm.value);
     this.databaseService.patchFilters(this.filtersForm.value)
-    .subscribe(() => {
-      console.log('filters saved in db');
-    })
+      .subscribe(() => {
+        console.log('filters saved in db');
+        // get the filter text from the one created in the Filters Modal Form
+        this.activeFiltersTextFromDb = this.activeFiltersText;
+      })
   }
 
 }
