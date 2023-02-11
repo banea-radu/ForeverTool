@@ -19,6 +19,7 @@ export class ClientsComponent {
   windowScrolled: boolean = false;
   startingYear: number = 2010; // starting year that contains data in database
   activeFiltersText: string = '';
+  activeFiltersTextFromDb: string = '';
 
   editForm = this.formbuilder.group({
     Abordare: [''],
@@ -144,6 +145,8 @@ export class ClientsComponent {
       })
       this.changeActiveFiltersText();
     });
+    // get the filter text from the one created in the Filters Modal Form
+    this.activeFiltersTextFromDb = this.activeFiltersText;
   }
 
   changeFiltersYearMinus() {
@@ -221,7 +224,7 @@ export class ClientsComponent {
     this.changeActiveFiltersText();
   }
 
-  // change text of current filter selection from the Filters Modal's footer
+  // change text of current filter selections from the Filters Modal's footer
   changeActiveFiltersText() {
     let month: string = '';
     if (this.filtersForm.controls.month.value) {
@@ -272,12 +275,12 @@ export class ClientsComponent {
     let filtreSpecialeCount: number = 0;
     this.filtersHideOption1Text;
     if (this.filtersForm.controls.hideOption1Value.value) {
-      filtreSpeciale = ' ; Fara text: ';
+      filtreSpeciale = 'Fara text: ';
       filtreSpeciale1 = this.filtersHideOption1Text;
       filtreSpecialeCount += 1;
     }
     if (this.filtersForm.controls.hideOption2Value.value) {
-      filtreSpeciale = ' ; Fara text: ';
+      filtreSpeciale = 'Fara text: ';
       filtreSpeciale2 = this.filtersHideOption2Text;
       filtreSpecialeCount += 1;
     }
@@ -289,11 +292,18 @@ export class ClientsComponent {
       filtreSpeciale = filtreSpeciale + filtreSpeciale1 + filtreSpeciale2;
     }
 
-    // concatenate complete text using the calculated variables
-    this.activeFiltersText = month + ' ' + year + filtreSpeciale;
-    // if the output string is equal to an empty space that i added just before, than output this:
-    if (this.activeFiltersText == ' ') {
-      this.activeFiltersText = 'Fara Filtre';
+    // concatenate complete text using the calculated variables. If all variables are '' (null/empty), the output string will be ' null ;'
+    this.activeFiltersText = month + ' ' + year + ' ; ' + filtreSpeciale;
+    if (this.activeFiltersText.indexOf(' null ; ') > -1) {
+      if (filtreSpeciale) {
+        this.activeFiltersText = filtreSpeciale;
+      } else {
+        this.activeFiltersText = 'Fara Filtre';
+      }
+    } else {
+      if (!filtreSpeciale) {
+        this.activeFiltersText = month + ' ' + year;
+      }
     }
   }
 
