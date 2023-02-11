@@ -16,9 +16,11 @@
     - filter by month and year
     - special filters: nu e avatar, unfriended
   - pagination
-  - update current database
-  - import downloaded html file
+  - update current json database
+  - import downloaded html/json file
   - convert to pwa
+  - nice to have's:
+    - save filter data to localstorage
 
   ## ToDone:
   - search when pressing enter in search input

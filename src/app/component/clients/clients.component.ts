@@ -16,7 +16,9 @@ export class ClientsComponent {
   clients$: Observable<any[]>;
   filters$: any;
   itemToChangeAfterConfirmation: any = {}; // replace any with model
-  windowScrolled = false;
+  windowScrolled: boolean = false;
+  startingYear: number = 2010; // starting year that contains data in database
+  activeFiltersText: string = '';
 
   editForm = this.formbuilder.group({
     Abordare: [''],
@@ -54,7 +56,7 @@ export class ClientsComponent {
     this.getFiltersData();
     // add event listener for showing/hiding the up arrow button
     window.addEventListener('scroll', () => {
-      this.windowScrolled = window.pageYOffset !== 0;
+      this.windowScrolled = window.pageYOffset >= 30;
     });
   }
 
@@ -140,44 +142,43 @@ export class ClientsComponent {
         hideOption1Value: [response.hideOption1Value],
         hideOption2Value: [response.hideOption2Value],
       })
+      this.changeActiveFiltersText();
     });
   }
 
   changeFiltersYearMinus() {
     let inputYear = this.filtersForm.controls.year.value;
-    let startingYear = 2010;
     let currentYear = this.currentDate.getFullYear();
     // check if input is number
     if (Number.isInteger(inputYear)) {
-      if (inputYear > startingYear) {
+      if (inputYear > this.startingYear) {
         if (inputYear <= currentYear) {
           inputYear -= 1;
         } else {
           inputYear = currentYear;
         }
       } else {
-        inputYear = startingYear;
+        inputYear = this.startingYear;
       }
     } else {
-      inputYear = startingYear;
+      inputYear = this.startingYear;
     }
     this.changeFiltersYear(inputYear);
   }
 
   changeFiltersYearPlus() {
     let inputYear = this.filtersForm.controls.year.value;
-    let startingYear = 2010;
     let currentYear = this.currentDate.getFullYear();
     // check if input is number
     if (Number.isInteger(inputYear)) {
-      if (inputYear >= startingYear) {
+      if (inputYear >= this.startingYear) {
         if (inputYear < currentYear) {
           inputYear += 1;
         } else {
           inputYear = currentYear;
         }
       } else {
-        inputYear = startingYear;
+        inputYear = this.startingYear;
       }
     } else {
       inputYear = currentYear;
@@ -192,24 +193,36 @@ export class ClientsComponent {
       hideOption1Value: [this.filtersForm.controls.hideOption1Value.value],
       hideOption2Value: [this.filtersForm.controls.hideOption2Value.value],
     })
+    this.changeActiveFiltersText();
   }
 
   changeFiltersMonth(monthNumber: number) {
+    let inputYear = this.filtersForm.controls.year.value;
+    let currentYear = this.currentDate.getFullYear();
+    if (inputYear < this.startingYear || inputYear > this.startingYear) {
+      inputYear = currentYear;
+    }
     this.filtersForm = this.formbuilder.group({
-      year: [this.filtersForm.controls.year.value],
+      year: [inputYear],
       month: [monthNumber],
       hideOption1Value: [this.filtersForm.controls.hideOption1Value.value],
       hideOption2Value: [this.filtersForm.controls.hideOption2Value.value],
     })
+    this.changeActiveFiltersText();
   }
 
   changeFiltersNoFilters() {
     this.filtersForm = this.formbuilder.group({
-      year: [0],
-      month: [0],
+      year: [null],
+      month: [null],
       hideOption1Value: [false],
       hideOption2Value: [false],
     })
+    this.changeActiveFiltersText();
+  }
+
+  changeActiveFiltersText() {
+    this.activeFiltersText = this.filtersForm.controls.month.value + " " + this.filtersForm.controls.year.value + " ; Fara text: " + this.filtersHideOption1Text + ", " + this.filtersHideOption2Text;
   }
 
   submitFiltersForm() {
