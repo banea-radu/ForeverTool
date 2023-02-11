@@ -221,8 +221,80 @@ export class ClientsComponent {
     this.changeActiveFiltersText();
   }
 
+  // change text of current filter selection from the Filters Modal's footer
   changeActiveFiltersText() {
-    this.activeFiltersText = this.filtersForm.controls.month.value + " " + this.filtersForm.controls.year.value + " ; Fara text: " + this.filtersHideOption1Text + ", " + this.filtersHideOption2Text;
+    let month: string = '';
+    if (this.filtersForm.controls.month.value) {
+      switch (this.filtersForm.controls.month.value) {
+        case 1:
+          month = 'Ianuarie';
+          break;
+        case 2:
+          month = 'Februarie';
+          break;
+        case 3:
+          month = 'Martie';
+          break;
+        case 4:
+          month = 'Aprilie';
+          break;
+        case 5:
+          month = 'Mai';
+          break;
+        case 6:
+          month = 'Iunie';
+          break;
+        case 7:
+          month = 'Iulie';
+          break;
+        case 8:
+          month = 'August';
+          break;
+        case 9:
+          month = 'Septembrie';
+          break;
+        case 10:
+          month = 'Octombrie';
+          break;
+        case 11:
+          month = 'Noiembrie';
+          break;
+        case 12:
+          month = 'Decembrie';
+          break;
+      }
+    }
+    const year = this.filtersForm.controls.year.value;
+
+    let filtreSpeciale: string = '';
+    let filtreSpeciale1: string = '';
+    let filtreSpeciale2: string = '';
+    let filtreSpecialeCount: number = 0;
+    this.filtersHideOption1Text;
+    if (this.filtersForm.controls.hideOption1Value.value) {
+      filtreSpeciale = ' ; Fara text: ';
+      filtreSpeciale1 = this.filtersHideOption1Text;
+      filtreSpecialeCount += 1;
+    }
+    if (this.filtersForm.controls.hideOption2Value.value) {
+      filtreSpeciale = ' ; Fara text: ';
+      filtreSpeciale2 = this.filtersHideOption2Text;
+      filtreSpecialeCount += 1;
+    }
+    if (filtreSpecialeCount == 2) {
+      // if there are 2 special filters selected then add a comma and space as a separator
+      filtreSpeciale = filtreSpeciale + filtreSpeciale1 + ", " + filtreSpeciale2;
+    } else {
+      // if not then just concatenate the variables (one of them will be empty so it does not affect the string output)
+      filtreSpeciale = filtreSpeciale + filtreSpeciale1 + filtreSpeciale2;
+    }
+
+    // concatenate complete text using the calculated variables
+    this.activeFiltersText = month + ' ' + year + filtreSpeciale;
+    // if the output string is equal to an empty space that i added just before, than output this:
+    if (this.activeFiltersText == ' ') {
+      this.activeFiltersText = 'Fara Filtre';
+    }
   }
 
   submitFiltersForm() {

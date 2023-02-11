@@ -211,13 +211,13 @@
           <!-- List with special filters -->
           <p class="fs-6 fw-semibold pt-3 text-center"> Filtre speciale, ascunde clientii care contin textul: </p>
           <div class="form-check form-switch">
-            <input class="form-check-input" formControlName="hideOption1Value" type="checkbox" role="switch" id="flexSwitchCheckDefault1">
+            <input class="form-check-input" formControlName="hideOption1Value" type="checkbox" role="switch" id="flexSwitchCheckDefault1" (change)="changeActiveFiltersText()">
             <label class="form-check-label" for="flexSwitchCheckDefault1">
               <span> {{ filtersHideOption1Text }} </span>
             </label>
           </div>
           <div class="form-check form-switch">
-            <input class="form-check-input" formControlName="hideOption2Value" type="checkbox" role="switch" id="flexSwitchCheckDefault2">
+            <input class="form-check-input" formControlName="hideOption2Value" type="checkbox" role="switch" id="flexSwitchCheckDefault2" (change)="changeActiveFiltersText()">
             <label class="form-check-label" for="flexSwitchCheckDefault2">
               <span> {{ filtersHideOption2Text }} </span>
             </label>
@@ -227,12 +227,12 @@
             Sterge Filtre
           </button>
           <!-- Modal footer -->
-          <div class="modal-footer d-flex">
-            <button type="button" class="btn">
+          <div class="modal-footer d-flex flex-column">
+            <button type="button" class="btn mx-0 w-100">
               <i class="fa-solid fa-filter"></i>
               <span> {{ activeFiltersText }} </span>
             </button>
-            <div class="modal-footer d-flex">
+            <div class="modal-footer border-top-0 d-flex">
               <button type="submit" class="btn btn-primary p-2" data-bs-dismiss="modal"> Save </button>
               <button type="button" class="btn btn-secondary p-2" data-bs-dismiss="modal"> Cancel </button>
             </div>
