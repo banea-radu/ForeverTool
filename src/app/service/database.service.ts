@@ -40,7 +40,6 @@ export class DatabaseService {
         this.SetUserData(result.user);
         this.angularFireAuth.authState.subscribe((user) => {
           if (user) {
-            console.log("go to clients");
             this.router.navigate(['clients']);
           }
         });

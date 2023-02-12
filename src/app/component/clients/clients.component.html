@@ -1,3 +1,12 @@
+<div #loader class="loader-modal" *ngIf="loadingScreen">
+  <div class="loader-text">
+    <span>M</span>
+    <span>a</span>
+    <span>g</span>
+    <span>d</span>
+    <span>a</span>
+  </div>
+</div>
 <div class="container text-center px-0"> <!-- *ngIf="!(menuService.menuOpened$ | async)" -->
   <div class="card">
     <div class="card-title d-flex flex-column justify-content-center align-items-center">
@@ -74,7 +83,7 @@
                   </tr>
                   <tr>
                     <th class="text-end width-80px"> Connected </th>
-                    <td class="text-start"> {{ client.Id | slice : 0 : 4 }} </td>
+                    <td class="text-start"> {{ client.Id | slice : 4 : 6 }} {{ client.Id | slice : 0 : 4 }} </td>
                   </tr>
                 </tbody>
               </table>
@@ -156,7 +165,7 @@
               </tr>
               <tr>
                 <th class="text-end width-80px"> Connected </th>
-                <td> {{ itemToChangeAfterConfirmation.Id | slice : 0 : 4 }} </td>
+                <td> {{ itemToChangeAfterConfirmation.Id | slice : 4 : 6 }} {{ itemToChangeAfterConfirmation.Id | slice : 0 : 4 }} </td>
               </tr>
             </tbody>
           </table>
@@ -242,3 +251,4 @@
     </div>
   </div>
 </div>
+

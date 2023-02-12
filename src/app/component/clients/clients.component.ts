@@ -20,6 +20,7 @@ export class ClientsComponent {
   startingYear: number = 2010; // starting year that contains data in database
   activeFiltersText: string = '';
   activeFiltersTextFromDb: string = '';
+  loadingScreen: boolean = true;
 
   editForm = this.formbuilder.group({
     Abordare: [''],
@@ -64,9 +65,9 @@ export class ClientsComponent {
     this.viewportScroller.scrollToPosition([0, 0]);
   }
 
-  getClients() {
-    this.clients$ = this.databaseService.getClients();
-  }
+  // getClients() {
+  //   this.clients$ = this.databaseService.getClients();
+  // }
 
   searchInputEventListener(event, searchString: string) {
     if (event.key === "Enter") {
@@ -75,35 +76,13 @@ export class ClientsComponent {
   }
 
   searchClients(searchString: string) {
-    if (searchString == '' || searchString == null) {
-      // then get all clients
-      this.getClients();
-    } else {
-      this.clients$ = this.databaseService.getClients()
-        .pipe(
-          map(response => 
-            response.filter((item) => 
-              // let itemFullText = (item.Abordare + " "
-              // + item.Cunosc + " "
-              // + item.Detalii + " "
-              // + item.FollowUp + " "
-              // + item.Id + " "
-              // + item.Invite + " "
-              // + item.Kids + " "
-              // + item.Locatie + " "
-              // + item.NextStep + " "
-              // + item.Nume).toUpperCase();
-              // if filter for 'hideOption1Value' is true, then hide item if it contains the string from 'filtersHideOption1Text'
-              // let searchStringhideOption1Value: string = 
-              //   (this.filtersForm.controls.hideOption1Value.value ? this.filtersHideOption1Text : '');
-              // if (this.filtersForm.controls.hideOption1Value.value) {searchStringhideOption1Value = this.filtersHideOption1Text};
-              // if filter for 'hideOption2Value' is true, then hide item if it contains the string from 'filtersHideOption2Text'
-              // let searchStringhideOption2Value: string = 
-              //   (this.filtersForm.controls.hideOption2Value.value ? this.filtersHideOption2Text : '');
-              // if (this.filtersForm.controls.hideOption2Value.value) {searchStringhideOption2Value = this.filtersHideOption2Text};
-
-              // return only the items that contain the search string from the input
-              (item.Abordare + " "
+    this.loadingScreen = true;
+    this.clients$ = this.databaseService.getClients()
+      .pipe(
+        map(response => 
+          response.filter(item =>
+            // return only the items that contain the search string from the input, if string is empty it will return all items
+            ((item.Abordare + " "
               + item.Cunosc + " "
               + item.Detalii + " "
               + item.FollowUp + " "
@@ -112,14 +91,55 @@ export class ClientsComponent {
               + item.Kids + " "
               + item.Locatie + " "
               + item.NextStep + " "
-              + item.Nume).toUpperCase().indexOf(searchString.toUpperCase()) > -1
-              // &&
-              // return only the items that don't contain the search string from the first checkbox option in the Filters Modal Form
-              // (itemFullText.indexOf(searchStringhideOption2Value.toUpperCase()) == -1)
+              + item.Nume).toUpperCase().indexOf(searchString.toUpperCase()) > -1)
+            &&
+            // return only the items that have been connected with in year selected in the Filters Modal Form, if a year was selected
+            (this.filtersForm.controls.year.value
+              ? +item.Id.substring(0,4) == this.filtersForm.controls.year.value
+              : true
+            )
+            &&
+            // return only the items that have been connected with in month selected in the Filters Modal Form, if a month was selected
+            (this.filtersForm.controls.month.value
+              ? +item.Id.substring(4,6) == this.filtersForm.controls.month.value
+              : true
+            )
+            &&
+            // return only the items that don't contain the search string from the 1st checkbox option in the Filters Modal Form, if the checkbox is checked
+            (this.filtersForm.controls.hideOption1Value.value
+              ? ((item.Abordare + " "
+                + item.Cunosc + " "
+                + item.Detalii + " "
+                + item.FollowUp + " "
+                + item.Id + " "
+                + item.Invite + " "
+                + item.Kids + " "
+                + item.Locatie + " "
+                + item.NextStep + " "
+                + item.Nume).toUpperCase().indexOf(this.filtersHideOption1Text.toUpperCase()) == -1)
+              : true
+            )
+            &&
+            // return only the items that don't contain the search string from the 2nd checkbox option in the Filters Modal Form, if the checkbox is checked
+            (this.filtersForm.controls.hideOption2Value.value
+              ? ((item.Abordare + " "
+                + item.Cunosc + " "
+                + item.Detalii + " "
+                + item.FollowUp + " "
+                + item.Id + " "
+                + item.Invite + " "
+                + item.Kids + " "
+                + item.Locatie + " "
+                + item.NextStep + " "
+                + item.Nume).toUpperCase().indexOf(this.filtersHideOption2Text.toUpperCase()) == -1)
+              : true
             )
           )
         )
-    }
+      )
+    setTimeout(() => {
+      this.loadingScreen = false;
+    }, 1000);
   }
 
   saveItemToChangeAfterConfirmation(item: any) {
@@ -167,6 +187,10 @@ export class ClientsComponent {
       this.changeActiveFiltersText();
       // get the filter text from the one created in the Filters Modal Form
       this.activeFiltersTextFromDb = this.activeFiltersText;
+      setTimeout(() => {
+        this.loadingScreen = false;
+      }, 850);
+      
     });
   }
 
@@ -223,7 +247,7 @@ export class ClientsComponent {
   changeFiltersMonth(monthNumber: number) {
     let inputYear = this.filtersForm.controls.year.value;
     let currentYear = this.currentDate.getFullYear();
-    if (inputYear < this.startingYear || inputYear > this.startingYear) {
+    if (inputYear < this.startingYear || inputYear > currentYear) {
       inputYear = currentYear;
     }
     this.filtersForm = this.formbuilder.group({
@@ -329,13 +353,13 @@ export class ClientsComponent {
   }
 
   submitFiltersForm() {
-    // alert("Inca nu merge, lucrez la el");
-    // console.log(this.filterForm.value);
+    this.loadingScreen = true;
     this.databaseService.patchFilters(this.filtersForm.value)
       .subscribe(() => {
         console.log('filters saved in db');
         // get the filter text from the one created in the Filters Modal Form
         this.activeFiltersTextFromDb = this.activeFiltersText;
+        this.loadingScreen = false;
       })
   }
 

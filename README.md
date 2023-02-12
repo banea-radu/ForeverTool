@@ -12,9 +12,7 @@
 </div>
 
 ## ToDo's:
-  - filter button:
-    - filter by month and year
-    - special filters: nu e avatar, unfriended
+  - loading screen
   - pagination
   - update current json database
   - import downloaded html/json file
@@ -25,3 +23,6 @@
   ## ToDone:
   - search when pressing enter in search input
   - desktop view, fix Log-out button text position
+  - filter button:
+    - filter by month and year
+    - special filters: nu e avatar, unfriended
