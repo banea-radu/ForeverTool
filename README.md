@@ -12,13 +12,16 @@
 </div>
 
 ## ToDo's:
-  - loading screen
-  - pagination
-  - update current json database
   - import downloaded html/json file
+    - json file: escape characters:
+      - \u00c4\u0083r : ă
+      - \u00c8\u0099 : ș
+    - update current json database
   - convert to pwa
   - nice to have's:
     - save filter data to localstorage
+    - pagination
+    - loading screen what hides after data loaded (w/o timeout!)
 
   ## ToDone:
   - search when pressing enter in search input
@@ -26,3 +29,4 @@
   - filter button:
     - filter by month and year
     - special filters: nu e avatar, unfriended
+  - loading screen
