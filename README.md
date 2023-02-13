@@ -22,6 +22,7 @@
     - save filter data to localstorage
     - pagination
     - loading screen what hides after data loaded (w/o timeout!)
+    - page not found
 
   ## ToDone:
   - search when pressing enter in search input

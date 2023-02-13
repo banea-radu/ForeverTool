@@ -14,13 +14,15 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './component/header/header.component';
 import { ClientsComponent } from './component/clients/clients.component';
 import { LoginComponent } from './component/login/login.component';
+import { ImportComponent } from './component/import/import.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     ClientsComponent,
-    LoginComponent
+    LoginComponent,
+    ImportComponent
   ],
   imports: [
     BrowserModule,
