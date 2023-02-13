@@ -22,11 +22,13 @@ export class ImportComponent {
         return response.friends_v2;
       }))
     // this.jsonService.getJsonFile()
-    //   .pipe(
-    //     tap(rawData => {
-    //     this.rawData = rawData;
-    //     })
-    //   )
+      .pipe(
+        tap(response => {
+          response.forEach((item) => {
+            console.log(item.timestamp, response.filter(x => x.timestamp === item.timestamp).length);
+          });
+        })
+      )
     //   // create new objects with key as id property
     //   .pipe(
     //     map((response: any) => {
