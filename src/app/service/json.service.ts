@@ -9,6 +9,6 @@ export class JsonService {
   constructor(private http: HttpClient) { }
 
   getJsonFile() {
-    return this.http.get('./assets/data.json');
+    return this.http.get('./assets/data3.json');
   }
 }
