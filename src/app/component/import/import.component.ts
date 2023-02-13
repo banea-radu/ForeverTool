@@ -16,11 +16,25 @@ export class ImportComponent {
 
   ngOnInit() {
     this.jsonService.getJsonFile()
-      .pipe(tap(rawData => {
+      .pipe(
+        tap(rawData => {
         this.rawData = rawData;
-      }))
+        })
+      )
+      // create new objects with key as id property
+      .pipe(
+        map((response: any) => {
+          // const newObjects = [];
+          for(const key in response.friends_v2) {
+            // newObjects.push({...response[key], id: key});
+            // console.log(key);
+          }
+          return response;
+        })
+      )
       .subscribe(data => {
-        this.data = data;
+        // this.data = data;
+        console.log(data.friends_v2);
       });
   }
 }
