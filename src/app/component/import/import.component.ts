@@ -17,18 +17,27 @@ export class ImportComponent {
 
   ngOnInit() {
     this.rawData$ = this.jsonService.getJsonFile()
-      // create new objects with key as id property
       .pipe(map((response: any) => {
+        const oldArrayOfObjects = response.friends_v2;
+        const newArrayOfObjects = [];
+        oldArrayOfObjects.forEach((item, i: number = 0) => {
+          let id = item.name + ' - ' + item.timestamp;
+          newArrayOfObjects.push({...oldArrayOfObjects[i++], id: id});
+        });
+        console.log(newArrayOfObjects);
         return response.friends_v2;
       }))
-    // this.jsonService.getJsonFile()
-      .pipe(
-        tap(response => {
-          response.forEach((item) => {
-            console.log(item.timestamp, response.filter(x => x.timestamp === item.timestamp).length);
-          });
-        })
-      )
+      // .pipe(
+      //   tap(response => {
+      //     response.forEach((item) => {
+      //       let itemCounter = response.filter(x => x.timestamp === item.timestamp).length;
+      //       if (itemCounter != 1 ) {
+      //         console.log(item.timestamp, itemCounter);
+      //       }
+      //     });
+      //   })
+      // )
+
     //   // create new objects with key as id property
     //   .pipe(
     //     map((response: any) => {
