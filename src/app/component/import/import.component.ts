@@ -9,22 +9,26 @@ import { tap, map } from 'rxjs/operators';
 })
 export class ImportComponent {
 
-  rawData: any;
+  // rawData: any;
   rawData$: any;
-  data: any;
+  // data: any;
+  startDate = new Date(1263722547*1000);
+  startDayMonthYear = this.startDate.getDate() + '.' + (this.startDate.getMonth() + 1) + '.' + this.startDate.getFullYear()
+  endDate = new Date(1675285130*1000);
+  endDayMonthYear = this.endDate.getDate() + '.' + (this.startDate.getMonth() + 1) + '.' + this.endDate.getFullYear()
 
   constructor(private jsonService: JsonService) { }
 
   ngOnInit() {
     this.rawData$ = this.jsonService.getJsonFile()
       .pipe(map((response: any) => {
-        const oldArrayOfObjects = response.friends_v2;
-        const newArrayOfObjects = [];
-        oldArrayOfObjects.forEach((item, i: number = 0) => {
-          let id = item.name + ' - ' + item.timestamp;
-          newArrayOfObjects.push({...oldArrayOfObjects[i++], id: id});
-        });
-        console.log(newArrayOfObjects);
+      //   const oldArrayOfObjects = response.friends_v2;
+      //   const newArrayOfObjects = [];
+      //   oldArrayOfObjects.forEach((item, i: number = 0) => {
+      //     let id = item.timestamp;
+      //     newArrayOfObjects.push({...oldArrayOfObjects[i++], id: id});
+      //   });
+      //   console.log(newArrayOfObjects);
         return response.friends_v2;
       }))
       // .pipe(
