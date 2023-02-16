@@ -95,13 +95,14 @@ export class ClientsComponent {
             &&
             // return only the items that have been connected with in year selected in the Filters Modal Form, if a year was selected
             (this.filtersForm.controls.year.value
-              ? +item.Id.substring(0,4) == this.filtersForm.controls.year.value
+              // item.Id is epoch time
+              ? +(new Date(item.Id*1000)).getFullYear() == this.filtersForm.controls.year.value
               : true
             )
             &&
             // return only the items that have been connected with in month selected in the Filters Modal Form, if a month was selected
             (this.filtersForm.controls.month.value
-              ? +item.Id.substring(4,6) == this.filtersForm.controls.month.value
+              ? +(new Date(item.Id*1000)).getMonth()+1 == this.filtersForm.controls.month.value
               : true
             )
             &&
@@ -187,9 +188,9 @@ export class ClientsComponent {
       this.changeActiveFiltersText();
       // get the filter text from the one created in the Filters Modal Form
       this.activeFiltersTextFromDb = this.activeFiltersText;
-      // setTimeout(() => {
-      //   this.loadingScreen = false;
-      // }, 850);
+      setTimeout(() => {
+        this.loadingScreen = false;
+      }, 850);
       
     });
   }
