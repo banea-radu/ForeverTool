@@ -187,9 +187,9 @@ export class ClientsComponent {
       this.changeActiveFiltersText();
       // get the filter text from the one created in the Filters Modal Form
       this.activeFiltersTextFromDb = this.activeFiltersText;
-      setTimeout(() => {
-        this.loadingScreen = false;
-      }, 850);
+      // setTimeout(() => {
+      //   this.loadingScreen = false;
+      // }, 850);
       
     });
   }
