@@ -13,10 +13,10 @@
           </tr>
         </thead>
         <tbody class="table-group-divider">
-          <tr *ngFor="let rawItem of rawData$ | async; let i=index">
+          <tr *ngFor="let rawItem of duplicateIdsArray; let i=index">
             <td> {{ i+1 }} </td>
-            <td> {{ rawItem.name }} </td>
-            <td> {{ rawItem.timestamp }} </td>
+            <td> {{ rawItem }} </td>
+            <td> {{ rawItem }} </td>
             <td> 1 </td>
           </tr>
         </tbody>
