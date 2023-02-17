@@ -12,7 +12,7 @@ export class ImportComponent {
 
   // rawData: any;
   importData$: any;
-  duplicateIdsArray: number[] = [];
+  duplicateIdsArray: any[] = [];
   // data: any;
   startDate = new Date(1263722547*1000);
   startDayMonthYear = this.startDate.getDate() + '.' + (this.startDate.getMonth() + 1) + '.' + this.startDate.getFullYear();
@@ -28,17 +28,53 @@ export class ImportComponent {
   ngOnInit() {
     this.jsonService.getJsonFile().subscribe((importData: any) => {
       this.databaseService.getClients().subscribe((clients) => {
-        // const intersection = array1.filter(element => array2.includes(element));
         importData.friends_v2.forEach((newClient) => {
+          let newClientFoundInDb: boolean = false;
           clients.forEach((dbClient) => {
             if (newClient.timestamp == dbClient.Id) {
-              this.duplicateIdsArray.push(newClient.timestamp);
-            }          
+              newClientFoundInDb = true;
+            }
+            if (newClientFoundInDb) return; // if newClient from json file was found in database, exit current loop and start a new loop
           });
+          if (!newClientFoundInDb) {
+            let hasDiacritics: boolean = false;
+            let newName ='';
+            if (newClient.name.includes('\u00c4\u0083')) {
+              hasDiacritics = true;
+              newClient.name = newClient.name.replaceAll('Ä', 'a');
+            }
+            // if (newClient.name.includes('\u00c3\u00a3')) {
+            //   hasDiacritics = true;
+            //   newName = newClient.name.replaceAll('\\u00c3\\u00a3', 'a');
+            // }
+            this.duplicateIdsArray.push({...newClient, diacritics: hasDiacritics, newName: newName});
+          }
         });
+        console.log(this.duplicateIdsArray);
       });
     });
   }
+  //   - \u00c3\u00a3 : ã
+  //   - \u00c4\u0081 : ā
+  //   - \u00c3\u00a2 : â
+  //   - \u00c3\u00a1 : á
+  //   - \u00c4\u0082 : Ă
+  //   - \u00c3\u0081 : Á
+  //   - \u00c3\u00a9 : é
+  //   - \u00c3\u0089 : É
+  //   - \u00c3\u00ae : î
+  //   - \u00c3\u008e : Î
+  //   - \u00c3\u00b6 : ö
+  //   - \u00c3\u0096 : Ö
+  //   - \u00c8\u0099 : ș
+  //   - \u00c5\u009f : ș
+  //   - \u00c8\u0098 : Ș
+  //   - \u00c5\u009e : Ş
+  //   - \u00c8\u009b : ț
+  //   - \u00c5\u00a3 : ț
+  //   - \u00c5\u00a2 : Ț
+  //   - \u00c8\u009a : Ț
+  // }
     
 
 

@@ -9,15 +9,15 @@
             <th> Nr </th>
             <th> Nume </th>
             <th> Id </th>
-            <th> Yes/No </th>
+            <th> Diacritice </th>
           </tr>
         </thead>
         <tbody class="table-group-divider">
           <tr *ngFor="let rawItem of duplicateIdsArray; let i=index">
             <td> {{ i+1 }} </td>
-            <td> {{ rawItem }} </td>
-            <td> {{ rawItem }} </td>
-            <td> 1 </td>
+            <td> {{ rawItem.name }} </td>
+            <td> {{ rawItem.timestamp }} </td>
+            <td> {{ rawItem.diacritics }} </td>
           </tr>
         </tbody>
       </table>
