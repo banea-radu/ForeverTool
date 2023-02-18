@@ -1,5 +1,19 @@
 # Learn by doing Project - ForeverTool (version 2)
 
+### Clients management application, with firebase database (authentication, realtime database, storage).
+  ### Main functionalities:
+    - get list of clients
+      - filter:
+        - list of clients by year and month
+        - list of clients that don't contain specific tag text
+        - list of clients that contain a specific text from a search input
+        - combination of all of the above
+    - update informations for each clients
+    - import new clients functionality
+      - from json file
+        - with replacing of special characters (mostly diacritics) with normal characters (ex. ă => a)
+
+
 ## Technologies used:
 <div>
   <img src="https://github.com/devicons/devicon/blob/master/icons/html5/html5-original.svg" title="HTML5" alt="HTML" width="40" height="40"/>&nbsp;
@@ -10,8 +24,17 @@
   <img src="https://github.com/devicons/devicon/blob/master/icons/firebase/firebase-plain-wordmark.svg" title="Firebase" alt="Firebase" width="40" height="40"/>&nbsp;
 </div>
 
-## ToDo's:
-  - import downloaded html/json file
+
+  ## ToDOne's:
+  - search when pressing enter in search input
+  - desktop view, fix Log-out button text position
+  - filter button:
+    - filter by month and year
+    - special filters: nu e avatar, unfriended
+  - loading screen
+  
+  ## ToDo's:
+  - import downloaded json file
     - json file:
       - replace escape characters with their normal character (ex. ă = a):
         - \u00c4\u0083 : ă
@@ -43,11 +66,3 @@
     - pagination
     - loading screen what hides after data loaded (w/o timeout!)
     - page not found
-
-  ## ToDone:
-  - search when pressing enter in search input
-  - desktop view, fix Log-out button text position
-  - filter button:
-    - filter by month and year
-    - special filters: nu e avatar, unfriended
-  - loading screen

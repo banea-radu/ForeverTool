@@ -29,26 +29,41 @@ export class ImportComponent {
     this.jsonService.getJsonFile().subscribe((importData: any) => {
       this.databaseService.getClients().subscribe((clients) => {
         importData.friends_v2.forEach((newClient) => {
+
+          // find all special characters items to create mapping for replace function
+          let hasDiacritics: boolean = false;
+          let oldName ='';
+          if (newClient.name.includes('\u00c4\u0083')) {
+            hasDiacritics = true;
+            oldName = newClient.name; // store old name
+            this.duplicateIdsArray.push({...newClient, diacritics: hasDiacritics, oldName: 'Ä'});
+          }
+
           let newClientFoundInDb: boolean = false;
           clients.forEach((dbClient) => {
-            if (newClient.timestamp == dbClient.Id) {
-              newClientFoundInDb = true;
-            }
-            if (newClientFoundInDb) return; // if newClient from json file was found in database, exit current loop and start a new loop
+          //   if (newClient.timestamp == dbClient.Id) {
+          //     newClientFoundInDb = true;
+          //   }
+          //   if (newClientFoundInDb) return; // if newClient from json file was found in database, exit current loop and start a new loop
           });
-          if (!newClientFoundInDb) {
-            let hasDiacritics: boolean = false;
-            let newName ='';
-            if (newClient.name.includes('\u00c4\u0083')) {
-              hasDiacritics = true;
-              newClient.name = newClient.name.replaceAll('Ä', 'a');
-            }
-            // if (newClient.name.includes('\u00c3\u00a3')) {
-            //   hasDiacritics = true;
-            //   newName = newClient.name.replaceAll('\\u00c3\\u00a3', 'a');
-            // }
-            this.duplicateIdsArray.push({...newClient, diacritics: hasDiacritics, newName: newName});
-          }
+          // if (!newClientFoundInDb) {
+          //   // replace all known and mapped special characters (diacritics mostly) with normal characters from json file
+          //   let hasDiacritics: boolean = false;
+          //   let oldName ='';
+          //   if (newClient.name.includes('\u00c4\u0083')) {
+          //     hasDiacritics = true;
+          //     oldName = newClient.name; // store old name
+          //     newClient.name = newClient.name.replaceAll('Ä', 'a');
+          //     this.duplicateIdsArray.push({...newClient, diacritics: hasDiacritics, oldName: oldName});
+          //   }
+          //   if (newClient.name.includes('\u00c3\u00a3')) {
+          //     oldName = newClient.name; // store old name
+          //     hasDiacritics = true;
+          //     // newClient.name = newClient.name.replaceAll('\\u00c3\\u00a3', 'a');
+          //     this.duplicateIdsArray.push({...newClient, diacritics: hasDiacritics, oldName: oldName});
+          //   }
+          // }
+
         });
         console.log(this.duplicateIdsArray);
       });
