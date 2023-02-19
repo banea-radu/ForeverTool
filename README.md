@@ -8,10 +8,10 @@
         - list of clients that don't contain specific tag text
         - list of clients that contain a specific text from a search input
         - combination of all of the above
-    - update informations for each clients
-    - import new clients functionality
+    - update informations for each client
+    - import new clients
       - from json file
-        - with replacing of special characters (mostly diacritics) with normal characters (ex. ă => a)
+        - replace of special characters (mostly diacritics) with normal characters (ex. ă => a)
 
 
 ## Technologies used:

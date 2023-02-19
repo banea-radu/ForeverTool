@@ -35,8 +35,8 @@ export class ImportComponent {
           let oldName ='';
           if (newClient.name.includes('\u00c4\u0083')) {
             hasDiacritics = true;
-            oldName = newClient.name; // store old name
-            this.duplicateIdsArray.push({...newClient, diacritics: hasDiacritics, oldName: 'Ä'});
+            oldName = newClient.name.replaceAll('Ä', 'a');
+            this.duplicateIdsArray.push({...newClient, diacritics: hasDiacritics, oldName: oldName});
           }
 
           let newClientFoundInDb: boolean = false;
