@@ -29,13 +29,33 @@ export class ImportComponent {
     this.jsonService.getJsonFile().subscribe((importData: any) => {
       this.databaseService.getClients().subscribe((clients) => {
         importData.friends_v2.forEach((newClient) => {
-
+          // replace all special characters
+          newClient.name = newClient.name.replaceAll('Ä', 'a'); // '\u00c4\u0083' = ă = Ä => a
+          newClient.name = newClient.name.replaceAll('Ã£', 'a'); // '\u00c3\u00a3' = ã = Ã£ => a
+          newClient.name = newClient.name.replaceAll('Ä', 'a'); // '\u00c4\u0081' = ā = Ä => a
+          newClient.name = newClient.name.replaceAll('Ã¢', 'a'); // '\u00c3\u00a2' = â = Ã¢ => a
+          newClient.name = newClient.name.replaceAll('Ã¡', 'a'); // '\u00c3\u00a1' = á = Ã¡ => a
+          newClient.name = newClient.name.replaceAll('Ä', 'a'); // '\u00c4\u0082' = Ă = Ä => A
+  //   - \u00c3\u0081 : Á
+  //   - \u00c3\u00a9 : é
+  //   - \u00c3\u0089 : É
+  //   - \u00c3\u00ae : î
+  //   - \u00c3\u008e : Î
+  //   - \u00c3\u00b6 : ö
+  //   - \u00c3\u0096 : Ö
+  //   - \u00c8\u0099 : ș
+  //   - \u00c5\u009f : ș
+  //   - \u00c8\u0098 : Ș
+  //   - \u00c5\u009e : Ş
+  //   - \u00c8\u009b : ț
+  //   - \u00c5\u00a3 : ț
+  //   - \u00c5\u00a2 : Ț
+  //   - \u00c8\u009a : Ț
           // find all special characters items to create mapping for replace function
           let hasDiacritics: boolean = false;
           let oldName ='';
-          if (newClient.name.includes('\u00c4\u0083')) {
+          if (newClient.name.includes('\u00c4\u0082')) {
             hasDiacritics = true;
-            oldName = newClient.name.replaceAll('Ä', 'a');
             this.duplicateIdsArray.push({...newClient, diacritics: hasDiacritics, oldName: oldName});
           }
 
@@ -69,26 +89,7 @@ export class ImportComponent {
       });
     });
   }
-  //   - \u00c3\u00a3 : ã
-  //   - \u00c4\u0081 : ā
-  //   - \u00c3\u00a2 : â
-  //   - \u00c3\u00a1 : á
-  //   - \u00c4\u0082 : Ă
-  //   - \u00c3\u0081 : Á
-  //   - \u00c3\u00a9 : é
-  //   - \u00c3\u0089 : É
-  //   - \u00c3\u00ae : î
-  //   - \u00c3\u008e : Î
-  //   - \u00c3\u00b6 : ö
-  //   - \u00c3\u0096 : Ö
-  //   - \u00c8\u0099 : ș
-  //   - \u00c5\u009f : ș
-  //   - \u00c8\u0098 : Ș
-  //   - \u00c5\u009e : Ş
-  //   - \u00c8\u009b : ț
-  //   - \u00c5\u00a3 : ț
-  //   - \u00c5\u00a2 : Ț
-  //   - \u00c8\u009a : Ț
+
   // }
     
 
