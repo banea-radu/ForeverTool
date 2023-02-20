@@ -1,5 +1,18 @@
-<p> Interval: {{startDayMonthYear}} - {{endDayMonthYear}}</p>
-  <!-- {{ rawData | json }} -->
+<!-- use of component for next steps -->
+<!-- <app-import requiredFileType="application/json"></app-import> -->
+
+
+<!-- Hidden input of type file, to trigger the upload window -->
+<input type="file" class="d-none" (change)="fileImported($event)" #fileUpload>
+
+<div class="">
+  <button class="btn btn-light"
+    (click)="fileUpload.click()">
+    <i class="fa-solid fa-file-import"></i>
+    {{fileName || "Adauga Clienti"}}
+  </button>
+</div>
+<!-- Testing preview of items in table -->
 <div>
   <div class="card-table">
     <div class="cart-product table-responsive">

@@ -19,6 +19,7 @@ export class ImportComponent {
   endDate = new Date(1675285130*1000);
   endDayMonthYear = this.endDate.getDate() + '.' + (this.startDate.getMonth() + 1) + '.' + this.endDate.getFullYear();
   clientIdsFromDatabase: any;
+  fileName = '';
 
   constructor(
     private jsonService: JsonService,
@@ -26,7 +27,12 @@ export class ImportComponent {
   ) { }
 
   ngOnInit() {
-    this.importFromFacebook();
+    // this.importFromFacebook();
+  }
+
+  fileImported(event) {
+    const file:File = event.target.files[0];
+    console.log(file);
   }
 
   importFromFacebook() {
@@ -67,7 +73,7 @@ export class ImportComponent {
           if (!newClientAlreadyInDb) {
 
             // add source of imported file property
-            
+
             this.duplicateIdsArray.push({...newClient});
           }
         });
