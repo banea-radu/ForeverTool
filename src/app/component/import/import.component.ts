@@ -26,71 +26,55 @@ export class ImportComponent {
   ) { }
 
   ngOnInit() {
+    this.importFromFacebook();
+  }
+
+  importFromFacebook() {
     this.jsonService.getJsonFile().subscribe((importData: any) => {
       this.databaseService.getClients().subscribe((clients) => {
         importData.friends_v2.forEach((newClient) => {
-          // replace all special characters
-          newClient.name = newClient.name.replaceAll('Ä', 'a'); // '\u00c4\u0083' = ă = Ä => a
-          newClient.name = newClient.name.replaceAll('Ã£', 'a'); // '\u00c3\u00a3' = ã = Ã£ => a
-          newClient.name = newClient.name.replaceAll('Ä', 'a'); // '\u00c4\u0081' = ā = Ä => a
-          newClient.name = newClient.name.replaceAll('Ã¢', 'a'); // '\u00c3\u00a2' = â = Ã¢ => a
-          newClient.name = newClient.name.replaceAll('Ã¡', 'a'); // '\u00c3\u00a1' = á = Ã¡ => a
-          newClient.name = newClient.name.replaceAll('Ä', 'a'); // '\u00c4\u0082' = Ă = Ä => A
-  //   - \u00c3\u0081 : Á
-  //   - \u00c3\u00a9 : é
-  //   - \u00c3\u0089 : É
-  //   - \u00c3\u00ae : î
-  //   - \u00c3\u008e : Î
-  //   - \u00c3\u00b6 : ö
-  //   - \u00c3\u0096 : Ö
-  //   - \u00c8\u0099 : ș
-  //   - \u00c5\u009f : ș
-  //   - \u00c8\u0098 : Ș
-  //   - \u00c5\u009e : Ş
-  //   - \u00c8\u009b : ț
-  //   - \u00c5\u00a3 : ț
-  //   - \u00c5\u00a2 : Ț
-  //   - \u00c8\u009a : Ț
-          // find all special characters items to create mapping for replace function
-          let hasDiacritics: boolean = false;
-          let oldName ='';
-          if (newClient.name.includes('\u00c4\u0082')) {
-            hasDiacritics = true;
-            this.duplicateIdsArray.push({...newClient, diacritics: hasDiacritics, oldName: oldName});
-          }
-
-          let newClientFoundInDb: boolean = false;
+          // replace all (known) special characters from the imported json file
+          newClient.name = newClient.name.replaceAll('\u00c4\u0083', 'a'); // ă => a
+          newClient.name = newClient.name.replaceAll('\u00c3\u00a3', 'a'); // ã => a
+          newClient.name = newClient.name.replaceAll('\u00c4\u0081', 'a'); // ā => a
+          newClient.name = newClient.name.replaceAll('\u00c3\u00a2', 'a'); // â => a
+          newClient.name = newClient.name.replaceAll('\u00c3\u00a1', 'a'); // á => a
+          newClient.name = newClient.name.replaceAll('\u00c4\u0082', 'A'); // Ă => A
+          newClient.name = newClient.name.replaceAll('\u00c3\u0081', 'A'); // Á => A
+          newClient.name = newClient.name.replaceAll('\u00c3\u00a9', 'e'); // é => e
+          newClient.name = newClient.name.replaceAll('\u00c3\u0089', 'E'); // É => E
+          newClient.name = newClient.name.replaceAll('\u00c3\u00ae', 'i'); // î => i
+          newClient.name = newClient.name.replaceAll('\u00c3\u008e', 'I'); // Î => I
+          newClient.name = newClient.name.replaceAll('\u00c3\u00b6', 'o'); // ö => o
+          newClient.name = newClient.name.replaceAll('\u00c3\u0096', 'O'); // Ö => O
+          newClient.name = newClient.name.replaceAll('\u00c8\u0099', 's'); // ș => s
+          newClient.name = newClient.name.replaceAll('\u00c5\u009f', 's'); // ș => s
+          newClient.name = newClient.name.replaceAll('\u00c8\u0098', 'S'); // Ș => S
+          newClient.name = newClient.name.replaceAll('\u00c5\u009e', 'S'); // Ş => S
+          newClient.name = newClient.name.replaceAll('\u00c8\u009b', 't'); // ț => t
+          newClient.name = newClient.name.replaceAll('\u00c5\u00a3', 't'); // ț => t
+          newClient.name = newClient.name.replaceAll('\u00c5\u00a2', 'T'); // Ț => T
+          newClient.name = newClient.name.replaceAll('\u00c8\u009a', 'T'); // Ț => T
+          // search if newClient from imported json file already exists in database
+          let newClientAlreadyInDb: boolean = false;
           clients.forEach((dbClient) => {
-          //   if (newClient.timestamp == dbClient.Id) {
-          //     newClientFoundInDb = true;
-          //   }
-          //   if (newClientFoundInDb) return; // if newClient from json file was found in database, exit current loop and start a new loop
+            if (newClient.timestamp == dbClient.Id) {
+              newClientAlreadyInDb = true;
+              return; // if newClient from json file already exists in database, exit current loop
+            }
           });
-          // if (!newClientFoundInDb) {
-          //   // replace all known and mapped special characters (diacritics mostly) with normal characters from json file
-          //   let hasDiacritics: boolean = false;
-          //   let oldName ='';
-          //   if (newClient.name.includes('\u00c4\u0083')) {
-          //     hasDiacritics = true;
-          //     oldName = newClient.name; // store old name
-          //     newClient.name = newClient.name.replaceAll('Ä', 'a');
-          //     this.duplicateIdsArray.push({...newClient, diacritics: hasDiacritics, oldName: oldName});
-          //   }
-          //   if (newClient.name.includes('\u00c3\u00a3')) {
-          //     oldName = newClient.name; // store old name
-          //     hasDiacritics = true;
-          //     // newClient.name = newClient.name.replaceAll('\\u00c3\\u00a3', 'a');
-          //     this.duplicateIdsArray.push({...newClient, diacritics: hasDiacritics, oldName: oldName});
-          //   }
-          // }
+          // if newClient from json file was not found in database:
+          if (!newClientAlreadyInDb) {
 
+            // add source of imported file property
+            
+            this.duplicateIdsArray.push({...newClient});
+          }
         });
         console.log(this.duplicateIdsArray);
       });
     });
   }
-
-  // }
     
 
 
