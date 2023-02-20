@@ -1,18 +1,14 @@
-<!-- use of component for next steps -->
-<!-- <app-import requiredFileType="application/json"></app-import> -->
-
-
 <!-- Hidden input of type file, to trigger the upload window -->
-<input type="file" class="d-none" (change)="fileImported($event)" #fileUpload>
-
+<input type="file" class="d-none" requiredFileType="application/json" (change)="fileImport($event, 'facebook')" #fileUpload>
+<!-- Visible button for input field -->
 <div class="">
-  <button class="btn btn-light"
+  <button class="btn"
     (click)="fileUpload.click()">
-    <i class="fa-solid fa-file-import"></i>
-    {{fileName || "Adauga Clienti"}}
+    <i class="fa-brands fa-facebook"></i>
+    Adauga Clienti
   </button>
 </div>
-<!-- Testing preview of items in table -->
+<!-- Preview of items in table -->
 <div>
   <div class="card-table">
     <div class="cart-product table-responsive">
@@ -22,7 +18,6 @@
             <th> Nr </th>
             <th> Nume </th>
             <th> Id </th>
-            <th> Diacritice </th>
           </tr>
         </thead>
         <tbody class="table-group-divider">
@@ -30,7 +25,6 @@
             <td> {{ i+1 }} </td>
             <td> {{ rawItem.name }} </td>
             <td> {{ rawItem.timestamp }} </td>
-            <td> {{ rawItem.oldName }} </td>
           </tr>
         </tbody>
       </table>

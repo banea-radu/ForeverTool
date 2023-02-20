@@ -32,34 +32,37 @@
     - filter by month and year
     - special filters: nu e avatar, unfriended
   - loading screen
+  - import downloaded json file
+  - json file:
+    - replace escape characters with their normal character (ex. ă = a):
+      - \u00c4\u0083 : ă
+      - \u00c3\u00a3 : ã
+      - \u00c4\u0081 : ā
+      - \u00c3\u00a2 : â
+      - \u00c3\u00a1 : á
+      - \u00c4\u0082 : Ă
+      - \u00c3\u0081 : Á
+      - \u00c3\u00a9 : é
+      - \u00c3\u0089 : É
+      - \u00c3\u00ae : î
+      - \u00c3\u008e : Î
+      - \u00c3\u00b6 : ö
+      - \u00c3\u0096 : Ö
+      - \u00c8\u0099 : ș
+      - \u00c5\u009f : ș
+      - \u00c8\u0098 : Ș
+      - \u00c5\u009e : Ş
+      - \u00c8\u009b : ț
+      - \u00c5\u00a3 : ț
+      - \u00c5\u00a2 : Ț
+      - \u00c8\u009a : Ț
+    - add importet source property: 'Sursa : facebook'
+    - update current json database
   
   ## ToDo's:
-  - import downloaded json file
-    - json file:
-      - replace escape characters with their normal character (ex. ă = a):
-        - \u00c4\u0083 : ă
-        - \u00c3\u00a3 : ã
-        - \u00c4\u0081 : ā
-        - \u00c3\u00a2 : â
-        - \u00c3\u00a1 : á
-        - \u00c4\u0082 : Ă
-        - \u00c3\u0081 : Á
-        - \u00c3\u00a9 : é
-        - \u00c3\u0089 : É
-        - \u00c3\u00ae : î
-        - \u00c3\u008e : Î
-        - \u00c3\u00b6 : ö
-        - \u00c3\u0096 : Ö
-        - \u00c8\u0099 : ș
-        - \u00c5\u009f : ș
-        - \u00c8\u0098 : Ș
-        - \u00c5\u009e : Ş
-        - \u00c8\u009b : ț
-        - \u00c5\u00a3 : ț
-        - \u00c5\u00a2 : Ț
-        - \u00c8\u009a : Ț
-      - add importet source property: facebook/linkedin/manual
-    - update current json database
+  - import component:
+    - preview new imported clients in table
+    - 'unload' file after import succesful
   - convert to pwa
   - nice to have's:
     - save filter data to localstorage

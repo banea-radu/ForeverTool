@@ -134,6 +134,11 @@ export class DatabaseService {
     return this.http.patch(completeUrl, bodyData);
   }
 
+  importNewClients(bodyData: any){
+    const completeUrl = this.createCompleteUrl('clients');
+    return this.http.patch(completeUrl, bodyData);
+  }
+
   getFilters(){
     const completeUrl = this.createCompleteUrl('filters');
     return this.http.get(completeUrl);
