@@ -54,8 +54,10 @@ export class ClientsComponent {
   ) {}
 
   ngOnInit() {
+    console.log('### - before getFiltersData()');
     this.getFiltersData();
     // add event listener for showing/hiding the up arrow button
+    console.log('### - after getFiltersData()');
     window.addEventListener('scroll', () => {
       this.windowScrolled = window.pageYOffset >= 300;
     });
@@ -178,20 +180,22 @@ export class ClientsComponent {
   }
 
   getFiltersData() {
+    console.log('### - arrive in getFiltersData()');
     this.databaseService.getFilters().subscribe((response: any) => {
       this.filtersForm = this.formbuilder.group({
         year: [response.year],
         month: [response.month],
         hideOption1Value: [response.hideOption1Value],
         hideOption2Value: [response.hideOption2Value],
-      })
+      });
+      console.log('### - before changeActiveFiltersText()');
       this.changeActiveFiltersText();
       // get the filter text from the one created in the Filters Modal Form
       this.activeFiltersTextFromDb = this.activeFiltersText;
+      console.log('### - before setTimeout(()');
       setTimeout(() => {
         this.loadingScreen = false;
       }, 850);
-      
     });
   }
 
