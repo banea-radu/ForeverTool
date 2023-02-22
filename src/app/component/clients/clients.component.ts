@@ -65,6 +65,7 @@ export class ClientsComponent {
     this.viewportScroller.scrollToPosition([0, 0]);
   }
 
+  // if user presses 'Enter' key, then call the 'searchClients' function
   searchInputEventListener(event, searchString: string) {
     if (event.key === "Enter") {
       this.searchClients(searchString);
@@ -174,14 +175,18 @@ export class ClientsComponent {
   }
 
   getFiltersData() {
-    const localStorageFilters = JSON.parse(localStorage.getItem('filters')!);
-    this.filtersForm = this.formbuilder.group({
-      year: [localStorageFilters.year],
-      month: [localStorageFilters.month],
-      hideOption1Value: [localStorageFilters.hideOption1Value],
-      hideOption2Value: [localStorageFilters.hideOption2Value],
-    });
-    this.changeModalFiltersText();
+    const localStorageFilters = JSON.parse(localStorage.getItem('filters'));
+    if (!localStorageFilters) {
+      this.changeFiltersNoFilters();
+    } else {
+      this.filtersForm = this.formbuilder.group({
+        year: [localStorageFilters.year],
+        month: [localStorageFilters.month],
+        hideOption1Value: [localStorageFilters.hideOption1Value],
+        hideOption2Value: [localStorageFilters.hideOption2Value],
+      });
+      this.changeModalFiltersText();
+    }
     // change the filter text with the local storage filters data
     setTimeout(() => {
       this.activeFiltersText = this.modalFiltersText;
