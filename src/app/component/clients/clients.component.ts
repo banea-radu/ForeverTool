@@ -5,7 +5,7 @@ import { DatabaseService } from 'src/app/service/database.service';
 import { Observable } from "rxjs";
 import { ViewportScroller } from '@angular/common';
 import { map } from 'rxjs/operators';
-
+import { ElementRef, ViewChild  } from '@angular/core';
 
 @Component({
   selector: 'app-clients',
@@ -13,13 +13,13 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./clients.component.css']
 })
 export class ClientsComponent {
+  @ViewChild('searchButton') searchButton: ElementRef<HTMLElement>;
   clients$: Observable<any[]>;
-  filters$: any;
   itemToChangeAfterConfirmation: any = {}; // replace any with model
   windowScrolled: boolean = false;
-  startingYear: number = 2010; // starting year that contains data in database
+  startingYear: number = 2010; // starting year from which data is available in the database
+  modalFiltersText: string = '';
   activeFiltersText: string = '';
-  activeFiltersTextFromDb: string = '';
   loadingScreen: boolean = true;
 
   editForm = this.formbuilder.group({
@@ -54,10 +54,8 @@ export class ClientsComponent {
   ) {}
 
   ngOnInit() {
-    console.log('### - before getFiltersData()');
     this.getFiltersData();
     // add event listener for showing/hiding the up arrow button
-    console.log('### - after getFiltersData()');
     window.addEventListener('scroll', () => {
       this.windowScrolled = window.pageYOffset >= 300;
     });
@@ -66,10 +64,6 @@ export class ClientsComponent {
   scrollToTop() {
     this.viewportScroller.scrollToPosition([0, 0]);
   }
-
-  // getClients() {
-  //   this.clients$ = this.databaseService.getClients();
-  // }
 
   searchInputEventListener(event, searchString: string) {
     if (event.key === "Enter") {
@@ -180,23 +174,19 @@ export class ClientsComponent {
   }
 
   getFiltersData() {
-    console.log('### - arrive in getFiltersData()');
-    this.databaseService.getFilters().subscribe((response: any) => {
-      this.filtersForm = this.formbuilder.group({
-        year: [response.year],
-        month: [response.month],
-        hideOption1Value: [response.hideOption1Value],
-        hideOption2Value: [response.hideOption2Value],
-      });
-      console.log('### - before changeActiveFiltersText()');
-      this.changeActiveFiltersText();
-      // get the filter text from the one created in the Filters Modal Form
-      this.activeFiltersTextFromDb = this.activeFiltersText;
-      console.log('### - before setTimeout(()');
-      setTimeout(() => {
-        this.loadingScreen = false;
-      }, 850);
+    const localStorageFilters = JSON.parse(localStorage.getItem('filters')!);
+    this.filtersForm = this.formbuilder.group({
+      year: [localStorageFilters.year],
+      month: [localStorageFilters.month],
+      hideOption1Value: [localStorageFilters.hideOption1Value],
+      hideOption2Value: [localStorageFilters.hideOption2Value],
     });
+    this.changeModalFiltersText();
+    // change the filter text with the local storage filters data
+    setTimeout(() => {
+      this.activeFiltersText = this.modalFiltersText;
+      this.loadingScreen = false;
+    }, 850);
   }
 
   changeFiltersYearMinus() {
@@ -246,7 +236,7 @@ export class ClientsComponent {
       hideOption1Value: [this.filtersForm.controls.hideOption1Value.value],
       hideOption2Value: [this.filtersForm.controls.hideOption2Value.value],
     })
-    this.changeActiveFiltersText();
+    this.changeModalFiltersText();
   }
 
   changeFiltersMonth(monthNumber: number) {
@@ -261,7 +251,7 @@ export class ClientsComponent {
       hideOption1Value: [this.filtersForm.controls.hideOption1Value.value],
       hideOption2Value: [this.filtersForm.controls.hideOption2Value.value],
     })
-    this.changeActiveFiltersText();
+    this.changeModalFiltersText();
   }
 
   changeFiltersNoFilters() {
@@ -271,11 +261,11 @@ export class ClientsComponent {
       hideOption1Value: [false],
       hideOption2Value: [false],
     })
-    this.changeActiveFiltersText();
+    this.changeModalFiltersText();
   }
 
   // change text of current filter selections from the Filters Modal's footer
-  changeActiveFiltersText() {
+  changeModalFiltersText() {
     let month: string = '';
     if (this.filtersForm.controls.month.value) {
       switch (this.filtersForm.controls.month.value) {
@@ -343,29 +333,26 @@ export class ClientsComponent {
     }
 
     // concatenate complete text using the calculated variables. If all variables are '' (null/empty), the output string will be ' null ;'
-    this.activeFiltersText = month + ' ' + year + ' ; ' + filtreSpeciale;
-    if (this.activeFiltersText.indexOf(' null ; ') > -1) {
+    this.modalFiltersText = month + ' ' + year + ' ; ' + filtreSpeciale;
+    if (this.modalFiltersText.indexOf(' null ; ') > -1) {
       if (filtreSpeciale) {
-        this.activeFiltersText = filtreSpeciale;
+        this.modalFiltersText = filtreSpeciale;
       } else {
-        this.activeFiltersText = 'Fara Filtre';
+        this.modalFiltersText = 'Fara Filtre';
       }
     } else {
       if (!filtreSpeciale) {
-        this.activeFiltersText = month + ' ' + year;
+        this.modalFiltersText = month + ' ' + year;
       }
     }
   }
 
   submitFiltersForm() {
     this.loadingScreen = true;
-    this.databaseService.patchFilters(this.filtersForm.value)
-      .subscribe(() => {
-        console.log('filters saved in db');
-        // get the filter text from the one created in the Filters Modal Form
-        this.activeFiltersTextFromDb = this.activeFiltersText;
-        this.loadingScreen = false;
-      })
+    localStorage.setItem('filters', JSON.stringify(this.filtersForm.value));
+    // trigger click event of search input to search again with the new filters
+    this.searchButton.nativeElement.click();
+    this.activeFiltersText = this.modalFiltersText;
   }
 
 }

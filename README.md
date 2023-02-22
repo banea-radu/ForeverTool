@@ -31,6 +31,7 @@
   - filter button:
     - filter by month and year
     - special filters: nu e avatar, unfriended
+    - save filter data to localstorage
   - loading screen
   - import file
     - json file:
@@ -65,7 +66,6 @@
     - 'unload' file after import succesful
   - convert to pwa
   - nice to have's:
-    - save filter data to localstorage
     - pagination
     - loading screen what hides after data loaded (w/o timeout!)
     - page not found

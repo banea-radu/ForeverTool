@@ -7,7 +7,7 @@
     <span>a</span>
   </div>
 </div>
-<div class="container text-center px-0"> <!-- *ngIf="!(menuService.menuOpened$ | async)" -->
+<div class="container text-center px-0">
   <div class="card">
     <div class="card-title d-flex flex-column justify-content-center align-items-center">
       <h5 class="pt-2">
@@ -16,14 +16,14 @@
       <div class="d-flex flex-column w-100 justify-content-center align-items-center">
         <div class="input-box d-flex w-75 max-width-300px">
           <input class="form-control" type="text" #searchString placeholder="cauta.." (keyup)="searchInputEventListener($event, searchString.value)">
-          <button class="btn" (click)="searchClients(searchString.value)">
+          <button #searchButton class="btn" (click)="searchClients(searchString.value)">
             <i class="fa fa-search"></i>
           </button>
         </div>
         <div>
           <button class="btn" data-bs-toggle="modal" data-bs-target="#filtersModal" (click)="getFiltersData()">
             <i class="fa-solid fa-filter"></i>
-            <span> {{ activeFiltersTextFromDb }} </span>
+            <span> {{ activeFiltersText }} </span>
           </button>
         </div>
       </div>
@@ -222,13 +222,13 @@
           <!-- List with special filters -->
           <p class="fs-6 fw-semibold pt-3 text-center"> Filtre speciale, ascunde clientii care contin textul: </p>
           <div class="form-check form-switch">
-            <input class="form-check-input" formControlName="hideOption1Value" type="checkbox" role="switch" id="flexSwitchCheckDefault1" (change)="changeActiveFiltersText()">
+            <input class="form-check-input" formControlName="hideOption1Value" type="checkbox" role="switch" id="flexSwitchCheckDefault1" (change)="changeModalFiltersText()">
             <label class="form-check-label" for="flexSwitchCheckDefault1">
               <span> {{ filtersHideOption1Text }} </span>
             </label>
           </div>
           <div class="form-check form-switch">
-            <input class="form-check-input" formControlName="hideOption2Value" type="checkbox" role="switch" id="flexSwitchCheckDefault2" (change)="changeActiveFiltersText()">
+            <input class="form-check-input" formControlName="hideOption2Value" type="checkbox" role="switch" id="flexSwitchCheckDefault2" (change)="changeModalFiltersText()">
             <label class="form-check-label" for="flexSwitchCheckDefault2">
               <span> {{ filtersHideOption2Text }} </span>
             </label>
