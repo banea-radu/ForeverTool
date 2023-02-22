@@ -59,12 +59,12 @@
         - \u00c8\u009a : Ț
       - add imported source property: 'source : facebook'
       - update current json database
+    - convert to pwa
   
   ## ToDo's:
   - import component:
     - preview new imported clients in table
     - 'unload' file after import succesful
-  - convert to pwa
   - nice to have's:
     - pagination
     - loading screen what hides after data loaded (w/o timeout!)
