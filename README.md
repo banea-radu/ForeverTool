@@ -1,7 +1,8 @@
-# Learn by doing Project - ForeverTool (version 2)
+# Learn by doing Project - ForeverTool PWA (version 2)
 
 ### Clients management application, with firebase database (authentication, realtime database, storage).
   ### Main functionalities:
+    - PWA (Progressive Web Application)
     - get list of clients
       - filter:
         - list of clients by year and month
@@ -60,6 +61,7 @@
       - add imported source property: 'source : facebook'
       - update current json database
     - convert to pwa
+      - netlify deploy errors, solved: https://stackoverflow.com/questions/69351433/i-am-trying-to-host-my-react-website-on-netlify-but-there-is-a-npm-install-error
   
   ## ToDo's:
   - import component:
