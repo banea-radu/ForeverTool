@@ -1,12 +1,13 @@
 /* || Declare variables */
 :root {
-	--background-main-color: #d58fdb;
-	/* --text-hover-color: #fbb44c; */
+	--background-main-color: #000000;
+  --text-color: #FFFFFF;
 }
 
 /* || Reset default properties */
 body {
 	background-color: var(--background-main-color);
+  color: var(--text-color);
 }
 
 /* || Animations */

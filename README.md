@@ -70,4 +70,3 @@
   - nice to have's:
     - pagination
     - loading screen what hides after data loaded (w/o timeout!)
-    - page not found
