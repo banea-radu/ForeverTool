@@ -1,6 +1,8 @@
 # Learn by doing Project - ForeverTool PWA (version 2)
 
-[![Alternate Text]({http://img.youtube.com/vi/GtlcOowVptU/0.jpg})]({https://www.youtube.com/watch?v=GtlcOowVptU} "Link Title")
+[![Now in Android: 55]          // Title
+(https://i.ytimg.com/vi/Hc79sDi3f0U/maxresdefault.jpg)] // Thumbnail
+(https://www.youtube.com/watch?v=Hc79sDi3f0U "Now in Android: 55")    // Video Link
 
 [![IMAGE ALT TEXT](http://img.youtube.com/vi/GtlcOowVptU/0.jpg)](https://www.youtube.com/watch?v=GtlcOowVptU "Unity Snake Game")
 
