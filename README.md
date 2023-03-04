@@ -1,7 +1,5 @@
 # Learn by doing Project - ForeverTool PWA (version 2)
 
-https://user-images.githubusercontent.com/100232231/222918559-ffebdbde-1966-408c-a7bc-f5032146f8b2.mp4
-
 ### Clients management application, with firebase database (authentication, realtime database, storage).
   ### Main functionalities:
     - PWA (Progressive Web Application)
@@ -16,6 +14,7 @@ https://user-images.githubusercontent.com/100232231/222918559-ffebdbde-1966-408c
       - from json file
         - replace of special characters (mostly diacritics) with normal characters (ex. ă => a)
 
+https://user-images.githubusercontent.com/100232231/222918559-ffebdbde-1966-408c-a7bc-f5032146f8b2.mp4
 
 ## Technologies used:
 <div>
