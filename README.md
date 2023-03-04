@@ -1,13 +1,6 @@
 # Learn by doing Project - ForeverTool PWA (version 2)
 
-[![Now in Android: 55]          // Title
-(https://i.ytimg.com/vi/Hc79sDi3f0U/maxresdefault.jpg)] // Thumbnail
-(https://www.youtube.com/watch?v=Hc79sDi3f0U "Now in Android: 55")    // Video Link
-
-[![IMAGE ALT TEXT](http://img.youtube.com/vi/GtlcOowVptU/0.jpg)](https://www.youtube.com/watch?v=GtlcOowVptU "Unity Snake Game")
-
-<video src="https://www.dropbox.com/s/7o47kpei71ind51/ForeverTool.mp4?raw=1" controls="controls" style="max-height: 500px;">
-</video>
+https://user-images.githubusercontent.com/100232231/222918559-ffebdbde-1966-408c-a7bc-f5032146f8b2.mp4
 
 ### Clients management application, with firebase database (authentication, realtime database, storage).
   ### Main functionalities:
