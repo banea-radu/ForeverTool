@@ -1,5 +1,7 @@
 # Learn by doing Project - ForeverTool PWA (version 2)
 
+
+
 ### Clients management application, with firebase database (authentication, realtime database, storage).
   ### Main functionalities:
     - PWA (Progressive Web Application)
