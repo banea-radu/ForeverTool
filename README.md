@@ -1,6 +1,6 @@
 # Learn by doing Project - ForeverTool PWA (version 2)
 
-<video src="blob:https://www.dropbox.com/21f358e7-3e93-4f17-8853-a62b93ac2fed" controls="controls" style="max-width: 730px;">
+<video src="https://www.dropbox.com/21f358e7-3e93-4f17-8853-a62b93ac2fed" controls="controls" style="max-width: 730px;">
 </video>
 
 
