@@ -1,5 +1,7 @@
 # Learn by doing Project - ForeverTool PWA (version 2)
 
+[![IMAGE ALT TEXT](http://img.youtube.com/vi/GtlcOowVptU/0.jpg)](https://www.youtube.com/watch?v=GtlcOowVptU "Unity Snake Game")
+
 <video src="https://www.dropbox.com/s/7o47kpei71ind51/ForeverTool.mp4?raw=1" controls="controls" style="max-height: 500px;">
 </video>
 
