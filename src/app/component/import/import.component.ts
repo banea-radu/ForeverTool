@@ -7,9 +7,8 @@ import { DatabaseService } from 'src/app/service/database.service';
   styleUrls: ['./import.component.css']
 })
 export class ImportComponent {
-
-  duplicateIdsArray: any[] = [];
   clientsToAddToDb: any = {};
+  keysClientsToAddToDb: String[];
   // startDate = new Date(1263722547*1000);
   // startDayMonthYear = this.startDate.getDate() + '.' + (this.startDate.getMonth() + 1) + '.' + this.startDate.getFullYear();
   // endDate = new Date(1675285130*1000);
@@ -42,6 +41,8 @@ export class ImportComponent {
           return;
         }
       }
+      // Clear the input
+      event.target.value = null;
     }
   }
 
@@ -80,7 +81,7 @@ export class ImportComponent {
           }
         });
       
-        // if newClient from json file was not found in database:
+        // if newClient from json file was not found in database, then save it in the 'clientsToAddToDb' object that will be imported
         if (!newClientAlreadyInDb) {
           // create object with created keys and add source of imported file property
           let keyName = newClient.name.substring(0, 2) + '-' + newClient.timestamp;
@@ -89,7 +90,12 @@ export class ImportComponent {
       });
 
       // import all new clients in database
-      this.databaseService.importNewClients(this.clientsToAddToDb).subscribe(() => alert(`Au fost adaugati ${Object.keys(this.clientsToAddToDb).length} clienti noi!`));
+      this.databaseService.importNewClients(this.clientsToAddToDb).subscribe(() => {
+        this.keysClientsToAddToDb = Object.keys(this.clientsToAddToDb);
+        alert(`Au fost adaugati ${this.keysClientsToAddToDb.length} clienti noi! Sunt afisati in tabel!`);
+        // empty object so that the next file import will be 'fresh'
+        this.clientsToAddToDb = {};
+      });
     });
   }
 }

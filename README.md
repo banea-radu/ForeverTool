@@ -60,13 +60,12 @@
         - \u00c8\u009a : Ț
       - add imported source property: 'source : facebook'
       - update current json database
+      - preview new imported clients in table
+      - unload file after import succesful
     - convert to pwa
       - netlify deploy errors, solved: https://stackoverflow.com/questions/69351433/i-am-trying-to-host-my-react-website-on-netlify-but-there-is-a-npm-install-error
   
   ## ToDo's:
-  - import component:
-    - preview new imported clients in table
-    - 'unload' file after import succesful
   - nice to have's:
     - pagination
     - loading screen what hides after data loaded (w/o timeout!)

@@ -2,29 +2,29 @@
 <input type="file" class="d-none" requiredFileType="application/json" (change)="fileImport($event, 'facebook')" #fileUpload>
 <!-- Visible button for input field -->
 <div class="">
-  <button class="btn"
+  <button class="btn btn-dark"
     (click)="fileUpload.click()">
     <i class="fa-brands fa-facebook"></i>
     Adauga Clienti
   </button>
 </div>
 <!-- Preview of items in table -->
-<div>
+<div class="my-2 mx-1">
   <div class="card-table">
     <div class="cart-product table-responsive">
-      <table class="table table-striped table-hover table-bordered align-middle table-sm">
+      <table class="table table-dark table-striped table-hover table-bordered align-middle table-sm">
         <thead>
           <tr class="align-middle">
             <th> Nr </th>
             <th> Nume </th>
-            <th> Id </th>
+            <th> Conectat </th>
           </tr>
         </thead>
         <tbody class="table-group-divider">
-          <tr *ngFor="let rawItem of duplicateIdsArray; let i=index">
+          <tr *ngFor="let client of clientsToAddToDb | keyvalue; let i=index"> <!-- iterate over all items from object with 'keyvalue' pipe: {{item.key}}:{{item.value}} -->
             <td> {{ i+1 }} </td>
-            <td> {{ rawItem.name }} </td>
-            <td> {{ rawItem.timestamp }} </td>
+            <td> {{ client.value['Nume'] }} </td>
+            <td> {{ (client.value['Id']*1000) | date }} </td>
           </tr>
         </tbody>
       </table>
