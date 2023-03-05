@@ -15,13 +15,12 @@ import { ElementRef, ViewChild  } from '@angular/core';
 export class ClientsComponent {
   @ViewChild('searchButton') searchButton: ElementRef<HTMLElement>;
   clients$: Observable<any[]>;
-  itemToChangeAfterConfirmation: any = {}; // replace any with model
+  itemToChangeAfterConfirmation: any = {};
   windowScrolled: boolean = false;
   startingYear: number = 2010; // starting year from which data is available in the database
   modalFiltersText: string = '';
   activeFiltersText: string = '';
   loadingScreen: boolean = true;
-
   editForm = this.formbuilder.group({
     Abordare: [''],
     Cunosc: [''],
@@ -35,7 +34,6 @@ export class ClientsComponent {
     Nume: [''],
     id: ['']
   })
-
   currentDate = new Date();
   filtersHideOption1Text: string = 'nu e avatar';
   filtersHideOption2Text: string = 'unfriended';
@@ -57,7 +55,33 @@ export class ClientsComponent {
     this.getFiltersData();
     // add event listener for showing/hiding the up arrow button
     window.addEventListener('scroll', () => {
-      this.windowScrolled = window.pageYOffset >= 300;
+      this.windowScrolled = window.pageYOffset >= 400;
+    });
+  }
+
+  getClientsTest() {
+    const startAtDate = new Date(this.filtersForm.controls.year.value,this.filtersForm.controls.month.value - 1);
+    const startAtId: number = startAtDate.getTime() / 1000;
+    const endAtDate = new Date(this.filtersForm.controls.year.value,this.filtersForm.controls.month.value);
+    const endAtId: number = endAtDate.getTime() / 1000;
+    console.log(startAtId, endAtId);
+
+    this.databaseService.getClientsTest(startAtId, endAtId).subscribe((res) => {
+
+      // let nr = 0;
+      // let st = 0;
+      // res.forEach((item) => {
+      //   if (typeof item.Id == 'number') {
+      //     nr++;
+      //   }
+      //   if (typeof item.Id == 'string') {
+      //     st++;
+      //   }
+      // })
+      // console.log('nr: ', nr);
+      // console.log('st: ', st);
+
+      console.log(res);
     });
   }
 
@@ -90,16 +114,16 @@ export class ClientsComponent {
               + item.NextStep + " "
               + item.Nume).toUpperCase().indexOf(searchString.toUpperCase()) > -1)
             &&
-            // return only the items that have been connected with in year selected in the Filters Modal Form, if a year was selected
+            // return only the items that have been connected with in the year selected in the Filters Modal Form, if a year was selected
             (this.filtersForm.controls.year.value
               // item.Id is epoch time
-              ? +(new Date(item.Id*1000)).getFullYear() == this.filtersForm.controls.year.value
+              ? +(new Date(item.Id * 1000)).getFullYear() == this.filtersForm.controls.year.value
               : true
             )
             &&
             // return only the items that have been connected with in month selected in the Filters Modal Form, if a month was selected
             (this.filtersForm.controls.month.value
-              ? +(new Date(item.Id*1000)).getMonth()+1 == this.filtersForm.controls.month.value
+              ? +(new Date(item.Id * 1000)).getMonth()+1 == this.filtersForm.controls.month.value
               : true
             )
             &&

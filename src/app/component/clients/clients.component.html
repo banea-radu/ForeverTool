@@ -23,6 +23,12 @@
             <i class="fa-solid fa-filter"></i>
             <span> {{ activeFiltersText }} </span>
           </button>
+
+          <!-- <button class="btn text-white" (click)="getClientsTest()">
+            <span> getClientsTest </span>
+          </button> -->
+          
+
         </div>
       </div>
     </div>
@@ -82,7 +88,7 @@
                   <tr>
                     <th class="text-end width-80px"> Connected </th>
                     <!-- <td class="text-start"> {{ client.Id | slice : 4 : 6 }} {{ client.Id | slice : 0 : 4 }} </td> -->
-                    <td class="text-start"> {{ (client.Id*1000) | date }} </td>
+                    <td class="text-start"> {{ (client.Id * 1000) | date }} </td>
                   </tr>
                 </tbody>
               </table>
@@ -164,7 +170,7 @@
               </tr>
               <tr>
                 <th class="text-end width-80px"> Connected </th>
-                <td> {{ (itemToChangeAfterConfirmation.Id*1000) | date }} </td>
+                <td> {{ (itemToChangeAfterConfirmation.Id * 1000) | date }} </td>
               </tr>
             </tbody>
           </table>

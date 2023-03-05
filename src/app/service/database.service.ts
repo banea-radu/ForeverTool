@@ -3,9 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
+import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { Router } from '@angular/router';
 import { DbAuthUser } from '../model/db-auth-user';
 import { environment } from 'src/environments/environment';
+import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +20,7 @@ export class DatabaseService {
     public router: Router,
     public angularFireAuth: AngularFireAuth,
     public angularFireStore: AngularFirestore,
+    private realtimeDb: AngularFireDatabase
   ) {
     // Save user data in localstorage when logged in, set null when logged out
     this.angularFireAuth.authState.subscribe((user) => {
@@ -139,14 +142,19 @@ export class DatabaseService {
     return this.http.patch(completeUrl, bodyData);
   }
 
-  getFilters(){
-    const completeUrl = this.createCompleteUrl('filters');
-    return this.http.get(completeUrl);
-  }
+  // getFilters(){
+  //   const completeUrl = this.createCompleteUrl('filters');
+  //   return this.http.get(completeUrl);
+  // }
 
   patchFilters(bodyData: any){
     const completeUrl = this.createCompleteUrl('filters');
     return this.http.patch(completeUrl, bodyData);
   }
  
+  getClientsTest(startId: number, endId: number): Observable<any> {
+    return this.realtimeDb
+                .list('clients', ref => ref.orderByChild('Id').startAt(startId).endAt(endId))
+                .valueChanges();
+  }
 }

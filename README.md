@@ -68,5 +68,6 @@ https://user-images.githubusercontent.com/100232231/222918559-ffebdbde-1966-408c
   
   ## ToDo's:
   - nice to have's:
+    - query filtering with firebase realtime database
     - pagination
-    - loading screen what hides after data loaded (w/o timeout!)
+    - loading screen that hides after data loaded (w/o timeout!)
