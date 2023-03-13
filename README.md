@@ -35,6 +35,7 @@ https://user-images.githubusercontent.com/100232231/222918559-ffebdbde-1966-408c
     - special filters: nu e avatar, unfriended
     - save filter data to localstorage
   - loading screen
+    - loading screen that hides after data loaded (when observable completes)
   - import file
     - json file:
       - replace escape characters with their normal character (ex. ă = a):
@@ -70,4 +71,3 @@ https://user-images.githubusercontent.com/100232231/222918559-ffebdbde-1966-408c
   - nice to have's:
     - query filtering with firebase realtime database
     - pagination
-    - loading screen that hides after data loaded (w/o timeout!)

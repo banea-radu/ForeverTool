@@ -32,12 +32,13 @@
         </div>
       </div>
     </div>
-    <p *ngIf="clients$"> ({{(clients$ | async)?.length}} rezultate) </p>
-    <div>
+    <p *ngIf="clients$"> ({{searchNumberOfResults}} rezultate) </p>
+    <div *ngIf="(clients$ | async) as clients">
       <div class="card-table">
         <div class="cart-product table-responsive">
           <table class="table table-dark table-striped table-hover table-bordered align-middle table-sm">
-            <tr *ngFor="let client of clients$ | async; let i=index">
+            <!-- <tr *ngFor="let client of clients$ | async; let i=index"> -->
+              <tr *ngFor="let client of clients; let i=index">
               <table class="table table-dark table-striped table-hover table-bordered align-middle table-sm">
                 <tbody class="table-group-divider">
                   <tr>

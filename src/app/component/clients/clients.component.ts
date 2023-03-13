@@ -4,7 +4,7 @@ import { MenuService } from 'src/app/service/menu.service';
 import { DatabaseService } from 'src/app/service/database.service';
 import { Observable } from "rxjs";
 import { ViewportScroller } from '@angular/common';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { ElementRef, ViewChild  } from '@angular/core';
 
 @Component({
@@ -15,6 +15,7 @@ import { ElementRef, ViewChild  } from '@angular/core';
 export class ClientsComponent {
   @ViewChild('searchButton') searchButton: ElementRef<HTMLElement>;
   clients$: Observable<any[]>;
+  searchNumberOfResults: number;
   itemToChangeAfterConfirmation: any = {};
   windowScrolled: boolean = false;
   startingYear: number = 2010; // starting year from which data is available in the database
@@ -157,11 +158,15 @@ export class ClientsComponent {
               : true
             )
           )
-        )
+        ),
+        tap((response) => {
+          this.searchNumberOfResults = response.length;
+          this.loadingScreen = false;
+        })
       )
-    setTimeout(() => {
-      this.loadingScreen = false;
-    }, 1000);
+    // setTimeout(() => {
+    //   this.loadingScreen = false;
+    // }, 1000);
   }
 
   saveItemToChangeAfterConfirmation(item: any) {
