@@ -16,6 +16,7 @@ import { ClientsComponent } from './component/clients/clients.component';
 import { LoginComponent } from './component/login/login.component';
 import { ImportComponent } from './component/import/import.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { ActivityComponent } from './component/activity/activity.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     HeaderComponent,
     ClientsComponent,
     LoginComponent,
-    ImportComponent
+    ImportComponent,
+    ActivityComponent
   ],
   imports: [
     BrowserModule,

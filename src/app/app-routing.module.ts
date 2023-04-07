@@ -4,11 +4,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { ClientsComponent } from './component/clients/clients.component';
 import { LoginComponent } from './component/login/login.component';
 import { ImportComponent } from './component/import/import.component';
+import { ActivityComponent } from './component/activity/activity.component';
 
 import { ClientsGuardService } from './service/clients-guard.service';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/clients', pathMatch: 'full' },
+  { path: '', redirectTo: '/activity', pathMatch: 'full' },
+  { path: 'activity', component: ActivityComponent, canActivate: [ClientsGuardService] },
   { path: 'clients', component: ClientsComponent, canActivate: [ClientsGuardService] },
   { path: 'login', component: LoginComponent },
   { path: 'import', component: ImportComponent },

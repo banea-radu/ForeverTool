@@ -68,6 +68,7 @@ https://user-images.githubusercontent.com/100232231/222918559-ffebdbde-1966-408c
       - netlify deploy errors, solved: https://stackoverflow.com/questions/69351433/i-am-trying-to-host-my-react-website-on-netlify-but-there-is-a-npm-install-error
   
   ## ToDo's:
+  - activity component
   - nice to have's:
     - query filtering with firebase realtime database
     - pagination
