@@ -142,15 +142,15 @@ export class DatabaseService {
     return this.http.patch(completeUrl, bodyData);
   }
 
-  // getFilters(){
-  //   const completeUrl = this.createCompleteUrl('filters');
-  //   return this.http.get(completeUrl);
-  // }
-
-  patchFilters(bodyData: any){
-    const completeUrl = this.createCompleteUrl('filters');
-    return this.http.patch(completeUrl, bodyData);
+  getActivities(thisWeekId: string){
+    const completeUrl = this.createCompleteUrl('activity', thisWeekId);
+    return this.http.get(completeUrl);
   }
+
+  // patchFilters(bodyData: any){
+  //   const completeUrl = this.createCompleteUrl('filters');
+  //   return this.http.patch(completeUrl, bodyData);
+  // }
  
   getClientsTest(startId: number, endId: number): Observable<any> {
     return this.realtimeDb

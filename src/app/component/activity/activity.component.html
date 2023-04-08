@@ -1,1 +1,56 @@
-<p>activity works!</p>
+<div class="container text-center px-0">
+  <div class="card text-bg-dark">
+    <div class="card-title d-flex flex-column justify-content-center align-items-center">
+      <h5 class="pt-2">
+        Activitate
+      </h5>
+      <div class="d-flex flex-column w-100 justify-content-center align-items-center">
+        <div>
+          <button class="btn text-white" data-bs-toggle="modal" data-bs-target="#filtersModal"> <!-- (click)="getFiltersData()" -->
+            <i class="fa-solid fa-filter"></i>
+            <span> {{ thisWeekId }} </span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="$activities | async as activities">
+      <!-- <div class="card-table"> -->
+        <!-- <div class="cart-product table-responsive"> -->
+          <!-- <table class="table table-dark table-striped table-hover table-bordered align-middle table-sm">
+            <tr >  -->
+              <!-- *ngFor="let activity of activities; let i=index" -->
+                <table class="table table-dark table-striped table-hover table-bordered align-middle table-sm">
+                  <tbody > <!-- class="table-group-divider" -->
+                    <tr>
+                      <th class="text-end width-80px"> # </th>
+                      <td class="text-start">
+                        linkedIn
+                        <!-- <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#editModal" (click)="saveItemToChangeAfterConfirmation(client)">
+                          <i class="fa-solid fa-pencil"></i>
+                        </button> -->
+                      </td>
+                    </tr>
+                    <tr>
+                      <th class="text-end width-80px"> Da </th>
+                      <td class="text-start"> {{ activities['linkedIn'].da }} </td>
+                    </tr>
+                    <!-- <tr>
+                      <th class="text-end width-80px"> Nu </th>
+                      <td class="text-start"> {{ activities$['linkedIn'].nu }} </td>
+                    </tr> -->
+                    <!-- <tr>
+                      <th class="text-end width-80px"> Connected </th>
+                      <td class="text-start"> {{ (client.Id * 1000) | date }} </td>
+                    </tr> -->
+                  </tbody>
+                </table>
+              <!-- </tr>
+            </table> -->
+          <!-- </div> -->
+          <!-- <button class="btn bottom-right text-white" [ngClass]="{ 'show-scrollTop': windowScrolled }" (click)="scrollToTop()" title="Go to top">
+            <i class="fa-2x fa-regular fa-circle-up"></i>
+          </button> -->
+        <!-- </div> -->
+    </div>
+  </div>
+</div>
