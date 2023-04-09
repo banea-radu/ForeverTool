@@ -147,10 +147,10 @@ export class DatabaseService {
     return this.http.get(completeUrl);
   }
 
-  // patchFilters(bodyData: any){
-  //   const completeUrl = this.createCompleteUrl('filters');
-  //   return this.http.patch(completeUrl, bodyData);
-  // }
+  patchActivities(bodyData: any){
+    const completeUrl = this.createCompleteUrl('activity', bodyData.weekId + "/" + bodyData.platforma);
+    return this.http.patch(completeUrl, bodyData);
+  }
  
   getClientsTest(startId: number, endId: number): Observable<any> {
     return this.realtimeDb

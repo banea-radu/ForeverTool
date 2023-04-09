@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 import { DatabaseService } from 'src/app/service/database.service';
 import { DatePipe } from '@angular/common';
@@ -10,19 +10,41 @@ import { FormBuilder } from '@angular/forms';
   styleUrls: ['./activity.component.css']
 })
 export class ActivityComponent {
+  @ViewChild('modalCloseButton1') modalCloseButton1;
   today: Date = new Date();
   selectedDate: Date = this.today;
   firstAndLastDayOfWeek: any = this.getFirstAndLastDayOfWeek(this.selectedDate); // object that will hold the first day and last day of the week
-  weekId: string;
+  weekId: string = this.createWeekIdString(this.firstAndLastDayOfWeek);
   $activities: Observable<any>;
+  pulseAnimation: boolean = false;
 
-  formWeekInterval = this.createWeekIntervalString(this.selectedDate);
   formPlatforms: string[] = ["LinkedIn", "Facebook", "Instagram", "TikTok"];
   formSelectedDate = this.datePipe.transform(this.selectedDate, "yyyy-MM-dd"); // get correct format for datepicker
   activitiesForm = this.formbuilder.group({
-    week: [this.formWeekInterval],
-    platform: [this.formPlatforms[0]],
-    selectedDate: [this.formSelectedDate],
+    weekId: [this.weekId],
+    weekIntervalString: [this.createWeekIntervalString(this.selectedDate)],
+    platforma: [this.formPlatforms[0]],
+    datepicker: [this.formSelectedDate],
+    postari: [],
+    fam: [],
+    intrebareAfacere: [],
+    intrebareProdus: [],
+    invitatieEvenimentPrezentare: [],
+    reply: [],
+    da: [],
+    nu: [],
+    obiectie: [''],
+    link: [],
+    telefon: [],
+    telefonText: [''],
+    groups: [],
+    groupsText: [''],
+    clientiInscriere: [],
+    clientiInscriereText: [''],
+    followUp: [],
+    followUpText: [''],
+    ccDeUnde: [],
+    ccDeUndeText: [''],
   })
 
   constructor(
@@ -32,7 +54,7 @@ export class ActivityComponent {
   ) {}
 
   ngOnInit() {
-    this.weekId = this.datePipe.transform(this.firstAndLastDayOfWeek.firstDay,"yyyyMMdd") + '-' + this.datePipe.transform(this.firstAndLastDayOfWeek.lastDay,"yyyyMMdd");
+    console.log(this.weekId);
     this.getActivities(this.weekId);
   }
  
@@ -46,22 +68,35 @@ export class ActivityComponent {
     return {firstDay, lastDay};
   }
 
+  createWeekIdString(firstAndLastDayOfWeek: any) {
+    return this.datePipe.transform(firstAndLastDayOfWeek.firstDay,"yyyyMMdd") + '-' + this.datePipe.transform(firstAndLastDayOfWeek.lastDay,"yyyyMMdd");
+  }
+
   createWeekIntervalString(selectedDate) {
-    const firstAndLastDayOfWeek = this.getFirstAndLastDayOfWeek(selectedDate);
-    this.datePipe.transform(firstAndLastDayOfWeek.firstDay,"dd.MM.y") + " - " + this.datePipe.transform(firstAndLastDayOfWeek.lastDay,"dd.MM.y");
+    const FIRST_DAY_AND_LAST_DAY_OF_WEEK = this.getFirstAndLastDayOfWeek(selectedDate);
+    return this.datePipe.transform(FIRST_DAY_AND_LAST_DAY_OF_WEEK.firstDay,"dd.MM.y") + " - " + this.datePipe.transform(FIRST_DAY_AND_LAST_DAY_OF_WEEK.lastDay,"dd.MM.y");
   }
 
   getActivities(weekId: string) {
     this.$activities = this.databaseService.getActivities(weekId);
   }
 
-  onDatepickerChange(selectedDate) {
-    console.log(selectedDate.target.valueAsDate);
-    this.selectedDate = selectedDate.target.valueAsDate;
-    this.activitiesForm.controls.week.patchValue();
+  onDatepickerChange(datepickerDate) {
+    this.pulseAnimation = true;
+    const DATEPICKER_DATE = datepickerDate.target.valueAsDate;
+    const FIRST_DAY_AND_LAST_DAY_OF_WEEK = this.getFirstAndLastDayOfWeek(DATEPICKER_DATE);
+    this.activitiesForm.patchValue({
+      weekId: this.createWeekIdString(FIRST_DAY_AND_LAST_DAY_OF_WEEK),
+      weekIntervalString: this.createWeekIntervalString(DATEPICKER_DATE)
+    });
+    setTimeout(() => {this.pulseAnimation = false;}, 1000);
   }
 
   activitiesFormSubmit(form) {
-    console.log("tzushti");
+    this.databaseService.patchActivities(form)
+      .subscribe(res => {
+        console.log("saved to db");
+        this.modalCloseButton1.nativeElement.click(); // close the modal only if form is valid and submitted;
+      });
   }
 }

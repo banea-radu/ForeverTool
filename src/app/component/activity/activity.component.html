@@ -22,12 +22,12 @@
           <tr>
             <th class="text-end width-80px"> # </th>
             <td class="text-start">
-              linkedIn
+              LinkedIn
             </td>
           </tr>
           <tr>
             <th class="text-end width-80px"> Da </th>
-            <td class="text-start"> {{ activities['linkedIn'].da }} </td>
+            <td class="text-start"> {{ activities['LinkedIn'].da }} </td>
           </tr>
         </tbody>
       </table>
@@ -44,19 +44,18 @@
       <h1 class="modal-title fs-5 text-center"> Adaugă Activitate </h1>
       <div class="modal-body d-flex justify-content-center text-center">
         
-        <form 
+      <form 
         #form='ngForm'
         [formGroup]="activitiesForm"
         (ngSubmit)="activitiesFormSubmit(form.value)"
-        class="register-form d-flex flex-column align-items-middle m-2 w-75"
-        >
-
+        class="register-form d-flex flex-column align-items-middle m-2"
+      >
         <label for="week">Săptămâna:</label>
-        <input class="btn text-white" formControlName="week" type="text">
+        <input class="btn text-white mb-2" [ngClass]="{'pulse-animation': pulseAnimation}" formControlName="weekIntervalString" type="text">
 
         <div class="input-group mb-2 m-auto">
-          <label class="input-group-text justify-content-center width-100px" for="platform">Platforma</label>
-          <select class="form-select text-center" name="platform" formControlName="platform">
+          <label class="input-group-text justify-content-center width-100px" for="platforma">Platforma</label>
+          <select class="form-select text-center" name="platforma" formControlName="platforma">
             <option *ngFor="let platform of formPlatforms">
               {{platform}}
             </option>
@@ -64,46 +63,199 @@
         </div>
         
         <div class="input-group mb-2 m-auto">
-            <label class="input-group-text justify-content-center width-100px" for="selectedDate">Data</label>
-            <input type="date"
-              name="selectedDate"
-              formControlName="selectedDate"
-              class="form-control"
-              (change)="onDatepickerChange($event)"
-            >
-          </div>
+          <label class="input-group-text justify-content-center width-100px" for="datepicker">Data</label>
+          <input type="date"
+            name="datepicker"
+            formControlName="datepicker"
+            class="form-control text-center"
+            (change)="onDatepickerChange($event)"
+          >
+        </div>
 
-          <!-- <div class="input-group mb-2 m-auto">
-            <label class="input-group-text justify-content-center width-100px" for="child">Copil</label>
-            <select class="form-select text-center" name="child" formControlName="child">
-              <option> 
-                *ngFor="let child of children"
-                child
-              </option>
-            </select>
-          </div>
+        <div class="input-group mb-2 m-auto">
+          <label class="input-group-text justify-content-center width-100px" for="postari">Postări</label>
+          <input type="number"
+            name="postari"
+            formControlName="postari"
+            class="form-control text-center"
+          >
+        </div>
 
-          <label for="activity"> Activitate </label>
+        <div class="input-group mb-2 m-auto">
+          <label class="input-group-text justify-content-center width-100px" for="fam">FAM</label>
+          <input type="number"
+            name="fam"
+            formControlName="fam"
+            class="form-control text-center"
+          >
+        </div>
+
+        <div class="input-group mb-2">
+          <label class="input-group-text justify-content-center" for="intrebareAfacere">Întrebare Afacere</label>
+          <input type="number"
+            name="intrebareAfacere"
+            formControlName="intrebareAfacere"
+            class="form-control text-center"
+          >
+        </div>
+
+        <div class="input-group mb-2">
+          <label class="input-group-text justify-content-center" for="intrebareProdus">Întrebare Produs</label>
+          <input type="number"
+            name="intrebareProdus"
+            formControlName="intrebareProdus"
+            class="form-control text-center"
+          >
+        </div>
+
+        <div class="input-group mb-2">
+          <label class="input-group-text justify-content-center" for="invitatieEvenimentPrezentare">Invit. Even./Prez.</label>
+          <input type="number"
+            name="invitatieEvenimentPrezentare"
+            formControlName="invitatieEvenimentPrezentare"
+            class="form-control text-center"
+          >
+        </div>
+
+        <div class="input-group mb-2 m-auto">
+          <label class="input-group-text justify-content-center width-100px" for="reply">Reply</label>
+          <input type="number"
+            name="reply"
+            formControlName="reply"
+            class="form-control text-center"
+          >
+        </div>
+
+        <div class="input-group mb-2 m-auto">
+          <label class="input-group-text justify-content-center width-100px" for="da">DA</label>
+          <input type="number"
+            name="da"
+            formControlName="da"
+            class="form-control text-center"
+          >
+        </div>
+
+        <div class="input-group mb-2 m-auto">
+          <label class="input-group-text justify-content-center width-100px" for="nu">NU</label>
+          <input type="number"
+            name="nu"
+            formControlName="nu"
+            class="form-control text-center"
+          >
+        </div>
+
+        <div class="input-group mb-2 m-auto">
+          <label class="input-group-text justify-content-center width-100px" for="obiectie">Obiecție</label>
           <textarea
-            name="activity"
-            formControlName="activity"
-            placeholder="Teme la matematică.."
-            class="p-2 border border-success rounded mb-2 min-height-100px">
+            name="obiectie"
+            formControlName="obiectie"
+            class="form-control">
           </textarea>
+        </div>
 
-          <label for="activity"> Raportează o problemă/nevoie (opțional) </label>
+        <div class="input-group mb-2 m-auto">
+          <label class="input-group-text justify-content-center width-100px" for="link">Link</label>
+          <input type="number"
+            name="link"
+            formControlName="link"
+            class="form-control text-center"
+          >
+        </div>
+
+        <div class="input-group mb-2 m-auto">
+          <label class="input-group-text justify-content-center width-100px" for="telefon">Telefon</label>
+          <input type="number"
+            name="telefon"
+            formControlName="telefon"
+            class="form-control text-center"
+          >
+        </div>
+
+        <div class="input-group mb-2 m-auto">
+          <label class="input-group-text justify-content-center width-100px text-wrap" for="telefonText">Telefon (Nume..)</label>
           <textarea
-            name="problemOrNeed"
-            formControlName="problemOrNeed"
-            class="p-2 border border-success rounded mb-2">
-          </textarea> -->
+            name="telefonText"
+            formControlName="telefonText"
+            class="form-control">
+          </textarea>
+        </div>
 
-          <button type="submit" class="btn btn-outline-success">
-            Adaugă
-          </button>
-        </form>
+        <div class="input-group mb-2 m-auto">
+          <label class="input-group-text justify-content-center width-100px" for="groups">Groups</label>
+          <input type="number"
+            name="groups"
+            formControlName="groups"
+            class="form-control text-center"
+          >
+        </div>
 
-      </div>
+        <div class="input-group mb-2 m-auto">
+          <label class="input-group-text justify-content-center width-100px text-wrap" for="groupsText">Groups (Nume..)</label>
+          <textarea
+            name="groupsText"
+            formControlName="groupsText"
+            class="form-control">
+          </textarea>
+        </div>
+
+        <div class="input-group mb-2 m-auto">
+          <label class="input-group-text justify-content-center width-100px" for="clientiInscriere">Clienți/Înscr.</label>
+          <input type="number"
+            name="clientiInscriere"
+            formControlName="clientiInscriere"
+            class="form-control text-center"
+          >
+        </div>
+
+        <div class="input-group mb-2 m-auto">
+          <label class="input-group-text justify-content-center width-100px text-wrap" for="clientiInscriereText">Clienți/Înscr. (Nume..)</label>
+          <textarea
+            name="clientiInscriereText"
+            formControlName="clientiInscriereText"
+            class="form-control">
+          </textarea>
+        </div>
+
+        <div class="input-group mb-2 m-auto">
+          <label class="input-group-text justify-content-center width-100px" for="followUp">Follow-Up</label>
+          <input type="number"
+            name="followUp"
+            formControlName="followUp"
+            class="form-control text-center"
+          >
+        </div>
+
+        <div class="input-group mb-2 m-auto">
+          <label class="input-group-text justify-content-center width-100px text-wrap" for="followUpText">Follow-Up (Nume..)</label>
+          <textarea
+            name="followUpText"
+            formControlName="followUpText"
+            class="form-control">
+          </textarea>
+        </div>
+
+        <div class="input-group mb-2 m-auto">
+          <label class="input-group-text justify-content-center width-100px" for="ccDeUnde">CC, de unde?</label>
+          <input type="number"
+            name="ccDeUnde"
+            formControlName="ccDeUnde"
+            class="form-control text-center"
+          >
+        </div>
+
+        <div class="input-group mb-2 m-auto">
+          <label class="input-group-text justify-content-center width-100px text-wrap" for="ccDeUndeText">CC, de unde? (Nume..)</label>
+          <textarea
+            name="ccDeUndeText"
+            formControlName="ccDeUndeText"
+            class="form-control">
+          </textarea>
+        </div>
+
+        <button type="submit" class="btn btn-outline-success">
+          Adaugă
+        </button>
+      </form>
     </div>
   </div>
 </div>
