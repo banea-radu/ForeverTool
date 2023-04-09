@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { DatabaseService } from 'src/app/service/database.service';
+import { DatePipe } from '@angular/common';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-activity',
@@ -8,55 +10,72 @@ import { DatabaseService } from 'src/app/service/database.service';
   styleUrls: ['./activity.component.css']
 })
 export class ActivityComponent {
-  // create Id from selected date
-  today: Date = new Date("2023-03-30");
+  today: Date = new Date();
   selectedDate: Date = this.today;
-  firstDayOfWeek: Date;
-  lastDayOfWeek: Date;
-  
-  // selectedYear: number = this.selectedDate.getFullYear();
-  // selectedMonth: number = this.selectedDate.getMonth() + 1;
-  // selectedMonthString: string = 
-  //   this.selectedMonth < 10
-  //     ? '0' + this.selectedMonth
-  //     : this.selectedMonth.toString();
-  // selectedWeekDay: number = this.selectedDate.getDay();
-  // startDateOfWeek: number = + this.selectedDate.getDate() - this.selectedWeekDay + (this.selectedWeekDay == 0 ? -6 : 1);
-  // startDateOfWeekString: string =
-  //   this.startDateOfWeek < 10
-  //     ? '0' + this.startDateOfWeek
-  //     : this.startDateOfWeek.toString();
-  // endDateOfWeek: number = this.startDateOfWeek + 6;
-  // endDateOfWeekString: string =
-  //   this.endDateOfWeek < 10
-  //     ? '0' + this.endDateOfWeek
-  //     : this.endDateOfWeek.toString();
-  // thisWeekId: string = this.selectedYear + this.selectedMonthString + this.startDateOfWeekString + this.endDateOfWeekString;
-  thisWeekId = "2023040309";
- 
+  firstAndLastDayOfWeek: any = this.getFirstAndLastDayOfWeek(this.selectedDate); // object that will hold the first day and last day of the week
+  // firstDayOfWeek: Date;
+  // lastDayOfWeek: Date;
+  weekId: string;
   $activities: Observable<any>;
+
+  formWeekInterval = this.datePipe.transform(this.firstAndLastDayOfWeek.firstDay,"dd.MM.y") + " - " + this.datePipe.transform(this.firstAndLastDayOfWeek.lastDay,"dd.MM.y");
+  formPlatforms: string[] = ["LinkedIn", "Facebook", "Instagram", "TikTok"];
+  formSelectedDate = this.datePipe.transform(this.selectedDate, "yyyy-MM-dd"); // get correct format for datepicker
+  activitiesForm = this.formbuilder.group({
+    week: [this.formWeekInterval],
+    platform: [this.formPlatforms[0]],
+    selectedDate: [this.formSelectedDate],    
+    // problemOrNeed: [""],
+    // child: [""],
+    // volunteer: [""]
+  })
 
   constructor(
     public databaseService: DatabaseService,
+    private datePipe: DatePipe,
+    private formbuilder: FormBuilder,
   ) {}
 
   ngOnInit() {
+    this.weekId = this.datePipe.transform(this.firstAndLastDayOfWeek.firstDay,"yyyyMMdd") + '-' + this.datePipe.transform(this.firstAndLastDayOfWeek.lastDay,"yyyyMMdd");
     this.getActivities();
-    this.getFirstAndLastDayOfWeek();
-    console.log(this.firstDayOfWeek + '' + this.lastDayOfWeek);
   }
   
-  getFirstAndLastDayOfWeek() {
-    const date = new Date(this.selectedDate);
+  getFirstAndLastDayOfWeek(selectedDate) {
+    const date = new Date(selectedDate);
     const day = date.getDay(); // get day of week
     const diff = date.getDate() - day + (day === 0 ? -6 : 1); // day of month - day of week (-6 if Sunday), otherwise +1
-    this.firstDayOfWeek = new Date(date.setDate(diff));
-
-    this.lastDayOfWeek = new Date(this.firstDayOfWeek);
-    this.lastDayOfWeek.setDate(this.lastDayOfWeek.getDate() + 6);
+    let firstDay = new Date(date.setDate(diff));
+    let lastDay = new Date(firstDay);
+    lastDay.setDate(lastDay.getDate() + 6);
+    return {firstDay, lastDay};
   }
 
   getActivities() {
-    this.$activities = this.databaseService.getActivities(this.thisWeekId);
+    this.$activities = this.databaseService.getActivities(this.weekId);
+  }
+
+  activitiesFormSubmit(form) {
+    // this.addNewFormSubmitted = true;
+    // const TIMESTAMP = new Date().getTime();
+    // const USERNAME = this.userName.replaceAll(" ", "");
+    // const DATABASE_UID = 9999999999999 - TIMESTAMP + "-" + USERNAME; // substract TIMESTAMP from 99.. number so i get a new number in a descending order in the database
+    // if (this.activitiesForm.valid) {
+      // const stringToDate = new Date(form.activityDate);
+      // const stringToNumber = Number(form.duration);
+      // form.activityDate = stringToDate;
+      // form.duration = stringToNumber;
+      // form.dateAdded = TIMESTAMP;
+      // this.databaseService.addActivity(form, DATABASE_UID)
+      //   .subscribe(res => {
+      //     console.log('saved to db');
+      //     this.getAllActivities();
+      //     this.modalCloseButton1.nativeElement.click(); // close the modal only if form is valid and submitted
+      //   });
+      // console.log("valid");
+    // }
+
+    const test = this.getFirstAndLastDayOfWeek(form.selectedDate);
+    console.log(this.datePipe.transform(test.firstDay,"dd.MM.y") + " - " + this.datePipe.transform(test.lastDay,"dd.MM.y"));
   }
 }

@@ -1,0 +1,3 @@
+.modal.fade.show {
+  --bs-modal-header-border-width: 0px; /* hide header line */
+}

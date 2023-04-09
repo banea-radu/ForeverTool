@@ -6,51 +6,103 @@
       </h5>
       <div class="d-flex flex-column w-100 justify-content-center align-items-center">
         <div>
-          <button class="btn text-white" data-bs-toggle="modal" data-bs-target="#filtersModal"> <!-- (click)="getFiltersData()" -->
+          <button class="btn text-white" data-bs-toggle="modal" data-bs-target="#filtersModal">
             <i class="fa-solid fa-filter"></i>
-            <span> {{ thisWeekId }} </span>
+            <span> {{firstAndLastDayOfWeek.firstDay | date: 'dd.MM.y'}} - {{firstAndLastDayOfWeek.lastDay | date: 'dd.MM.y'}}</span>
           </button>
         </div>
       </div>
+      <button type="button" class="btn btn-outline-success m-1" data-bs-toggle="modal" data-bs-target="#activitiesModal">
+        Adaugă Activitate
+      </button>
     </div>
     <div *ngIf="$activities | async as activities">
-      <!-- <div class="card-table"> -->
-        <!-- <div class="cart-product table-responsive"> -->
-          <!-- <table class="table table-dark table-striped table-hover table-bordered align-middle table-sm">
-            <tr >  -->
-              <!-- *ngFor="let activity of activities; let i=index" -->
-                <table class="table table-dark table-striped table-hover table-bordered align-middle table-sm">
-                  <tbody > <!-- class="table-group-divider" -->
-                    <tr>
-                      <th class="text-end width-80px"> # </th>
-                      <td class="text-start">
-                        linkedIn
-                        <!-- <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#editModal" (click)="saveItemToChangeAfterConfirmation(client)">
-                          <i class="fa-solid fa-pencil"></i>
-                        </button> -->
-                      </td>
-                    </tr>
-                    <tr>
-                      <th class="text-end width-80px"> Da </th>
-                      <td class="text-start"> {{ activities['linkedIn'].da }} </td>
-                    </tr>
-                    <!-- <tr>
-                      <th class="text-end width-80px"> Nu </th>
-                      <td class="text-start"> {{ activities$['linkedIn'].nu }} </td>
-                    </tr> -->
-                    <!-- <tr>
-                      <th class="text-end width-80px"> Connected </th>
-                      <td class="text-start"> {{ (client.Id * 1000) | date }} </td>
-                    </tr> -->
-                  </tbody>
-                </table>
-              <!-- </tr>
-            </table> -->
-          <!-- </div> -->
-          <!-- <button class="btn bottom-right text-white" [ngClass]="{ 'show-scrollTop': windowScrolled }" (click)="scrollToTop()" title="Go to top">
-            <i class="fa-2x fa-regular fa-circle-up"></i>
-          </button> -->
-        <!-- </div> -->
+      <table class="table table-dark table-striped table-hover table-bordered align-middle table-sm">
+        <tbody >
+          <tr>
+            <th class="text-end width-80px"> # </th>
+            <td class="text-start">
+              linkedIn
+            </td>
+          </tr>
+          <tr>
+            <th class="text-end width-80px"> Da </th>
+            <td class="text-start"> {{ activities['linkedIn'].da }} </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<!-- Modal and Form for activities -->
+<div class="modal fade" id="activitiesModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content text-bg-dark">
+      <div class="modal-header">
+        <button #modalCloseButton1 type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <h1 class="modal-title fs-5 text-center"> Adaugă Activitate </h1>
+      <div class="modal-body d-flex justify-content-center text-center">
+        
+        <form 
+        #form='ngForm'
+        [formGroup]="activitiesForm"
+        (ngSubmit)="activitiesFormSubmit(form.value)"
+        class="register-form d-flex flex-column align-items-middle m-2 w-75"
+        >
+
+        <label for="week">Săptămâna:</label>
+        <input class="btn text-white" formControlName="week" type="text">
+
+        <div class="input-group mb-2 m-auto">
+          <label class="input-group-text justify-content-center width-100px" for="platform">Platforma</label>
+          <select class="form-select text-center" name="platform" formControlName="platform">
+            <option *ngFor="let platform of formPlatforms">
+              {{platform}}
+            </option>
+          </select>
+        </div>
+        
+        <div class="input-group mb-2 m-auto">
+            <label class="input-group-text justify-content-center width-100px" for="selectedDate">Data</label>
+            <input type="date"
+              name="selectedDate"
+              formControlName="selectedDate"
+              class="form-control"
+            >
+          </div>
+
+          <!-- <div class="input-group mb-2 m-auto">
+            <label class="input-group-text justify-content-center width-100px" for="child">Copil</label>
+            <select class="form-select text-center" name="child" formControlName="child">
+              <option> 
+                *ngFor="let child of children"
+                child
+              </option>
+            </select>
+          </div>
+
+          <label for="activity"> Activitate </label>
+          <textarea
+            name="activity"
+            formControlName="activity"
+            placeholder="Teme la matematică.."
+            class="p-2 border border-success rounded mb-2 min-height-100px">
+          </textarea>
+
+          <label for="activity"> Raportează o problemă/nevoie (opțional) </label>
+          <textarea
+            name="problemOrNeed"
+            formControlName="problemOrNeed"
+            class="p-2 border border-success rounded mb-2">
+          </textarea> -->
+
+          <button type="submit" class="btn btn-outline-success">
+            Adaugă
+          </button>
+        </form>
+
+      </div>
     </div>
   </div>
 </div>

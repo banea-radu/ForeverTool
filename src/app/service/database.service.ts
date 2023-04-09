@@ -142,8 +142,8 @@ export class DatabaseService {
     return this.http.patch(completeUrl, bodyData);
   }
 
-  getActivities(thisWeekId: string){
-    const completeUrl = this.createCompleteUrl('activity', thisWeekId);
+  getActivities(weekId: string){
+    const completeUrl = this.createCompleteUrl('activity', weekId);
     return this.http.get(completeUrl);
   }
 
