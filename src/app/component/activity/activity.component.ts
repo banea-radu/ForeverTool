@@ -54,8 +54,7 @@ export class ActivityComponent {
   ) {}
 
   ngOnInit() {
-    console.log(this.weekId);
-    this.getActivities(this.weekId);
+    this.$activities = this.getActivities(this.weekId);
   }
  
   getFirstAndLastDayOfWeek(selectedDate) {
@@ -78,18 +77,62 @@ export class ActivityComponent {
   }
 
   getActivities(weekId: string) {
-    this.$activities = this.databaseService.getActivities(weekId);
+    return this.databaseService.getActivities(weekId);
   }
 
-  onDatepickerChange(datepickerDate) {
+  onPlatformOrDatepickerChange() {
     this.pulseAnimation = true;
-    const DATEPICKER_DATE = datepickerDate.target.valueAsDate;
-    const FIRST_DAY_AND_LAST_DAY_OF_WEEK = this.getFirstAndLastDayOfWeek(DATEPICKER_DATE);
-    this.activitiesForm.patchValue({
-      weekId: this.createWeekIdString(FIRST_DAY_AND_LAST_DAY_OF_WEEK),
-      weekIntervalString: this.createWeekIntervalString(DATEPICKER_DATE)
+    // const DATEPICKER_DATE = this.activitiesForm.controls.datepicker.value;
+    const DATEPICKER = this.activitiesForm.controls.datepicker.value;
+    // console.log(DATEPICKER);
+    const FIRST_DAY_AND_LAST_DAY_OF_WEEK = this.getFirstAndLastDayOfWeek(DATEPICKER);
+    const WEEK_ID = this.createWeekIdString(FIRST_DAY_AND_LAST_DAY_OF_WEEK);
+    const WEEK_INTERVAL_STRING = this.createWeekIntervalString(DATEPICKER);
+    const PLATFORM = this.activitiesForm.controls.platforma.value;
+
+    this.getActivities(WEEK_ID).subscribe((res: any) => {
+      if (res) {
+        if (res[PLATFORM]) {
+          res[PLATFORM].datepicker = this.datePipe.transform(DATEPICKER, "yyyy-MM-dd");
+          this.activitiesForm.patchValue(res[PLATFORM]);
+        } else {
+          this.resetFormIfNoDataInDb(WEEK_ID, WEEK_INTERVAL_STRING, PLATFORM, DATEPICKER);
+        }
+      } else {
+        this.resetFormIfNoDataInDb(WEEK_ID, WEEK_INTERVAL_STRING, PLATFORM, DATEPICKER);
+      }
     });
+
     setTimeout(() => {this.pulseAnimation = false;}, 1000);
+  }
+
+  resetFormIfNoDataInDb(WEEK_ID, WEEK_INTERVAL_STRING, PLATFORM, DATEPICKER) {
+    this.activitiesForm.setValue({
+      weekId: WEEK_ID,
+      weekIntervalString: WEEK_INTERVAL_STRING,
+      platforma: PLATFORM,
+      datepicker: DATEPICKER,
+      postari: null,
+      fam: null,
+      intrebareAfacere: null,
+      intrebareProdus: null,
+      invitatieEvenimentPrezentare: null,
+      reply: null,
+      da: null,
+      nu: null,
+      obiectie: '',
+      link: null,
+      telefon: null,
+      telefonText: '',
+      groups: null,
+      groupsText: '',
+      clientiInscriere: null,
+      clientiInscriereText: '',
+      followUp: null,
+      followUpText: '',
+      ccDeUnde: null,
+      ccDeUndeText: ''
+    });
   }
 
   activitiesFormSubmit(form) {
