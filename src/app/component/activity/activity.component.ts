@@ -11,6 +11,8 @@ import { FormBuilder } from '@angular/forms';
 })
 export class ActivityComponent {
   @ViewChild('modalCloseButton1') modalCloseButton1;
+  @ViewChild('modalCloseButton2') modalCloseButton2;
+  
   today: Date = new Date();
   selectedDate: Date = this.today;
   firstAndLastDayOfWeek: any = this.getFirstAndLastDayOfWeek(this.selectedDate); // object that will hold the first day and last day of the week
@@ -18,6 +20,10 @@ export class ActivityComponent {
   $activities: Observable<any>;
   pulseAnimation: boolean = false;
 
+  dateFilterForm = this.formbuilder.group({
+    datepicker: [this.datePipe.transform(this.selectedDate, "yyyy-MM-dd")],
+  })
+    
   formPlatforms: string[] = ["LinkedIn", "Facebook", "Instagram", "TikTok"];
   formSelectedDate = this.datePipe.transform(this.selectedDate, "yyyy-MM-dd"); // get correct format for datepicker
   activitiesForm = this.formbuilder.group({
@@ -45,6 +51,7 @@ export class ActivityComponent {
     followUpText: [''],
     ccDeUnde: [],
     ccDeUndeText: [''],
+    filter: ['']
   })
 
   constructor(
@@ -54,7 +61,7 @@ export class ActivityComponent {
   ) {}
 
   ngOnInit() {
-    this.$activities = this.getActivities(this.weekId);
+    this.$activities = this.getActivities();
   }
  
   getFirstAndLastDayOfWeek(selectedDate) {
@@ -76,37 +83,53 @@ export class ActivityComponent {
     return this.datePipe.transform(FIRST_DAY_AND_LAST_DAY_OF_WEEK.firstDay,"dd.MM.y") + " - " + this.datePipe.transform(FIRST_DAY_AND_LAST_DAY_OF_WEEK.lastDay,"dd.MM.y");
   }
 
-  getActivities(weekId: string) {
-    return this.databaseService.getActivities(weekId);
+  getActivities() {
+    this.firstAndLastDayOfWeek = this.getFirstAndLastDayOfWeek(this.selectedDate);
+    this.weekId = this.createWeekIdString(this.firstAndLastDayOfWeek);
+    const SPLIT_WEEK_ID = this.weekId.split('-');
+    const FILTER = SPLIT_WEEK_ID[0].slice(0, 6) + "," + SPLIT_WEEK_ID[1].slice(0, 6);
+    // this.databaseService.getActivities(FILTER).subscribe(res => {
+    //   console.log(res);
+    // });
+    return this.databaseService.getActivities(FILTER);
   }
+
+  // Date Filter form
+ 
+  onFilterDatepickerChange() {
+    this.pulseAnimation = true;
+    const DATEPICKER = new Date(this.dateFilterForm.controls.datepicker.value);
+    this.selectedDate = DATEPICKER;
+    this.$activities = this.getActivities();
+    this.modalCloseButton2.nativeElement.click(); // close the modal
+    setTimeout(() => {this.pulseAnimation = false;}, 1000);
+  }
+  
+  // Activities form
 
   onPlatformOrDatepickerChange() {
     this.pulseAnimation = true;
-    // const DATEPICKER_DATE = this.activitiesForm.controls.datepicker.value;
     const DATEPICKER = this.activitiesForm.controls.datepicker.value;
-    // console.log(DATEPICKER);
     const FIRST_DAY_AND_LAST_DAY_OF_WEEK = this.getFirstAndLastDayOfWeek(DATEPICKER);
     const WEEK_ID = this.createWeekIdString(FIRST_DAY_AND_LAST_DAY_OF_WEEK);
     const WEEK_INTERVAL_STRING = this.createWeekIntervalString(DATEPICKER);
     const PLATFORM = this.activitiesForm.controls.platforma.value;
+    const SPLIT_WEEK_ID = WEEK_ID.split('-');
+    const FILTER = SPLIT_WEEK_ID[0].slice(0, 6) + "," + SPLIT_WEEK_ID[1].slice(0, 6);
 
-    this.getActivities(WEEK_ID).subscribe((res: any) => {
+    this.databaseService.getActivity(WEEK_ID + '-' + PLATFORM).subscribe((res: any) => {
       if (res) {
-        if (res[PLATFORM]) {
-          res[PLATFORM].datepicker = this.datePipe.transform(DATEPICKER, "yyyy-MM-dd");
-          this.activitiesForm.patchValue(res[PLATFORM]);
-        } else {
-          this.resetFormIfNoDataInDb(WEEK_ID, WEEK_INTERVAL_STRING, PLATFORM, DATEPICKER);
-        }
+        res.datepicker = this.datePipe.transform(DATEPICKER, "yyyy-MM-dd");
+        this.activitiesForm.patchValue(res);
       } else {
-        this.resetFormIfNoDataInDb(WEEK_ID, WEEK_INTERVAL_STRING, PLATFORM, DATEPICKER);
+        this.resetFormIfNoDataInDb(WEEK_ID, WEEK_INTERVAL_STRING, PLATFORM, DATEPICKER, FILTER);
       }
     });
 
     setTimeout(() => {this.pulseAnimation = false;}, 1000);
   }
 
-  resetFormIfNoDataInDb(WEEK_ID, WEEK_INTERVAL_STRING, PLATFORM, DATEPICKER) {
+  resetFormIfNoDataInDb(WEEK_ID, WEEK_INTERVAL_STRING, PLATFORM, DATEPICKER, FILTER) {
     this.activitiesForm.setValue({
       weekId: WEEK_ID,
       weekIntervalString: WEEK_INTERVAL_STRING,
@@ -131,7 +154,8 @@ export class ActivityComponent {
       followUp: null,
       followUpText: '',
       ccDeUnde: null,
-      ccDeUndeText: ''
+      ccDeUndeText: '',
+      filter: FILTER
     });
   }
 
@@ -142,4 +166,5 @@ export class ActivityComponent {
         this.modalCloseButton1.nativeElement.click(); // close the modal only if form is valid and submitted;
       });
   }
+
 }

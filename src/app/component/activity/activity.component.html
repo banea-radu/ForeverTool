@@ -6,9 +6,9 @@
       </h5>
       <div class="d-flex flex-column w-100 justify-content-center align-items-center">
         <div>
-          <button class="btn text-white" data-bs-toggle="modal" data-bs-target="#filtersModal">
+          <button class="btn text-white" [ngClass]="{'pulse-animation': pulseAnimation}" data-bs-toggle="modal" data-bs-target="#dateFilterModal">
             <i class="fa-solid fa-filter"></i>
-            <span> {{firstAndLastDayOfWeek.firstDay | date: 'dd.MM.y'}} - {{firstAndLastDayOfWeek.lastDay | date: 'dd.MM.y'}}</span>
+            <span> {{selectedDate | date: 'MM.y'}}</span>
           </button>
         </div>
       </div>
@@ -17,24 +17,68 @@
       </button>
     </div>
     <div *ngIf="$activities | async as activities">
-      <table class="table table-dark table-striped table-hover table-bordered align-middle table-sm">
+      <table *ngFor="let activity of activities" class="table table-dark table-striped table-hover table-bordered align-middle table-sm">
         <tbody >
           <tr>
             <th class="text-end width-80px"> # </th>
             <td class="text-start">
-              LinkedIn
+              {{ activity.weekIntervalString }}
             </td>
           </tr>
           <tr>
-            <th class="text-end width-80px"> Da </th>
-            <td class="text-start"> {{ activities['LinkedIn'].da }} </td>
+            <th class="text-end width-80px"> Platforma </th>
+            <td class="text-start"> {{ activity.platforma }} </td>
+          </tr>
+          <tr>
+            <th class="text-end width-80px"> Postări </th>
+            <td class="text-start"> {{ activity.postari }} </td>
+          </tr>
+          <tr>
+            <th class="text-end width-80px"> FAM </th>
+            <td class="text-start"> {{ activity.fam }} </td>
+          </tr>
+          <tr>
+            <th class="text-end width-80px"> Întrebare Afacere </th>
+            <td class="text-start"> {{ activity.intrebareAfacere }} </td>
+          </tr>
+          <tr>
+            <th class="text-end width-80px"> Telefon (Nume) </th>
+            <td class="text-start"> {{ activity.telefonText }} </td>
           </tr>
         </tbody>
       </table>
     </div>
   </div>
 </div>
-<!-- Modal and Form for activities -->
+<!-- Modal and Form for changing date filter -->
+<div class="modal fade" id="dateFilterModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content text-bg-dark">
+      <div class="modal-header">
+        <button #modalCloseButton2 type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <h1 class="modal-title fs-5 text-center"> Alege luna </h1>
+      <div class="modal-body d-flex justify-content-center text-center">
+        
+        <form 
+          #form1='ngForm'
+          [formGroup]="dateFilterForm"
+          class="register-form d-flex flex-column align-items-middle m-2"
+        >
+        
+            <input type="date"
+              name="datepicker"
+              formControlName="datepicker"
+              class="form-control text-center"
+              (change)="onFilterDatepickerChange()"
+            >
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal and Form for adding activities -->
 <div class="modal fade" id="activitiesModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content text-bg-dark">
@@ -44,218 +88,219 @@
       <h1 class="modal-title fs-5 text-center"> Adaugă Activitate </h1>
       <div class="modal-body d-flex justify-content-center text-center">
         
-      <form 
-        #form='ngForm'
-        [formGroup]="activitiesForm"
-        (ngSubmit)="activitiesFormSubmit(form.value)"
-        class="register-form d-flex flex-column align-items-middle m-2"
-      >
-        <label for="week">Săptămâna:</label>
-        <input class="btn text-white mb-2" [ngClass]="{'pulse-animation': pulseAnimation}" formControlName="weekIntervalString" type="text">
+        <form 
+          #form2='ngForm'
+          [formGroup]="activitiesForm"
+          (ngSubmit)="activitiesFormSubmit(form2.value)"
+          class="register-form d-flex flex-column align-items-middle m-2"
+        >
+          <label for="week">Săptămâna:</label>
+          <input class="btn text-white mb-2" [ngClass]="{'pulse-animation': pulseAnimation}" formControlName="weekIntervalString" type="text">
 
-        <div class="input-group mb-2 m-auto">
-          <label class="input-group-text justify-content-center width-100px" for="platforma">Platforma</label>
-          <select class="form-select text-center" name="platforma" formControlName="platforma" (change)="onPlatformOrDatepickerChange()">
-            <option *ngFor="let platform of formPlatforms">
-              {{platform}}
-            </option>
-          </select>
-        </div>
-        
-        <div class="input-group mb-2 m-auto">
-          <label class="input-group-text justify-content-center width-100px" for="datepicker">Data</label>
-          <input type="date"
-            name="datepicker"
-            formControlName="datepicker"
-            class="form-control text-center"
-            (change)="onPlatformOrDatepickerChange()"
-          >
-        </div>
+          <div class="input-group mb-2 m-auto">
+            <label class="input-group-text justify-content-center width-100px" for="platforma">Platforma</label>
+            <select class="form-select text-center" name="platforma" formControlName="platforma" (change)="onPlatformOrDatepickerChange()">
+              <option *ngFor="let platform of formPlatforms">
+                {{platform}}
+              </option>
+            </select>
+          </div>
+          
+          <div class="input-group mb-2 m-auto">
+            <label class="input-group-text justify-content-center width-100px" for="datepicker">Data</label>
+            <input type="date"
+              name="datepicker"
+              formControlName="datepicker"
+              class="form-control text-center"
+              (change)="onPlatformOrDatepickerChange()"
+            >
+          </div>
 
-        <div class="input-group mb-2 m-auto">
-          <label class="input-group-text justify-content-center width-100px" for="postari">Postări</label>
-          <input type="number"
-            name="postari"
-            formControlName="postari"
-            class="form-control text-center"
-          >
-        </div>
+          <div class="input-group mb-2 m-auto">
+            <label class="input-group-text justify-content-center width-100px" for="postari">Postări</label>
+            <input type="number"
+              name="postari"
+              formControlName="postari"
+              class="form-control text-center"
+            >
+          </div>
 
-        <div class="input-group mb-2 m-auto">
-          <label class="input-group-text justify-content-center width-100px" for="fam">FAM</label>
-          <input type="number"
-            name="fam"
-            formControlName="fam"
-            class="form-control text-center"
-          >
-        </div>
+          <div class="input-group mb-2 m-auto">
+            <label class="input-group-text justify-content-center width-100px" for="fam">FAM</label>
+            <input type="number"
+              name="fam"
+              formControlName="fam"
+              class="form-control text-center"
+            >
+          </div>
 
-        <div class="input-group mb-2">
-          <label class="input-group-text justify-content-center" for="intrebareAfacere">Întrebare Afacere</label>
-          <input type="number"
-            name="intrebareAfacere"
-            formControlName="intrebareAfacere"
-            class="form-control text-center"
-          >
-        </div>
+          <div class="input-group mb-2">
+            <label class="input-group-text justify-content-center" for="intrebareAfacere">Întrebare Afacere</label>
+            <input type="number"
+              name="intrebareAfacere"
+              formControlName="intrebareAfacere"
+              class="form-control text-center"
+            >
+          </div>
 
-        <div class="input-group mb-2">
-          <label class="input-group-text justify-content-center" for="intrebareProdus">Întrebare Produs</label>
-          <input type="number"
-            name="intrebareProdus"
-            formControlName="intrebareProdus"
-            class="form-control text-center"
-          >
-        </div>
+          <div class="input-group mb-2">
+            <label class="input-group-text justify-content-center" for="intrebareProdus">Întrebare Produs</label>
+            <input type="number"
+              name="intrebareProdus"
+              formControlName="intrebareProdus"
+              class="form-control text-center"
+            >
+          </div>
 
-        <div class="input-group mb-2">
-          <label class="input-group-text justify-content-center" for="invitatieEvenimentPrezentare">Invit. Even./Prez.</label>
-          <input type="number"
-            name="invitatieEvenimentPrezentare"
-            formControlName="invitatieEvenimentPrezentare"
-            class="form-control text-center"
-          >
-        </div>
+          <div class="input-group mb-2">
+            <label class="input-group-text justify-content-center" for="invitatieEvenimentPrezentare">Invit. Even./Prez.</label>
+            <input type="number"
+              name="invitatieEvenimentPrezentare"
+              formControlName="invitatieEvenimentPrezentare"
+              class="form-control text-center"
+            >
+          </div>
 
-        <div class="input-group mb-2 m-auto">
-          <label class="input-group-text justify-content-center width-100px" for="reply">Reply</label>
-          <input type="number"
-            name="reply"
-            formControlName="reply"
-            class="form-control text-center"
-          >
-        </div>
+          <div class="input-group mb-2 m-auto">
+            <label class="input-group-text justify-content-center width-100px" for="reply">Reply</label>
+            <input type="number"
+              name="reply"
+              formControlName="reply"
+              class="form-control text-center"
+            >
+          </div>
 
-        <div class="input-group mb-2 m-auto">
-          <label class="input-group-text justify-content-center width-100px" for="da">DA</label>
-          <input type="number"
-            name="da"
-            formControlName="da"
-            class="form-control text-center"
-          >
-        </div>
+          <div class="input-group mb-2 m-auto">
+            <label class="input-group-text justify-content-center width-100px" for="da">DA</label>
+            <input type="number"
+              name="da"
+              formControlName="da"
+              class="form-control text-center"
+            >
+          </div>
 
-        <div class="input-group mb-2 m-auto">
-          <label class="input-group-text justify-content-center width-100px" for="nu">NU</label>
-          <input type="number"
-            name="nu"
-            formControlName="nu"
-            class="form-control text-center"
-          >
-        </div>
+          <div class="input-group mb-2 m-auto">
+            <label class="input-group-text justify-content-center width-100px" for="nu">NU</label>
+            <input type="number"
+              name="nu"
+              formControlName="nu"
+              class="form-control text-center"
+            >
+          </div>
 
-        <div class="input-group mb-2 m-auto">
-          <label class="input-group-text justify-content-center width-100px" for="obiectie">Obiecție</label>
-          <textarea
-            name="obiectie"
-            formControlName="obiectie"
-            class="form-control">
-          </textarea>
-        </div>
+          <div class="input-group mb-2 m-auto">
+            <label class="input-group-text justify-content-center width-100px" for="obiectie">Obiecție</label>
+            <textarea
+              name="obiectie"
+              formControlName="obiectie"
+              class="form-control">
+            </textarea>
+          </div>
 
-        <div class="input-group mb-2 m-auto">
-          <label class="input-group-text justify-content-center width-100px" for="link">Link</label>
-          <input type="number"
-            name="link"
-            formControlName="link"
-            class="form-control text-center"
-          >
-        </div>
+          <div class="input-group mb-2 m-auto">
+            <label class="input-group-text justify-content-center width-100px" for="link">Link</label>
+            <input type="number"
+              name="link"
+              formControlName="link"
+              class="form-control text-center"
+            >
+          </div>
 
-        <div class="input-group mb-2 m-auto">
-          <label class="input-group-text justify-content-center width-100px" for="telefon">Telefon</label>
-          <input type="number"
-            name="telefon"
-            formControlName="telefon"
-            class="form-control text-center"
-          >
-        </div>
+          <div class="input-group mb-2 m-auto">
+            <label class="input-group-text justify-content-center width-100px" for="telefon">Telefon</label>
+            <input type="number"
+              name="telefon"
+              formControlName="telefon"
+              class="form-control text-center"
+            >
+          </div>
 
-        <div class="input-group mb-2 m-auto">
-          <label class="input-group-text justify-content-center width-100px text-wrap" for="telefonText">Telefon (Nume..)</label>
-          <textarea
-            name="telefonText"
-            formControlName="telefonText"
-            class="form-control">
-          </textarea>
-        </div>
+          <div class="input-group mb-2 m-auto">
+            <label class="input-group-text justify-content-center width-100px text-wrap" for="telefonText">Telefon (Nume..)</label>
+            <textarea
+              name="telefonText"
+              formControlName="telefonText"
+              class="form-control">
+            </textarea>
+          </div>
 
-        <div class="input-group mb-2 m-auto">
-          <label class="input-group-text justify-content-center width-100px" for="groups">Groups</label>
-          <input type="number"
-            name="groups"
-            formControlName="groups"
-            class="form-control text-center"
-          >
-        </div>
+          <div class="input-group mb-2 m-auto">
+            <label class="input-group-text justify-content-center width-100px" for="groups">Groups</label>
+            <input type="number"
+              name="groups"
+              formControlName="groups"
+              class="form-control text-center"
+            >
+          </div>
 
-        <div class="input-group mb-2 m-auto">
-          <label class="input-group-text justify-content-center width-100px text-wrap" for="groupsText">Groups (Nume..)</label>
-          <textarea
-            name="groupsText"
-            formControlName="groupsText"
-            class="form-control">
-          </textarea>
-        </div>
+          <div class="input-group mb-2 m-auto">
+            <label class="input-group-text justify-content-center width-100px text-wrap" for="groupsText">Groups (Nume..)</label>
+            <textarea
+              name="groupsText"
+              formControlName="groupsText"
+              class="form-control">
+            </textarea>
+          </div>
 
-        <div class="input-group mb-2 m-auto">
-          <label class="input-group-text justify-content-center width-100px" for="clientiInscriere">Clienți/Înscr.</label>
-          <input type="number"
-            name="clientiInscriere"
-            formControlName="clientiInscriere"
-            class="form-control text-center"
-          >
-        </div>
+          <div class="input-group mb-2 m-auto">
+            <label class="input-group-text justify-content-center width-100px" for="clientiInscriere">Clienți/Înscr.</label>
+            <input type="number"
+              name="clientiInscriere"
+              formControlName="clientiInscriere"
+              class="form-control text-center"
+            >
+          </div>
 
-        <div class="input-group mb-2 m-auto">
-          <label class="input-group-text justify-content-center width-100px text-wrap" for="clientiInscriereText">Clienți/Înscr. (Nume..)</label>
-          <textarea
-            name="clientiInscriereText"
-            formControlName="clientiInscriereText"
-            class="form-control">
-          </textarea>
-        </div>
+          <div class="input-group mb-2 m-auto">
+            <label class="input-group-text justify-content-center width-100px text-wrap" for="clientiInscriereText">Clienți/Înscr. (Nume..)</label>
+            <textarea
+              name="clientiInscriereText"
+              formControlName="clientiInscriereText"
+              class="form-control">
+            </textarea>
+          </div>
 
-        <div class="input-group mb-2 m-auto">
-          <label class="input-group-text justify-content-center width-100px" for="followUp">Follow-Up</label>
-          <input type="number"
-            name="followUp"
-            formControlName="followUp"
-            class="form-control text-center"
-          >
-        </div>
+          <div class="input-group mb-2 m-auto">
+            <label class="input-group-text justify-content-center width-100px" for="followUp">Follow-Up</label>
+            <input type="number"
+              name="followUp"
+              formControlName="followUp"
+              class="form-control text-center"
+            >
+          </div>
 
-        <div class="input-group mb-2 m-auto">
-          <label class="input-group-text justify-content-center width-100px text-wrap" for="followUpText">Follow-Up (Nume..)</label>
-          <textarea
-            name="followUpText"
-            formControlName="followUpText"
-            class="form-control">
-          </textarea>
-        </div>
+          <div class="input-group mb-2 m-auto">
+            <label class="input-group-text justify-content-center width-100px text-wrap" for="followUpText">Follow-Up (Nume..)</label>
+            <textarea
+              name="followUpText"
+              formControlName="followUpText"
+              class="form-control">
+            </textarea>
+          </div>
 
-        <div class="input-group mb-2 m-auto">
-          <label class="input-group-text justify-content-center width-100px" for="ccDeUnde">CC, de unde?</label>
-          <input type="number"
-            name="ccDeUnde"
-            formControlName="ccDeUnde"
-            class="form-control text-center"
-          >
-        </div>
+          <div class="input-group mb-2 m-auto">
+            <label class="input-group-text justify-content-center width-100px" for="ccDeUnde">CC, de unde?</label>
+            <input type="number"
+              name="ccDeUnde"
+              formControlName="ccDeUnde"
+              class="form-control text-center"
+            >
+          </div>
 
-        <div class="input-group mb-2 m-auto">
-          <label class="input-group-text justify-content-center width-100px text-wrap" for="ccDeUndeText">CC, de unde? (Nume..)</label>
-          <textarea
-            name="ccDeUndeText"
-            formControlName="ccDeUndeText"
-            class="form-control">
-          </textarea>
-        </div>
+          <div class="input-group mb-2 m-auto">
+            <label class="input-group-text justify-content-center width-100px text-wrap" for="ccDeUndeText">CC, de unde? (Nume..)</label>
+            <textarea
+              name="ccDeUndeText"
+              formControlName="ccDeUndeText"
+              class="form-control">
+            </textarea>
+          </div>
 
-        <button type="submit" class="btn btn-outline-success">
-          Salvează
-        </button>
-      </form>
+          <button type="submit" class="btn btn-outline-success">
+            Salvează
+          </button>
+        </form>
+      </div>
     </div>
   </div>
 </div>

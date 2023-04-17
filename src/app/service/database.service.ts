@@ -142,13 +142,19 @@ export class DatabaseService {
     return this.http.patch(completeUrl, bodyData);
   }
 
-  getActivities(weekId: string){
+  getActivities(filter: string) {
+    return this.realtimeDb
+              .list('activity', ref => ref.orderByChild('filter').equalTo(filter))
+              .valueChanges();
+  }
+
+  getActivity(weekId: string){
     const completeUrl = this.createCompleteUrl('activity', weekId);
     return this.http.get(completeUrl);
   }
 
   patchActivities(bodyData: any){
-    const completeUrl = this.createCompleteUrl('activity', bodyData.weekId + "/" + bodyData.platforma);
+    const completeUrl = this.createCompleteUrl('activity', bodyData.weekId + "-" + bodyData.platforma);
     return this.http.patch(completeUrl, bodyData);
   }
  
