@@ -17,36 +17,101 @@
       </button>
     </div>
     <div *ngIf="$activities | async as activities">
-      <table *ngFor="let activity of activities" class="table table-dark table-striped table-hover table-bordered align-middle table-sm">
-        <tbody >
-          <tr>
-            <th class="text-end width-80px"> # </th>
-            <td class="text-start">
-              {{ activity.weekIntervalString }}
-            </td>
-          </tr>
-          <tr>
-            <th class="text-end width-80px"> Platforma </th>
-            <td class="text-start"> {{ activity.platforma }} </td>
-          </tr>
-          <tr>
-            <th class="text-end width-80px"> Postări </th>
-            <td class="text-start"> {{ activity.postari }} </td>
-          </tr>
-          <tr>
-            <th class="text-end width-80px"> FAM </th>
-            <td class="text-start"> {{ activity.fam }} </td>
-          </tr>
-          <tr>
-            <th class="text-end width-80px"> Întrebare Afacere </th>
-            <td class="text-start"> {{ activity.intrebareAfacere }} </td>
-          </tr>
-          <tr>
-            <th class="text-end width-80px"> Telefon (Nume) </th>
-            <td class="text-start"> {{ activity.telefonText }} </td>
-          </tr>
-        </tbody>
-      </table>
+      <div *ngFor="let activity of activities" class="card text-bg-dark">
+        <div class="card-header">
+          {{ activity.weekIntervalString }}
+        </div>
+        <div class="card-body">
+          <table class="table table-dark table-striped table-hover table-bordered align-middle table-sm">
+            <tbody >
+              <tr>
+                <th class="text-end width-80px"> Platforma </th>
+                <td class="text-start"> {{ activity.platforma }} </td>
+              </tr>
+              <tr>
+                <th class="text-end width-80px"> Postări </th>
+                <td class="text-start"> {{ activity.postari }} </td>
+              </tr>
+              <tr>
+                <th class="text-end width-80px"> FAM </th>
+                <td class="text-start"> {{ activity.fam }} </td>
+              </tr>
+              <tr>
+                <th class="text-end width-80px"> Întrebare Afacere </th>
+                <td class="text-start"> {{ activity.intrebareAfacere }} </td>
+              </tr>
+              <tr>
+                <th class="text-end width-80px"> Întrebare Produs </th>
+                <td class="text-start"> {{ activity.intrebareProdus }} </td>
+              </tr>
+              <tr>
+                <th class="text-end width-80px"> Invit. Even./Prez. </th>
+                <td class="text-start"> {{ activity.invitatieEvenimentPrezentare }} </td>
+              </tr>
+              <tr>
+                <th class="text-end width-80px"> Reply </th>
+                <td class="text-start"> {{ activity.reply }} </td>
+              </tr>
+              <tr>
+                <th class="text-end width-80px"> DA </th>
+                <td class="text-start"> {{ activity.da }} </td>
+              </tr>
+              <tr>
+                <th class="text-end width-80px"> NU </th>
+                <td class="text-start"> {{ activity.nu }} </td>
+              </tr>
+              <tr>
+                <th class="text-end width-80px"> Obiecție </th>
+                <td class="text-start"> {{ activity.obiectie }} </td>
+              </tr>
+              <tr>
+                <th class="text-end width-80px"> Link </th>
+                <td class="text-start"> {{ activity.link }} </td>
+              </tr>
+              <tr>
+                <th class="text-end width-80px"> Telefon </th>
+                <td class="text-start"> {{ activity.telefon }} </td>
+              </tr>
+              <tr>
+                <th class="text-end width-80px"> Telefon (Nume) </th>
+                <td class="text-start"> {{ activity.telefonText }} </td>
+              </tr>
+              <tr>
+                <th class="text-end width-80px"> Groups </th>
+                <td class="text-start"> {{ activity.groups }} </td>
+              </tr>
+              <tr>
+                <th class="text-end width-80px"> Groups (Nume) </th>
+                <td class="text-start"> {{ activity.groupsText }} </td>
+              </tr>
+              <tr>
+                <th class="text-end width-80px"> Clienți/Înscr. </th>
+                <td class="text-start"> {{ activity.clientiInscriere }} </td>
+              </tr>
+              <tr>
+                <th class="text-end width-80px"> Clienți/Înscr. (Nume) </th>
+                <td class="text-start"> {{ activity.clientiInscriereText }} </td>
+              </tr>
+              <tr>
+                <th class="text-end width-80px"> Follow-Up </th>
+                <td class="text-start"> {{ activity.followUp }} </td>
+              </tr>
+              <tr>
+                <th class="text-end width-80px"> Follow-Up (Nume) </th>
+                <td class="text-start"> {{ activity.followUpText }} </td>
+              </tr>
+              <tr>
+                <th class="text-end width-80px"> CC, de unde? </th>
+                <td class="text-start"> {{ activity.ccDeUnde }} </td>
+              </tr>
+              <tr>
+                <th class="text-end width-80px"> CC, de unde? (Nume) </th>
+                <td class="text-start"> {{ activity.ccDeUndeText }} </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>    
+      </div>
     </div>
   </div>
 </div>
